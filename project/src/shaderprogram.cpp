@@ -93,21 +93,21 @@ void Shaderprogram::setUniform(GLint location, float v0, float v1, float v2, flo
 void Shaderprogram::setUniform(GLint location, glm::vec2 const &value)
 {
 	glUseProgram(program);
-	glUniform2fv(location, sizeof(glm::vec2), (GLfloat*) &value);
+	glUniform2fv(location, 1, (GLfloat*) &value);
 	glUseProgram(0);
 }
 
 void Shaderprogram::setUniform(GLint location, glm::vec3 const &value)
 {
 	glUseProgram(program);
-	glUniform3fv(location, sizeof(glm::vec3), (GLfloat*) &value);
+	glUniform3fv(location, 1, (GLfloat*) &value);
 	glUseProgram(0);
 }
 
 void Shaderprogram::setUniform(GLint location, glm::vec4 const &value)
 {
 	glUseProgram(program);
-	glUniform4fv(location, sizeof(glm::vec4), (GLfloat*) &value);
+	glUniform4fv(location, 1, (GLfloat*) &value);
 	glUseProgram(0);
 }
 
@@ -115,13 +115,17 @@ void Shaderprogram::setUniform(GLint location, glm::vec4 const &value)
 void Shaderprogram::setUniform(GLint location, glm::mat3 const &value)
 {
 	glUseProgram(program);
-	glUniformMatrix3fv(location, sizeof(glm::mat3), false, (GLfloat*) &value);
+	glUniformMatrix3fv(location, 1, false, (GLfloat*) &value);
 	glUseProgram(0);
 }
 
 void Shaderprogram::setUniform(GLint location, glm::mat4 const &value)
 {
 	glUseProgram(program);
-	glUniformMatrix4fv(location, sizeof(glm::mat4), false, (GLfloat*) &value);
+	glUniformMatrix4fv(location, 1, false, (GLfloat*) &value);
 	glUseProgram(0);
+}
+
+GLuint Shaderprogram::getProgram() {
+	return program;
 }

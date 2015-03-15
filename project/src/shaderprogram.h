@@ -55,6 +55,7 @@ public:
 		setUniform(uniformLocation, t);
 	}
 
+	GLuint getProgram();
 private:
 	GLuint program;
 };

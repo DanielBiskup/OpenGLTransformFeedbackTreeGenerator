@@ -115,16 +115,55 @@ int main(void)
 
 	Buffer vertexBuffer(GL_ARRAY_BUFFER);
 
-	glm::vec3 data[3];
-	data[0] = glm::vec3(-1.0f,-1.0f,0.0f);
-	data[1] = glm::vec3(1.0f,-1.0f,0.0f);
-	data[2] = glm::vec3(0.0f,1.0f,0.0f);
+//	glm::vec3 data[3];
+//	data[0] = glm::vec3(-1.0f,-1.0f,0.0f);
+//	data[1] = glm::vec3(1.0f,-1.0f,0.0f);
+//	data[2] = glm::vec3(0.0f,1.0f,0.0f);
 
 //	GLfloat data[] = {
 //	   -1.0f, -1.0f, 0.0f,
 //	   1.0f, -1.0f, 0.0f,
 //	   0.0f,  1.0f, 0.0f,
 //	};
+
+	GLfloat data[] = {
+		-1.0f,-1.0f,-1.0f, // triangle 1 : begin
+		-1.0f,-1.0f, 1.0f,
+		-1.0f, 1.0f, 1.0f, // triangle 1 : end
+		1.0f, 1.0f,-1.0f, // triangle 2 : begin
+		-1.0f,-1.0f,-1.0f,
+		-1.0f, 1.0f,-1.0f, // triangle 2 : end
+		1.0f,-1.0f, 1.0f,
+		-1.0f,-1.0f,-1.0f,
+		1.0f,-1.0f,-1.0f,
+		1.0f, 1.0f,-1.0f,
+		1.0f,-1.0f,-1.0f,
+		-1.0f,-1.0f,-1.0f,
+		-1.0f,-1.0f,-1.0f,
+		-1.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f,-1.0f,
+		1.0f,-1.0f, 1.0f,
+		-1.0f,-1.0f, 1.0f,
+		-1.0f,-1.0f,-1.0f,
+		-1.0f, 1.0f, 1.0f,
+		-1.0f,-1.0f, 1.0f,
+		1.0f,-1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f,-1.0f,-1.0f,
+		1.0f, 1.0f,-1.0f,
+		1.0f,-1.0f,-1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f,-1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f,-1.0f,
+		-1.0f, 1.0f,-1.0f,
+		1.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f,-1.0f,
+		-1.0f, 1.0f, 1.0f,
+		1.0f, 1.0f, 1.0f,
+		-1.0f, 1.0f, 1.0f,
+		1.0f,-1.0f, 1.0f
+	};
 
 	vertexBuffer.bufferData(sizeof(data), data);
 
@@ -141,18 +180,11 @@ int main(void)
 
 		glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
-		//Test draw:
-		vertexArray.bind();
-		//vertexBuffer.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
-		shaderprogram.beginUsingProgram();
-		glDrawArrays(GL_TRIANGLES, 0, 3);
-		shaderprogram.stopUsingProgram();
-		//vertexBuffer.unbind();
-		vertexArray.unbind();
+
 
 		glm::mat4 model  = glm::mat4(1.0f);
 
-		glm::vec3 cameraPosition(0,0,10);
+		glm::vec3 cameraPosition(0,10,-10);
 		glm::mat4 view = glm::lookAt(
 					cameraPosition,
 					glm::vec3(0,0,0), // and looks at the origin
@@ -165,18 +197,25 @@ int main(void)
 					0.1f,
 					100.0f
 					);
+
+
 		glm::mat4 MVP = projection * view * model;
 
 		shaderprogram.setUniform(std::string("MVP"), MVP);
 
-
-		//glm::mat4 VP = projection * view;
-
+		//glm::vec3 lightPosition_worldSpace(0,0,1.5);
 
 
-
-		glm::vec3 lightPosition_worldSpace(0,0,1.5);
-
+		//DRAW
+		//Test draw:
+		vertexArray.bind();
+		//vertexBuffer.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
+		shaderprogram.beginUsingProgram();
+//		glDrawArrays(GL_TRIANGLES, 0, sizeof(data)/sizeof(float));
+		glDrawArrays(GL_TRIANGLES, 0, 12*3);
+		shaderprogram.stopUsingProgram();
+		//vertexBuffer.unbind();
+		vertexArray.unbind();
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
