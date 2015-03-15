@@ -1,0 +1,76 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+BUFFER_H	buffer.h	2;"	d
+Buffer	buffer.cpp	/^Buffer::Buffer(GLenum target) : target(target)$/;"	f	class:Buffer
+Buffer	buffer.h	/^class Buffer$/;"	c
+DirectoryOfThisScript	.ycm_extra_conf.py	/^def DirectoryOfThisScript():$/;"	f
+FlagsForFile	.ycm_extra_conf.py	/^def FlagsForFile( filename, **kwargs ):$/;"	f
+Fragment	shader.h	/^	Fragment = GL_FRAGMENT_SHADER,$/;"	e	enum:ShaderType::shader_type_t
+Geometry	shader.h	/^	Geometry = GL_GEOMETRY_SHADER$/;"	e	enum:ShaderType::shader_type_t
+GetCompilationInfoForFile	.ycm_extra_conf.py	/^def GetCompilationInfoForFile( filename ):$/;"	f
+IsHeaderFile	.ycm_extra_conf.py	/^def IsHeaderFile( filename ):$/;"	f
+MakeRelativePathsInFlagsAbsolute	.ycm_extra_conf.py	/^def MakeRelativePathsInFlagsAbsolute( flags, working_directory ):$/;"	f
+SHADERPROGRAM_H	shaderprogram.h	2;"	d
+SHADER_H	shader.h	38;"	d
+SOURCE_EXTENSIONS	.ycm_extra_conf.py	/^SOURCE_EXTENSIONS = [ '.cpp', '.cxx', '.cc', '.c', '.m', '.mm' ]$/;"	v
+Shader	shader.cpp	/^Shader::Shader(ShaderType::shader_type_t shaderType, std::string const & fileName)$/;"	f	class:Shader
+Shader	shader.h	/^class Shader$/;"	c
+ShaderCompilationException	shader.h	/^	ShaderCompilationException(std::string const &message) : std::runtime_error(message) {}$/;"	f	class:ShaderCompilationException
+ShaderCompilationException	shader.h	/^class ShaderCompilationException : public std::runtime_error$/;"	c
+ShaderType	shader.h	/^namespace ShaderType$/;"	n
+Shaderprogram	shaderprogram.cpp	/^Shaderprogram::Shaderprogram()$/;"	f	class:Shaderprogram
+Shaderprogram	shaderprogram.h	/^class Shaderprogram$/;"	c
+VERTEXARRAY_H	vertexarray.h	2;"	d
+Vertex	shader.h	/^	Vertex = GL_VERTEX_SHADER,$/;"	e	enum:ShaderType::shader_type_t
+VertexArray	vertexarray.cpp	/^VertexArray::VertexArray()$/;"	f	class:VertexArray
+VertexArray	vertexarray.h	/^class VertexArray$/;"	c
+attachShader	shaderprogram.cpp	/^void Shaderprogram::attachShader(Shader shader)$/;"	f	class:Shaderprogram
+beginUsingProgram	shaderprogram.cpp	/^void Shaderprogram::beginUsingProgram()$/;"	f	class:Shaderprogram
+bind	buffer.cpp	/^void Buffer::bind()$/;"	f	class:Buffer
+bind	vertexarray.cpp	/^void VertexArray::bind()$/;"	f	class:VertexArray
+buffer	buffer.h	/^	GLuint buffer;$/;"	m	class:Buffer
+bufferData	buffer.cpp	/^void Buffer::bufferData(GLsizeiptr size, const GLvoid *data)$/;"	f	class:Buffer
+compilation_database_folder	.ycm_extra_conf.py	/^compilation_database_folder = ''$/;"	v
+createShaderFromFile	shader.cpp	/^void Shader::createShaderFromFile(ShaderType::shader_type_t shaderType, std::string const &fileName)$/;"	f	class:Shader
+createShaderFromString	shader.cpp	/^void Shader::createShaderFromString(ShaderType::shader_type_t shaderType, std::string const &sourceCode)$/;"	f	class:Shader
+database	.ycm_extra_conf.py	/^  database = None$/;"	v
+database	.ycm_extra_conf.py	/^  database = ycm_core.CompilationDatabase( compilation_database_folder )$/;"	v
+detatchShaders	shaderprogram.cpp	/^void Shaderprogram::detatchShaders()$/;"	f	class:Shaderprogram
+enableVertexAttribArray	vertexarray.cpp	/^void VertexArray::enableVertexAttribArray(GLuint index)$/;"	f	class:VertexArray
+flags	.ycm_extra_conf.py	/^flags = [$/;"	v
+getAttirbLocation	shaderprogram.cpp	/^GLint Shaderprogram::getAttirbLocation(std::string attirbuteName)$/;"	f	class:Shaderprogram
+getGLuint	shader.cpp	/^GLuint Shader::getGLuint() const$/;"	f	class:Shader
+getUniformLocation	shaderprogram.cpp	/^GLint Shaderprogram::getUniformLocation(std::string uniformName)$/;"	f	class:Shaderprogram
+isCompiled	shader.cpp	/^bool Shader::isCompiled() const$/;"	f	class:Shader
+linkProgram	shaderprogram.cpp	/^void Shaderprogram::linkProgram()$/;"	f	class:Shaderprogram
+main	main.cpp	/^int main(void)$/;"	f
+os	.ycm_extra_conf.py	/^import os$/;"	i
+program	shaderprogram.h	/^	GLuint program;$/;"	m	class:Shaderprogram
+setUniform	shaderprogram.cpp	/^void Shaderprogram::setUniform(GLint location, float v0)$/;"	f	class:Shaderprogram
+setUniform	shaderprogram.cpp	/^void Shaderprogram::setUniform(GLint location, float v0, float v1)$/;"	f	class:Shaderprogram
+setUniform	shaderprogram.cpp	/^void Shaderprogram::setUniform(GLint location, float v0, float v1, float v2)$/;"	f	class:Shaderprogram
+setUniform	shaderprogram.cpp	/^void Shaderprogram::setUniform(GLint location, float v0, float v1, float v2, float v3)$/;"	f	class:Shaderprogram
+setUniform	shaderprogram.cpp	/^void Shaderprogram::setUniform(GLint location, glm::mat3 const &value)$/;"	f	class:Shaderprogram
+setUniform	shaderprogram.cpp	/^void Shaderprogram::setUniform(GLint location, glm::mat4 const &value)$/;"	f	class:Shaderprogram
+setUniform	shaderprogram.cpp	/^void Shaderprogram::setUniform(GLint location, glm::vec2 const &value)$/;"	f	class:Shaderprogram
+setUniform	shaderprogram.cpp	/^void Shaderprogram::setUniform(GLint location, glm::vec3 const &value)$/;"	f	class:Shaderprogram
+setUniform	shaderprogram.cpp	/^void Shaderprogram::setUniform(GLint location, glm::vec4 const &value)$/;"	f	class:Shaderprogram
+setUniform	shaderprogram.cpp	/^void Shaderprogram::setUniform(std::string uniformName, float value)$/;"	f	class:Shaderprogram
+shader	shader.h	/^	GLuint shader; \/\/< Die Shader ID des gewrappten Shader Objekts.$/;"	m	class:Shader
+shader_type_t	shader.h	/^enum shader_type_t$/;"	g	namespace:ShaderType
+stopUsingProgram	shaderprogram.cpp	/^void Shaderprogram::stopUsingProgram()$/;"	f	class:Shaderprogram
+target	buffer.h	/^	GLenum target;$/;"	m	class:Buffer
+unbind	buffer.cpp	/^void Buffer::unbind()$/;"	f	class:Buffer
+unbind	vertexarray.cpp	/^void VertexArray::unbind()$/;"	f	class:VertexArray
+vertexArray	vertexarray.h	/^	GLuint vertexArray;$/;"	m	class:VertexArray
+vertexAttribPointer	vertexarray.cpp	/^void VertexArray::vertexAttribPointer(Buffer &buffer, GLuint index, GLint size, GLenum type, GLboolean normalized, GLsizei stride, const GLvoid * pointer)$/;"	f	class:VertexArray
+ycm_core	.ycm_extra_conf.py	/^import ycm_core$/;"	i
+~Buffer	buffer.cpp	/^Buffer::~Buffer()$/;"	f	class:Buffer
+~Shader	shader.cpp	/^Shader::~Shader()$/;"	f	class:Shader
+~ShaderCompilationException	shader.h	/^	~ShaderCompilationException() throw() {}$/;"	f	class:ShaderCompilationException
+~Shaderprogram	shaderprogram.cpp	/^Shaderprogram::~Shaderprogram()$/;"	f	class:Shaderprogram
+~VertexArray	vertexarray.cpp	/^VertexArray::~VertexArray()$/;"	f	class:VertexArray

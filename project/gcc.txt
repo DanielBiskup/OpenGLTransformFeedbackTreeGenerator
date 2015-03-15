@@ -1,0 +1,7 @@
+http://www.learncpp.com/cpp-tutorial/a1-static-and-dynamic-libraries/
+http://www.cprogramming.com/tutorial/shared-libraries-linux-gcc.html
+
+gcc -L../usedLibraries/glfw-3.0.4/build/src/ -Wall -o test main.cpp -lglfw
+
+Benötigte Extensions wenn man nur OpenGL 3.3 hat:
+  ARB_transform_feedback2:	OK 
