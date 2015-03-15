@@ -125,9 +125,3 @@ void Shaderprogram::setUniform(GLint location, glm::mat4 const &value)
 	glUniformMatrix4fv(location, sizeof(glm::mat4), false, (GLfloat*) &value);
 	glUseProgram(0);
 }
-
-void Shaderprogram::setUniform(std::string uniformName, float value)
-{
-	GLint uniformLocation = getUniformLocation(uniformName);
-	setUniform(uniformLocation, value);
-}

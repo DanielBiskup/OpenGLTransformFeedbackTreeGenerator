@@ -115,16 +115,16 @@ int main(void)
 
 	Buffer vertexBuffer(GL_ARRAY_BUFFER);
 
-//	glm::vec3 data[3];
-//	data[0] = glm::vec3(0.0f,0.0f,0.0f);
-//	data[1] = glm::vec3(100.0f,0.0f,0.0f);
-//	data[2] = glm::vec3(0.0f,100.0f,0.0f);
+	glm::vec3 data[3];
+	data[0] = glm::vec3(-1.0f,-1.0f,0.0f);
+	data[1] = glm::vec3(1.0f,-1.0f,0.0f);
+	data[2] = glm::vec3(0.0f,1.0f,0.0f);
 
-	GLfloat data[] = {
-	   -1.0f, -1.0f, 0.0f,
-	   1.0f, -1.0f, 0.0f,
-	   0.0f,  1.0f, 0.0f,
-	};
+//	GLfloat data[] = {
+//	   -1.0f, -1.0f, 0.0f,
+//	   1.0f, -1.0f, 0.0f,
+//	   0.0f,  1.0f, 0.0f,
+//	};
 
 	vertexBuffer.bufferData(sizeof(data), data);
 
@@ -132,9 +132,6 @@ int main(void)
 
 	GLint position_location = shaderprogram.getAttirbLocation("position");
 	vertexArray.enableVertexAttribArray(position_location);
-
-	vertexArray.enableVertexAttribArray(position_location);
-
 	vertexArray.vertexAttribPointer(vertexBuffer, position_location, 3, GL_FLOAT, GL_FALSE, 0 ,0 );
 
 	/* Loop until the user closes the window */
@@ -146,30 +143,40 @@ int main(void)
 
 		//Test draw:
 		vertexArray.bind();
-		vertexBuffer.bind();
+		//vertexBuffer.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
 		shaderprogram.beginUsingProgram();
 		glDrawArrays(GL_TRIANGLES, 0, 3);
+		shaderprogram.stopUsingProgram();
+		//vertexBuffer.unbind();
+		vertexArray.unbind();
 
-		/* Render here */
-		glm::mat4 projectionMatrix = glm::perspective(
-					50.f,
-					(float) windowWidth / (float)windowHeight,
-					0.1f,
-					100.0f
-					);
+		glm::mat4 model  = glm::mat4(1.0f);
 
 		glm::vec3 cameraPosition(0,0,10);
-
-		glm::vec3 lightPosition_worldSpace(0,0,1.5);
-
-		// Camera matrix
-		glm::mat4 viewMatrix = glm::lookAt(
+		glm::mat4 view = glm::lookAt(
 					cameraPosition,
 					glm::vec3(0,0,0), // and looks at the origin
 					glm::vec3(0,1,0)
 					);
 
-		glm::mat4 VP = projectionMatrix * viewMatrix;
+		glm::mat4 projection = glm::perspective(
+					50.f,
+					(float) windowWidth / (float)windowHeight,
+					0.1f,
+					100.0f
+					);
+		glm::mat4 MVP = projection * view * model;
+
+		shaderprogram.setUniform(std::string("MVP"), MVP);
+
+
+		//glm::mat4 VP = projection * view;
+
+
+
+
+		glm::vec3 lightPosition_worldSpace(0,0,1.5);
+
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);

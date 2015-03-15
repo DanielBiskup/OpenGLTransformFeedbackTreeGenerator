@@ -1,6 +1,6 @@
 #version 330
 
-out vec4 outputColor;
+uniform vec3 oneUniform;out vec4 outputColor;
 
 void main()
 {

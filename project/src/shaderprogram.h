@@ -43,8 +43,17 @@ public:
 	void setUniform(GLint location, glm::mat3 const &value);
 	void setUniform(GLint location, glm::mat4 const &value);
 
-	//TODO: eine Template Funktion für die hier schreiben.
-	void setUniform(std::string, float value);
+	/**
+	 * @brief setUniform erwartet den Namen einer Uniformvariable und den Wert auf den diese gesetzt werden soll.
+	 * @param uniformName
+	 * @param t
+	 */
+	template <typename T>
+	void setUniform(std::string uniformName, T &t)
+	{
+		GLint uniformLocation = getUniformLocation(uniformName);
+		setUniform(uniformLocation, t);
+	}
 
 private:
 	GLuint program;
