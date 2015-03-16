@@ -175,9 +175,13 @@ int main(void)
 	vertexArray.enableVertexAttribArray(position_location);
 	vertexArray.vertexAttribPointer(vertexBuffer, position_location, 3, GL_FLOAT, GL_FALSE, 0 ,0 );
 
-	/* Loop until the user closes the window */
 	glm::dvec2 mouseDelta;
+	glm::vec3 cameraPosition(0,0,-50);
 
+	float modelRotaitonX = 0.0f;
+	float modelRotationY = 0.0f;
+
+	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -193,16 +197,20 @@ int main(void)
 			std::cout << "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
 		}
 
-
-
+		//Model Matix
 		glm::mat4 model  = glm::mat4(1.0f);
+		modelRotaitonX += mouseDelta.y * 0.01;
+		modelRotationY += mouseDelta.x * 0.01;
+		model = glm::rotate(model, modelRotaitonX, glm::vec3(1.0f,0.0f,0.0f));
+		model = glm::rotate(model, modelRotationY, glm::vec3(0.0f,1.0f,0.0f));
 
-		glm::vec3 cameraPosition(0,10,-10);
+		//View Matrix
 		glm::mat4 view = glm::lookAt(
 					cameraPosition,
-					glm::vec3(0,0,0), // and looks at the origin
+					glm::vec3(0.0f,0.0f,0.0f), // and looks at the origin
 					glm::vec3(0,1,0)
 					);
+
 
 		glm::mat4 projection = glm::perspective(
 					50.f,
