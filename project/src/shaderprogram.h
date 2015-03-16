@@ -3,7 +3,9 @@
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
+
 #include <string>
+#include <vector>
 
 class Shader;
 
@@ -20,6 +22,7 @@ public:
 	 */
 	void attachShader(Shader shader);
 	void linkProgram();
+	void transformFeedbackVaryings(std::vector<std::string> varyings);
 	void detatchShaders();
 	void beginUsingProgram();
 	void stopUsingProgram();

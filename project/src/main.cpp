@@ -124,6 +124,7 @@ int main(void)
 	shaderprogram.attachShader(vertexShader);
 	shaderprogram.attachShader(fragmentShader);
 	shaderprogram.attachShader(geometryShader);
+	//shaderprogram.
 	shaderprogram.linkProgram();
 	shaderprogram.detatchShaders();
 
