@@ -14,6 +14,7 @@ project "MyFirstTree"
   --libdirs {os.findlib("glfw")} -- funktionier so wie die obere, nur dass platformunabhängig ist.
   libdirs { "../usedLibraries/glfw-3.0.4/build/src/" }
   includedirs { "../usedLibraries/glm/" } -- glm ist eine header-only library
+  buildoptions "-std=c++11"
   --os.execute() //z.B. um Doxygen aufzurufen.
 
   configuration "Debug"

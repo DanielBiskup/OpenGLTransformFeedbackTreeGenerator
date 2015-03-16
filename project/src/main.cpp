@@ -124,7 +124,9 @@ int main(void)
 	shaderprogram.attachShader(vertexShader);
 	shaderprogram.attachShader(fragmentShader);
 	shaderprogram.attachShader(geometryShader);
-	//shaderprogram.
+
+	std::vector<std::string> varyings{"ada","dadad","ddd"};
+	//shaderprogram.transformFeedbackVaryings(varyings);
 	shaderprogram.linkProgram();
 	shaderprogram.detatchShaders();
 

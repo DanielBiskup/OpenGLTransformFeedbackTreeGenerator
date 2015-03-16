@@ -29,6 +29,7 @@ void Shaderprogram::transformFeedbackVaryings(std::vector<std::string> varyings)
 	  cStrArray.push_back(varyings[index].c_str());
 	}
 
+	//Möglicher Fehler: Ich übergebe hier einen Pointer auf ein lokale Variable.
 	glTransformFeedbackVaryings(program, cStrArray.size(), &cStrArray[0], GL_INTERLEAVED_ATTRIBS);
 }
 
