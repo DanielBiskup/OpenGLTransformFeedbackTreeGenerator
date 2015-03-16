@@ -3,12 +3,10 @@
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 3) out;
 
-void main() {
-//    gl_Position = gl_in[0].gl_Position + vec4(-0.1, 0.0, 0.0, 0.0);
-//    EmitVertex();
+//in vec3 vColor[]; // Output from vertex shader for each vertex
+//out vec3 fColor; // Output to fragment shader
 
-//    gl_Position = gl_in[0].gl_Position + vec4(0.1, 0.0, 0.0, 0.0);
-//    EmitVertex();
+void main() {
     gl_Position = gl_in[0].gl_Position;
     EmitVertex();
 
