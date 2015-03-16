@@ -108,9 +108,11 @@ int main(void)
 	//TEST:
 	Shader vertexShader(ShaderType::Vertex, "data/tree.vert");
 	Shader fragmentShader(ShaderType::Fragment, "data/tree.frag");
+	Shader geometryShader(ShaderType::Geometry, "data/tree.geo");
 	Shaderprogram shaderprogram;
 	shaderprogram.attachShader(vertexShader);
 	shaderprogram.attachShader(fragmentShader);
+	shaderprogram.attachShader(geometryShader);
 	shaderprogram.linkProgram();
 	shaderprogram.detatchShaders();
 
@@ -233,7 +235,7 @@ int main(void)
 		vertexArray.bind();
 		//vertexBuffer.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
 		shaderprogram.beginUsingProgram();
-//		glDrawArrays(GL_TRIANGLES, 0, sizeof(data)/sizeof(float));
+		//glDrawArrays(GL_TRIANGLES, 0, sizeof(data)/sizeof(float));
 		glDrawArrays(GL_TRIANGLES, 0, 12*3);
 		shaderprogram.stopUsingProgram();
 		//vertexBuffer.unbind();
