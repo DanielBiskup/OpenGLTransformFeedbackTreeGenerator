@@ -53,6 +53,17 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "buffer.h"
 #include "vertexarray.h"
 
+struct treeVertex {
+	glm::vec3 position;
+	glm::float32 length;
+
+	treeVertex(float x, float y, float z, float length)
+	{
+		position = glm::vec3(x,y,z);
+		this->length = length;
+	}
+};
+
 int main(void)
 {
 	const glm::i32vec2 startResolution(800,600);
@@ -108,9 +119,11 @@ int main(void)
 	//TEST:
 	Shader vertexShader(ShaderType::Vertex, "data/tree.vert");
 	Shader fragmentShader(ShaderType::Fragment, "data/tree.frag");
+	Shader geometryShader(ShaderType::Geometry, "data/tree.geo");
 	Shaderprogram shaderprogram;
 	shaderprogram.attachShader(vertexShader);
 	shaderprogram.attachShader(fragmentShader);
+	shaderprogram.attachShader(geometryShader);
 	shaderprogram.linkProgram();
 	shaderprogram.detatchShaders();
 
@@ -123,58 +136,74 @@ int main(void)
 //	data[1] = glm::vec3(1.0f,-1.0f,0.0f);
 //	data[2] = glm::vec3(0.0f,1.0f,0.0f);
 
+//		glm::vec3 data[3]= {
+//			glm::vec3(-1.0f,-1.0f,0.0f),
+//			glm::vec3(1.0f,-1.0f,0.0f),
+//			glm::vec3(0.0f,1.0f,0.0f) };
+
 //	GLfloat data[] = {
 //	   -1.0f, -1.0f, 0.0f,
 //	   1.0f, -1.0f, 0.0f,
 //	   0.0f,  1.0f, 0.0f,
 //	};
+{
+// WÜRFEL DATA:
+//	GLfloat data[] = {
+//		-1.0f,-1.0f,-1.0f, // triangle 1 : begin
+//		-1.0f,-1.0f, 1.0f,
+//		-1.0f, 1.0f, 1.0f, // triangle 1 : end
+//		1.0f, 1.0f,-1.0f, // triangle 2 : begin
+//		-1.0f,-1.0f,-1.0f,
+//		-1.0f, 1.0f,-1.0f, // triangle 2 : end
+//		1.0f,-1.0f, 1.0f,
+//		-1.0f,-1.0f,-1.0f,
+//		1.0f,-1.0f,-1.0f,
+//		1.0f, 1.0f,-1.0f,
+//		1.0f,-1.0f,-1.0f,
+//		-1.0f,-1.0f,-1.0f,
+//		-1.0f,-1.0f,-1.0f,
+//		-1.0f, 1.0f, 1.0f,
+//		-1.0f, 1.0f,-1.0f,
+//		1.0f,-1.0f, 1.0f,
+//		-1.0f,-1.0f, 1.0f,
+//		-1.0f,-1.0f,-1.0f,
+//		-1.0f, 1.0f, 1.0f,
+//		-1.0f,-1.0f, 1.0f,
+//		1.0f,-1.0f, 1.0f,
+//		1.0f, 1.0f, 1.0f,
+//		1.0f,-1.0f,-1.0f,
+//		1.0f, 1.0f,-1.0f,
+//		1.0f,-1.0f,-1.0f,
+//		1.0f, 1.0f, 1.0f,
+//		1.0f,-1.0f, 1.0f,
+//		1.0f, 1.0f, 1.0f,
+//		1.0f, 1.0f,-1.0f,
+//		-1.0f, 1.0f,-1.0f,
+//		1.0f, 1.0f, 1.0f,
+//		-1.0f, 1.0f,-1.0f,
+//		-1.0f, 1.0f, 1.0f,
+//		1.0f, 1.0f, 1.0f,
+//		-1.0f, 1.0f, 1.0f,
+//		1.0f,-1.0f, 1.0f
+//	};
+	}
 
-	GLfloat data[] = {
-		-1.0f,-1.0f,-1.0f, // triangle 1 : begin
-		-1.0f,-1.0f, 1.0f,
-		-1.0f, 1.0f, 1.0f, // triangle 1 : end
-		1.0f, 1.0f,-1.0f, // triangle 2 : begin
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f,-1.0f, // triangle 2 : end
-		1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f, 1.0f,
-		-1.0f,-1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		-1.0f,-1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f,-1.0f,
-		1.0f,-1.0f,-1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f,-1.0f,
-		-1.0f, 1.0f,-1.0f,
-		1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f,-1.0f,
-		-1.0f, 1.0f, 1.0f,
-		1.0f, 1.0f, 1.0f,
-		-1.0f, 1.0f, 1.0f,
-		1.0f,-1.0f, 1.0f
-	};
+	//TREE INPUT DATA:
+	treeVertex data[3] = {
+		treeVertex(-1.0f,-1.0f,0.0f, 22.f),
+		treeVertex(1.0f,-1.0f,0.0f, 22.f),
+		treeVertex(0.0f,1.0f,0.0f, 22.f)};
 
 	vertexBuffer.bufferData(sizeof(data), data);
 
 	VertexArray vertexArray;
 
 	GLint position_location = shaderprogram.getAttirbLocation("position");
+	GLint length_location = shaderprogram.getAttirbLocation("length");
+
 	vertexArray.enableVertexAttribArray(position_location);
-	vertexArray.vertexAttribPointer(vertexBuffer, position_location, 3, GL_FLOAT, GL_FALSE, 0 ,0 );
+	vertexArray.vertexAttribPointer(vertexBuffer, position_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
+	vertexArray.vertexAttribPointer(vertexBuffer, length_location, 1,  GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 
 	glm::dvec2 mouseDelta;
 	glm::vec3 cameraPosition(0,0,-50);
@@ -233,7 +262,7 @@ int main(void)
 		vertexArray.bind();
 		//vertexBuffer.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
 		shaderprogram.beginUsingProgram();
-//		glDrawArrays(GL_TRIANGLES, 0, sizeof(data)/sizeof(float));
+		//glDrawArrays(GL_TRIANGLES, 0, sizeof(data)/sizeof(float));
 		glDrawArrays(GL_TRIANGLES, 0, 12*3);
 		shaderprogram.stopUsingProgram();
 		//vertexBuffer.unbind();
