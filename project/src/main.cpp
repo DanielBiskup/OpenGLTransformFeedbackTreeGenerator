@@ -55,6 +55,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 int main(void)
 {
+	const glm::i32vec2 startResolution(800,600);
 	GLFWwindow* window;
 
 	/* Initialize GLFW */
@@ -68,7 +69,8 @@ int main(void)
 
 	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
-	window = glfwCreateWindow(800, 600, "Procedural Tree Generation Using A Geometry Shader And Transform Feedback", NULL, NULL); // Windowed
+
+	window = glfwCreateWindow(startResolution.x, startResolution.y, "Procedural Tree Generation Using A Geometry Shader And Transform Feedback", NULL, NULL); // Windowed
 	//window = glfwCreateWindow(800, 600, "OpenGL", glfwGetPrimaryMonitor(), NULL); // Fullscreen
 
 	if (!window)
@@ -174,11 +176,22 @@ int main(void)
 	vertexArray.vertexAttribPointer(vertexBuffer, position_location, 3, GL_FLOAT, GL_FALSE, 0 ,0 );
 
 	/* Loop until the user closes the window */
+	glm::dvec2 mouseDelta;
+
 	while (!glfwWindowShouldClose(window))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glfwGetWindowSize(window, &windowWidth, &windowHeight);
+
+		glm::dvec2 mousePosition;
+		glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
+		glm::dvec2 screenCenter(windowWidth/2.f, windowHeight/2.f);
+		mouseDelta = mousePosition - screenCenter;
+		glfwSetCursorPos(window, screenCenter.x, screenCenter.y);
+		if(mouseDelta.x != 0 || mouseDelta.y != 0 ) {
+			std::cout << "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
+		}
 
 
 
