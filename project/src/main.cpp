@@ -55,6 +55,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 int main(void)
 {
+	const glm::i32vec2 startResolution(800,600);
 	GLFWwindow* window;
 
 	/* Initialize GLFW */
@@ -68,7 +69,8 @@ int main(void)
 
 	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
-	window = glfwCreateWindow(800, 600, "Procedural Tree Generation Using A Geometry Shader And Transform Feedback", NULL, NULL); // Windowed
+
+	window = glfwCreateWindow(startResolution.x, startResolution.y, "Procedural Tree Generation Using A Geometry Shader And Transform Feedback", NULL, NULL); // Windowed
 	//window = glfwCreateWindow(800, 600, "OpenGL", glfwGetPrimaryMonitor(), NULL); // Fullscreen
 
 	if (!window)
@@ -173,6 +175,12 @@ int main(void)
 	vertexArray.enableVertexAttribArray(position_location);
 	vertexArray.vertexAttribPointer(vertexBuffer, position_location, 3, GL_FLOAT, GL_FALSE, 0 ,0 );
 
+	glm::dvec2 mouseDelta;
+	glm::vec3 cameraPosition(0,0,-50);
+
+	float modelRotaitonX = 0.0f;
+	float modelRotationY = 0.0f;
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
@@ -180,16 +188,29 @@ int main(void)
 
 		glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
+		glm::dvec2 mousePosition;
+		glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
+		glm::dvec2 screenCenter(windowWidth/2.f, windowHeight/2.f);
+		mouseDelta = mousePosition - screenCenter;
+		glfwSetCursorPos(window, screenCenter.x, screenCenter.y);
+		if(mouseDelta.x != 0 || mouseDelta.y != 0 ) {
+			std::cout << "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
+		}
 
-
+		//Model Matix
 		glm::mat4 model  = glm::mat4(1.0f);
+		modelRotaitonX += mouseDelta.y * 0.01;
+		modelRotationY += mouseDelta.x * 0.01;
+		model = glm::rotate(model, modelRotaitonX, glm::vec3(1.0f,0.0f,0.0f));
+		model = glm::rotate(model, modelRotationY, glm::vec3(0.0f,1.0f,0.0f));
 
-		glm::vec3 cameraPosition(0,10,-10);
+		//View Matrix
 		glm::mat4 view = glm::lookAt(
 					cameraPosition,
-					glm::vec3(0,0,0), // and looks at the origin
+					glm::vec3(0.0f,0.0f,0.0f), // and looks at the origin
 					glm::vec3(0,1,0)
 					);
+
 
 		glm::mat4 projection = glm::perspective(
 					50.f,
