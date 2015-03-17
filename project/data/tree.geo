@@ -16,37 +16,37 @@ void main() {
     float scaleLength = 0.8f;
     //UNIFORMS_END:
 
-    vec3 p0 = geo_position[0];
-    vec3 p1 = geo_position[1];
-    vec3 p2 = geo_position[2];
+    vec3 p[3] = geo_position;
 
-    vec3 a = p1 - p0;
-    vec3 b = p2 - p0;
+    vec3 a = p[1] - p[0];
+    vec3 b = p[2] - p[0];
     vec3 n = cross(a, b);
     n = normalize(n);
     //vec3 h = n * geo_length[0];
     vec3 h = n * geo_length[0];
-    vec3 c = (p0+p1+p2)/3;
+    vec3 c = (p[0]+p[1]+p[2])/3;
 
-    vec3 d0 = (p0 - c) * scaleTriangle;
-    vec3 d1 = (p1 - c) * scaleTriangle;
-    vec3 d2 = (p2 - c) * scaleTriangle;
+    vec3 d[3];
+    for(int i = 0; i < 3; i++) {
+        d[i] = (p[i] - c) * scaleTriangle;
+    }
 
-    vec3 q0 = c + d0 + h;
-    vec3 q1 = c + d1 + h;
-    vec3 q2 = c + d2 + h;
+    vec3 q[3];
+    for(int i = 0; i < 3; i++) {
+        q[i] = c + d[i] + h;
+    }
 
     for( int i = 0; i < 3; i++) {
-        out_position = geo_position[i];
+        out_position = p[i];
         EmitVertex();
     }
     EndPrimitive();
 
-    out_position = q0;
+    out_position = q[0];
     EmitVertex();
-    out_position = q1;
+    out_position = q[1];
     EmitVertex();
-    out_position = q2;
+    out_position = q[2];
     EmitVertex();
     EndPrimitive();
 }
