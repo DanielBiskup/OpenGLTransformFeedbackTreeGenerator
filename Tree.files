@@ -1257,3 +1257,5 @@ project/src/buffer.cpp
 project/src/vertexarray.h
 project/src/vertexarray.cpp
 project/data/tree.geo
+project/data/render.vert
+project/data/render.frag

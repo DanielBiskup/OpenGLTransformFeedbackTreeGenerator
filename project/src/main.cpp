@@ -120,19 +120,28 @@ int main(void)
 	glfwGetWindowSize(window, &windowWidth, &windowHeight);
 	glfwSetWindowPos(window, (desktopWidth-windowWidth)/2, (desktopHeight-windowHeight)/2);
 
-	//TEST:
-	Shader vertexShader(ShaderType::Vertex, "data/tree.vert");
-	Shader fragmentShader(ShaderType::Fragment, "data/tree.frag");
-	Shader geometryShader(ShaderType::Geometry, "data/tree.geo");
-	Shaderprogram shaderprogram;
-	shaderprogram.attachShader(vertexShader);
-	shaderprogram.attachShader(fragmentShader);
-	shaderprogram.attachShader(geometryShader);
+	//Shader zum generieren der Geometrie:
+	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
+	Shader genFragmentShader(ShaderType::Fragment, "data/tree.frag");
+	Shader genGeometryShader(ShaderType::Geometry, "data/tree.geo");
+	Shaderprogram genShaderprogram;
+	genShaderprogram.attachShader(genVertexShader);
+	genShaderprogram.attachShader(genFragmentShader);
+	genShaderprogram.attachShader(genGeometryShader);
 
 	std::vector<std::string> varyings{"out_position"};
-	shaderprogram.transformFeedbackVaryings(varyings);
-	shaderprogram.linkProgram();
-	shaderprogram.detatchShaders();
+	genShaderprogram.transformFeedbackVaryings(varyings);
+	genShaderprogram.linkProgram();
+	genShaderprogram.detatchShaders();
+
+	//Shader zum rendern:
+	Shader renderVertexShader(ShaderType::Vertex, "data/render.vert");
+	Shader renderFragmentShader(ShaderType::Fragment, "data/render.frag");
+	Shaderprogram renderShaderprogram;
+	renderShaderprogram.attachShader(renderVertexShader);
+	renderShaderprogram.attachShader(renderFragmentShader);
+	renderShaderprogram.linkProgram();
+	renderShaderprogram.detatchShaders();
 
 //	shaderprogram.setUniform("objectColor", adawda);
 
@@ -211,8 +220,8 @@ int main(void)
 
 	VertexArray vertexArray;
 
-	GLint position_location = shaderprogram.getAttirbLocation("position");
-	GLint length_location = shaderprogram.getAttirbLocation("length");
+	GLint position_location = genShaderprogram.getAttirbLocation("position");
+	GLint length_location = genShaderprogram.getAttirbLocation("length");
 
 	vertexArray.enableVertexAttribArray(position_location);
 	vertexArray.vertexAttribPointer(vertexBuffer, position_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
@@ -262,10 +271,9 @@ int main(void)
 					100.0f
 					);
 
-
 		glm::mat4 MVP = projection * view * model;
 
-		shaderprogram.setUniform(std::string("MVP"), MVP);
+		genShaderprogram.setUniform(std::string("MVP"), MVP);
 
 		//glm::vec3 lightPosition_worldSpace(0,0,1.5);
 
@@ -274,7 +282,7 @@ int main(void)
 		//Test draw:
 		vertexArray.bind();
 		//vertexBuffer.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
-		shaderprogram.beginUsingProgram();
+		genShaderprogram.beginUsingProgram();
 
 
 		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transformFeedbackBufferA.getBuffer());
@@ -292,7 +300,7 @@ int main(void)
 		std::cout << "Vertex 2: (" << feedback[3] << ", " << feedback[4] << ", " << feedback[5] << ")" << std::endl;
 		std::cout << "Vertex 3: (" << feedback[6] << ", " << feedback[7] << ", " << feedback[8] << ")" << std::endl;
 
-		shaderprogram.stopUsingProgram();
+		genShaderprogram.stopUsingProgram();
 		//vertexBuffer.unbind();
 		vertexArray.unbind();
 
