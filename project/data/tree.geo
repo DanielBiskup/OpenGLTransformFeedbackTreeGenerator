@@ -1,10 +1,13 @@
 #version 330
 
 layout(triangles) in;
-layout(triangle_strip, max_vertices = 3) out;
+layout(triangle_strip, max_vertices = 6) out;
 
-in float l[]; // Lenge die der zu generierende Ast haben soll.
-//out vec3 fColor; // Output to fragment shader
+in vec3[] geo_position;
+in float[] geo_length; // Lenge die der zu generierende Ast haben soll.
+
+out vec3 out_position; // Output to fragment shader
+out float out_length;
 
 void main() {
 
@@ -20,7 +23,7 @@ void main() {
     vec3 a = p1 - p0;
     vec3 b = p2 - p0;
     vec3 n = cross(a, b);
-    vec3 h = n * l[0];
+    vec3 h = n * geo_length[0];
     vec3 c = (p0+p1+p2)/3;
 
     vec3 d0 = (p0 - c) * scaleTriangle;
@@ -31,19 +34,22 @@ void main() {
     vec3 q1 = c + d1 + h;
     vec3 q2 = c + d2 + h;
 
-    gl_Position = vec4(p0,1.f);
+    for( int i = 0; i < 3; i++) {
+        out_position = geo_position[i];
+        EmitVertex();
+    }
+    EndPrimitive();
+
+    //RENDER STUFF!
     gl_Position = gl_in[0].gl_Position;
     EmitVertex();
 
-    gl_Position = vec4(p1,1.f);
     gl_Position = gl_in[1].gl_Position;
     EmitVertex();
 
-    gl_Position = vec4(p2,1.f);
     gl_Position = gl_in[2].gl_Position;
     EmitVertex();
 
-    EndPrimitive();
 }
 
 //QUELLEN:

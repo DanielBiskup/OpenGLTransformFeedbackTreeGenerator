@@ -19,6 +19,20 @@ void Shaderprogram::attachShader(Shader shader)
 	glAttachShader(program, shader.getGLuint());
 }
 
+void Shaderprogram::transformFeedbackVaryings(std::vector<std::string> varyings)
+{
+	//from: http://stackoverflow.com/a/7048898/1510873
+	std::vector<const char *> cStrArray;
+	cStrArray.reserve(varyings.size());
+	for(int index = 0; index < varyings.size(); ++index)
+	{
+	  cStrArray.push_back(varyings[index].c_str());
+	}
+
+	//Möglicher Fehler: Ich übergebe hier einen Pointer auf ein lokale Variable.
+	glTransformFeedbackVaryings(program, cStrArray.size(), &cStrArray[0], GL_INTERLEAVED_ATTRIBS);
+}
+
 void Shaderprogram::linkProgram()
 {
 	glLinkProgram(program);
