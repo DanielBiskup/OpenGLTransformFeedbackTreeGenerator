@@ -143,66 +143,6 @@ int main(void)
 	renderShaderprogram.linkProgram();
 	renderShaderprogram.detatchShaders();
 
-
-{
-//	glm::vec3 data[3];
-//	data[0] = glm::vec3(-1.0f,-1.0f,0.0f);
-//	data[1] = glm::vec3(1.0f,-1.0f,0.0f);
-//	data[2] = glm::vec3(0.0f,1.0f,0.0f);
-
-//		glm::vec3 data[3]= {
-//			glm::vec3(-1.0f,-1.0f,0.0f),
-//			glm::vec3(1.0f,-1.0f,0.0f),
-//			glm::vec3(0.0f,1.0f,0.0f) };
-
-//	GLfloat data[] = {
-//	   -1.0f, -1.0f, 0.0f,
-//	   1.0f, -1.0f, 0.0f,
-//	   0.0f,  1.0f, 0.0f,
-	}
-
-{
-// WÜRFEL DATA:
-//	GLfloat data[] = {
-//		-1.0f,-1.0f,-1.0f, // triangle 1 : begin
-//		-1.0f,-1.0f, 1.0f,
-//		-1.0f, 1.0f, 1.0f, // triangle 1 : end
-//		1.0f, 1.0f,-1.0f, // triangle 2 : begin
-//		-1.0f,-1.0f,-1.0f,
-//		-1.0f, 1.0f,-1.0f, // triangle 2 : end
-//		1.0f,-1.0f, 1.0f,
-//		-1.0f,-1.0f,-1.0f,
-//		1.0f,-1.0f,-1.0f,
-//		1.0f, 1.0f,-1.0f,
-//		1.0f,-1.0f,-1.0f,
-//		-1.0f,-1.0f,-1.0f,
-//		-1.0f,-1.0f,-1.0f,
-//		-1.0f, 1.0f, 1.0f,
-//		-1.0f, 1.0f,-1.0f,
-//		1.0f,-1.0f, 1.0f,
-//		-1.0f,-1.0f, 1.0f,
-//		-1.0f,-1.0f,-1.0f,
-//		-1.0f, 1.0f, 1.0f,
-//		-1.0f,-1.0f, 1.0f,
-//		1.0f,-1.0f, 1.0f,
-//		1.0f, 1.0f, 1.0f,
-//		1.0f,-1.0f,-1.0f,
-//		1.0f, 1.0f,-1.0f,
-//		1.0f,-1.0f,-1.0f,
-//		1.0f, 1.0f, 1.0f,
-//		1.0f,-1.0f, 1.0f,
-//		1.0f, 1.0f, 1.0f,
-//		1.0f, 1.0f,-1.0f,
-//		-1.0f, 1.0f,-1.0f,
-//		1.0f, 1.0f, 1.0f,
-//		-1.0f, 1.0f,-1.0f,
-//		-1.0f, 1.0f, 1.0f,
-//		1.0f, 1.0f, 1.0f,
-//		-1.0f, 1.0f, 1.0f,
-//		1.0f,-1.0f, 1.0f
-//	};
-	}
-
 	Buffer triangleVertexBuffer(GL_ARRAY_BUFFER);
 	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
 
@@ -228,8 +168,6 @@ int main(void)
 	GLint renderLength_location = renderShaderprogram.getAttirbLocation("length");
 	renderVertexArray.enableVertexAttribArray(renderPosition_location);
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offsetof(treeVertex, position));
-	//renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1,  GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
-
 
 	glm::dvec2 mouseDelta;
 	glm::vec3 cameraPosition(0,0,-50);
