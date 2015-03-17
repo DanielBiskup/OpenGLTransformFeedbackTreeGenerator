@@ -20,9 +20,16 @@ void Buffer::unbind()
 	glBindBuffer(target, 0);
 }
 
-void Buffer::bufferData(GLsizeiptr size, const GLvoid *data)
+void Buffer::bufferDataStaticDraw(GLsizeiptr size, const GLvoid *data)
 {
 	bind();
 	glBufferData(target, size, data, GL_STATIC_DRAW);
+	unbind();
+}
+
+void Buffer::bufferDataStaticRead(GLsizeiptr size, const GLvoid *data)
+{
+	bind();
+	glBufferData(target, size, data, GL_STATIC_READ);
 	unbind();
 }

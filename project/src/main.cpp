@@ -125,15 +125,15 @@ int main(void)
 	shaderprogram.attachShader(fragmentShader);
 	shaderprogram.attachShader(geometryShader);
 
-	std::vector<std::string> varyings{"ada","dadad","ddd"};
-	//shaderprogram.transformFeedbackVaryings(varyings);
+	std::vector<std::string> varyings{"out_position"};
+	shaderprogram.transformFeedbackVaryings(varyings);
 	shaderprogram.linkProgram();
 	shaderprogram.detatchShaders();
 
 //	shaderprogram.setUniform("objectColor", adawda);
 
-	Buffer vertexBuffer(GL_ARRAY_BUFFER);
 
+{
 //	glm::vec3 data[3];
 //	data[0] = glm::vec3(-1.0f,-1.0f,0.0f);
 //	data[1] = glm::vec3(1.0f,-1.0f,0.0f);
@@ -148,7 +148,8 @@ int main(void)
 //	   -1.0f, -1.0f, 0.0f,
 //	   1.0f, -1.0f, 0.0f,
 //	   0.0f,  1.0f, 0.0f,
-//	};
+	}
+
 {
 // WÜRFEL DATA:
 //	GLfloat data[] = {
@@ -191,13 +192,18 @@ int main(void)
 //	};
 	}
 
+	Buffer vertexBuffer(GL_ARRAY_BUFFER);
+	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
+
 	//TREE INPUT DATA:
 	treeVertex data[3] = {
 		treeVertex(-1.0f,-1.0f,0.0f, 22.f),
 		treeVertex(1.0f,-1.0f,0.0f, 22.f),
 		treeVertex(0.0f,1.0f,0.0f, 22.f)};
 
-	vertexBuffer.bufferData(sizeof(data), data);
+	vertexBuffer.bufferDataStaticDraw(sizeof(data), data);
+
+	transformFeedbackBufferA.bufferDataStaticRead(sizeof(data), nullptr);
 
 	VertexArray vertexArray;
 
@@ -265,8 +271,13 @@ int main(void)
 		vertexArray.bind();
 		//vertexBuffer.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
 		shaderprogram.beginUsingProgram();
-		//glDrawArrays(GL_TRIANGLES, 0, sizeof(data)/sizeof(float));
-		glDrawArrays(GL_TRIANGLES, 0, 12*3);
+
+
+		glDrawArrays(GL_TRIANGLES, 0, 3);
+
+
+
+
 		shaderprogram.stopUsingProgram();
 		//vertexBuffer.unbind();
 		vertexArray.unbind();

@@ -10,7 +10,8 @@ public:
 	~Buffer();
 	void bind();
 	void unbind();
-	void bufferData(GLsizeiptr size, const GLvoid *data);
+	void bufferDataStaticDraw(GLsizeiptr size, const GLvoid *data);
+	void bufferDataStaticRead(GLsizeiptr size, const GLvoid *data);
 
 private:
 	GLuint buffer;

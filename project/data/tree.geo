@@ -1,7 +1,7 @@
 #version 330
 
 layout(triangles) in;
-layout(points, max_vertices = 6) out;
+layout(triangle_strip, max_vertices = 6) out;
 
 in vec3[] geo_position;
 in float[] geo_length; // Lenge die der zu generierende Ast haben soll.
@@ -37,21 +37,18 @@ void main() {
     for( int i = 0; i < 3; i++) {
         out_position = geo_position[0];
         EmitVertex();
-        EndPrimitive();
     }
+    EndPrimitive();
 
     //RENDER STUFF!
     gl_Position = gl_in[0].gl_Position;
     EmitVertex();
-    EndPrimitive();
 
     gl_Position = gl_in[1].gl_Position;
     EmitVertex();
-    EndPrimitive();
 
     gl_Position = gl_in[2].gl_Position;
     EmitVertex();
-    EndPrimitive();
 
 }
 
