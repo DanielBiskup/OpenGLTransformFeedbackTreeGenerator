@@ -122,11 +122,9 @@ int main(void)
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
-	Shader genFragmentShader(ShaderType::Fragment, "data/tree.frag");
 	Shader genGeometryShader(ShaderType::Geometry, "data/tree.geo");
 	Shaderprogram genShaderprogram;
 	genShaderprogram.attachShader(genVertexShader);
-	genShaderprogram.attachShader(genFragmentShader);
 	genShaderprogram.attachShader(genGeometryShader);
 
 	std::vector<std::string> varyings{"out_position"};
@@ -165,7 +163,6 @@ int main(void)
 
 	VertexArray renderVertexArray;
 	GLint renderPosition_location = renderShaderprogram.getAttirbLocation("position");
-	GLint renderLength_location = renderShaderprogram.getAttirbLocation("length");
 	renderVertexArray.enableVertexAttribArray(renderPosition_location);
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offsetof(treeVertex, position));
 

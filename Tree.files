@@ -867,7 +867,6 @@ usedLibraries/glm/test/gtx/gtx_string_cast.cpp
 usedLibraries/glm/test/gtx/gtx_type_aligned.cpp
 usedLibraries/glm/test/gtx/gtx_vector_angle.cpp
 usedLibraries/glm/test/gtx/gtx_vector_query.cpp
-project/data/tree.frag
 project/data/tree.vert
 project/src/main.cpp
 project/src/shader.cpp
