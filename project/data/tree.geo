@@ -35,7 +35,7 @@ void main() {
     vec3 q2 = c + d2 + h;
 
     for( int i = 0; i < 3; i++) {
-        out_position = geo_position[0];
+        out_position = geo_position[i];
         EmitVertex();
     }
     EndPrimitive();

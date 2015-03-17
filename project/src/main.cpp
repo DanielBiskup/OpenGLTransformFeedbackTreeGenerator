@@ -34,6 +34,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *  \copyright BSD 3-Clause
  */
 
+//Als Referenz verwendete Websites:
+//https://open.gl/feedback
+//http://www.mbsoftworks.sk/index.php?page=tutorials&series=1&tutorial=26
+
 //GLEW
 #include <GL/glew.h>
 
@@ -273,10 +277,20 @@ int main(void)
 		shaderprogram.beginUsingProgram();
 
 
+		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transformFeedbackBufferA.getBuffer());
+		glBeginTransformFeedback(GL_TRIANGLES);
+
 		glDrawArrays(GL_TRIANGLES, 0, 3);
 
+		glEndTransformFeedback();
+		glFlush();
 
+		GLfloat feedback[9];
+		glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
 
+		std::cout << "Vertex 1: (" << feedback[0] << ", " << feedback[1] << ", " << feedback[2] << ")" << std::endl;
+		std::cout << "Vertex 2: (" << feedback[3] << ", " << feedback[4] << ", " << feedback[5] << ")" << std::endl;
+		std::cout << "Vertex 3: (" << feedback[6] << ", " << feedback[7] << ", " << feedback[8] << ")" << std::endl;
 
 		shaderprogram.stopUsingProgram();
 		//vertexBuffer.unbind();

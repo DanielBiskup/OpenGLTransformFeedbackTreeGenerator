@@ -12,6 +12,10 @@ public:
 	void unbind();
 	void bufferDataStaticDraw(GLsizeiptr size, const GLvoid *data);
 	void bufferDataStaticRead(GLsizeiptr size, const GLvoid *data);
+	GLuint getBuffer();
+
+	void beginTransformFeedback();
+	void endTransformFeedback();
 
 private:
 	GLuint buffer;
