@@ -59,7 +59,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 struct treeVertex {
 	glm::vec3 position;
-	glm::float32 length;
+	float length;
 
 	treeVertex(float x, float y, float z, float length)
 	{
@@ -146,18 +146,19 @@ int main(void)
 
 	//buffer und vao für generierung:
 	treeVertex data[3] = {
-		treeVertex(-1.0f,-1.0f,0.0f, 22.f),
-		treeVertex(1.0f,-1.0f,0.0f, 22.f),
-		treeVertex(0.0f,1.0f,0.0f, 22.f)};
+		treeVertex(-1.0f,-1.0f,0.0f, 2.f),
+		treeVertex(1.0f,-1.0f,0.0f, 2.f),
+		treeVertex(0.0f,1.0f,0.0f, 2.f)};
 
 	triangleVertexBuffer.bufferDataStaticDraw(sizeof(data), data);
 
-	transformFeedbackBufferA.bufferDataStaticRead(sizeof(data), nullptr);
+	transformFeedbackBufferA.bufferDataStaticRead(sizeof(data) * 2, nullptr);
 
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
 	GLint length_location = genShaderprogram.getAttirbLocation("length");
 	genVertexArray.enableVertexAttribArray(position_location);
+	genVertexArray.enableVertexAttribArray(length_location);
 	genVertexArray.vertexAttribPointer(triangleVertexBuffer, position_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
 	genVertexArray.vertexAttribPointer(triangleVertexBuffer, length_location, 1,  GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 
@@ -183,17 +184,20 @@ int main(void)
 		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transformFeedbackBufferA.getBuffer());
 		glBeginTransformFeedback(GL_TRIANGLES);
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 2*3);
 
 		glEndTransformFeedback();
 		glFlush();
 
-		GLfloat feedback[9];
+		GLfloat feedback[9 * 2];
 		glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
 
-		std::cout << "Vertex 1: (" << feedback[0] << ", " << feedback[1] << ", " << feedback[2] << ")" << std::endl;
-		std::cout << "Vertex 2: (" << feedback[3] << ", " << feedback[4] << ", " << feedback[5] << ")" << std::endl;
-		std::cout << "Vertex 3: (" << feedback[6] << ", " << feedback[7] << ", " << feedback[8] << ")" << std::endl;
+		for(int i = 0; i < 6; i++) {
+			int vertexStart = i * 3;
+			std::cout << "Vertex " << i << ": (" << feedback[vertexStart+0] << ", " << feedback[vertexStart+1] << ", " << feedback[vertexStart+2] << ")" << std::endl;
+		}
+		std::cout << "-----------------------------------" << std::endl;
+
 
 		genShaderprogram.stopUsingProgram();
 		genVertexArray.unbind();
@@ -241,7 +245,7 @@ int main(void)
 		renderVertexArray.bind();
 		renderShaderprogram.beginUsingProgram();
 
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_TRIANGLES, 0, 2*3);
 
 		renderShaderprogram.stopUsingProgram();
 		renderVertexArray.unbind();

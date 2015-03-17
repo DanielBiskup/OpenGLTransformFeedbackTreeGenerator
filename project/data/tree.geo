@@ -16,13 +16,15 @@ void main() {
     float scaleLength = 0.8f;
     //UNIFORMS_END:
 
-    vec3 p0 = gl_in[0].gl_Position.xyz;
-    vec3 p1 = gl_in[1].gl_Position.xyz;
-    vec3 p2 = gl_in[2].gl_Position.xyz;
+    vec3 p0 = geo_position[0];
+    vec3 p1 = geo_position[1];
+    vec3 p2 = geo_position[2];
 
     vec3 a = p1 - p0;
     vec3 b = p2 - p0;
     vec3 n = cross(a, b);
+    n = normalize(n);
+    //vec3 h = n * geo_length[0];
     vec3 h = n * geo_length[0];
     vec3 c = (p0+p1+p2)/3;
 
@@ -40,16 +42,13 @@ void main() {
     }
     EndPrimitive();
 
-    //RENDER STUFF!
-    gl_Position = gl_in[0].gl_Position;
+    out_position = q0;
     EmitVertex();
-
-    gl_Position = gl_in[1].gl_Position;
+    out_position = q1;
     EmitVertex();
-
-    gl_Position = gl_in[2].gl_Position;
+    out_position = q2;
     EmitVertex();
-
+    EndPrimitive();
 }
 
 //QUELLEN:
