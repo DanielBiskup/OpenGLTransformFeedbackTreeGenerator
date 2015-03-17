@@ -196,10 +196,9 @@ int main(void)
 		std::cout << "Vertex 3: (" << feedback[6] << ", " << feedback[7] << ", " << feedback[8] << ")" << std::endl;
 
 		genShaderprogram.stopUsingProgram();
-		//vertexBuffer.unbind();
 		genVertexArray.unbind();
 
-		//Render Step
+		//Update
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glfwGetWindowSize(window, &windowWidth, &windowHeight);
@@ -238,7 +237,7 @@ int main(void)
 
 		renderShaderprogram.setUniform(std::string("MVP"), MVP);
 
-//		renderShaderprogram
+		//RENDER:
 		renderVertexArray.bind();
 		renderShaderprogram.beginUsingProgram();
 
@@ -246,8 +245,6 @@ int main(void)
 
 		renderShaderprogram.stopUsingProgram();
 		renderVertexArray.unbind();
-		//DRAW
-		//Test draw:
 
 
 		/* Swap front and back buffers */
