@@ -1258,3 +1258,5 @@ project/src/vertexarray.cpp
 project/data/tree.geo
 project/data/render.vert
 project/data/render.frag
+project/src/openglerror.h
+project/src/openglerror.cpp
