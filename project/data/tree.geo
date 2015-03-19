@@ -27,8 +27,9 @@ void main() {
     }
     else {
         //Gesucht:
-        vec3 q[3];
-        vec3 t;
+        vec3 q[3]; //Die von p extruierten Punkte
+        vec3 t; //Die Spitze der Pyramide
+        float l_next; //Die Länge für die Nächste Iteration
 
         //Rechnung:
         vec3 a = p[1] - p[0];
@@ -45,8 +46,11 @@ void main() {
         }
 
         //t berechnen:
-        float pyramidenHoehe = 0.3f; //TODO: Die Pyramidenhöhe irgendwie ordentlich berechnen aus den gegebenen Werten!
-        t = c + h + n*pyramidenHoehe;
+        float pyramidenHoehe = 1.3f; //TODO: Die Pyramidenhöhe irgendwie ordentlich berechnen aus den gegebenen Werten!
+        t = c + h + n * pyramidenHoehe;
+
+        //l_next berechnen:
+        l_next = l * scaleLength;
 
         //Erzeugen der Geometrie:
         //Schritt 1: Erzeugen der Mantelfläche:
@@ -57,6 +61,10 @@ void main() {
         }
 
         //Schritt 2: Erzeugen der Pyramide:
+        for( int i = 0; i < 3; i++) {
+            int j = (i + 1) % 3;
+            emitTriangle( q[i], q[j], t, l_next);
+        }
     }
 }
 
