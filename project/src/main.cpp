@@ -50,6 +50,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //C++
 #include <iostream>
+#include <cmath>
 
 //Eigene Klassen
 #include "shader.h"
@@ -67,6 +68,9 @@ struct treeVertex {
 		this->length = length;
 	}
 };
+
+int nTriangles(int numberOfIterations);
+int nVertices(int numberOfIterations);
 
 int main(void)
 {
@@ -269,4 +273,19 @@ int main(void)
 
 	glfwTerminate();
 	return 0;
+}
+
+/**
+ * @brief nTriangles gibt für eine Anzahl \a numberOfIterations an Interationen
+ * durch den GeometryShader tree.geo die Anzahl an erzeugten Dreiecken zurück.
+ * @param numberOfIterations muss ein Integer größer oder gleich 0 sein.
+ * @return
+ */
+int nTriangles(int numberOfIterations) {
+	assert (numberOfIterations >= 0);
+	return 4*std::pow(3,numberOfIterations) - 3;
+}
+
+int nVertices(int numberOfIterations) {
+	return nTriangles(numberOfIterations) * 3;
 }

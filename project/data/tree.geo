@@ -23,12 +23,7 @@ void main() {
     float l = geo_length[0];
 
     if( l <= 0.f ) {
-        for( int i = 0; i < 3; i++ ) {
-            out_position = p[i];
-            out_length = 0.f;
-            EmitVertex();
-        }
-        EndPrimitive();
+        emitTriangle( p[0], p[1], p[2], 0.0f );
     }
     else {
         //Gesucht:
@@ -55,6 +50,8 @@ void main() {
 
         //Erzeugen der Geometrie:
         //Schritt 1: Erzeugen der Mantelfläche:
+
+        //Schritt 2: Erzeugen der Pyramide:
 
 
         //Ausgabe des ursprünglichen Dreiecks.

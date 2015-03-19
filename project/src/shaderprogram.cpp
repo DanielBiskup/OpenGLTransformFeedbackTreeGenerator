@@ -24,9 +24,8 @@ void Shaderprogram::transformFeedbackVaryings(std::vector<std::string> varyings)
 	//from: http://stackoverflow.com/a/7048898/1510873
 	std::vector<const char *> cStrArray;
 	cStrArray.reserve(varyings.size());
-	for(int index = 0; index < varyings.size(); ++index)
-	{
-	  cStrArray.push_back(varyings[index].c_str());
+	for(std::string varying : varyings) {
+		cStrArray.push_back(varying.c_str());
 	}
 
 	//Möglicher Fehler: Ich übergebe hier einen Pointer auf ein lokale Variable.
