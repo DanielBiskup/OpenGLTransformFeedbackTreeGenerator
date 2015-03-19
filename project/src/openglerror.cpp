@@ -8,7 +8,7 @@ void printError(const char *file, int line) {
 				 << std::endl << errorName(error) << std::endl
 				 << errorDescription(error) << std::endl;
 	}
-	assert(error == GL_NO_ERROR);
+	//assert(error == GL_NO_ERROR);
 }
 
 std::string errorDescription(GLenum error)

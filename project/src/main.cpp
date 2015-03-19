@@ -59,6 +59,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "buffer.h"
 #include "vertexarray.h"
 
+//Geklauter und dann bearbeiteter Quelltext:
+#include "openglerrorcallback.h"
+
 struct treeVertex {
 	glm::vec3 position;
 	float length;
@@ -87,7 +90,7 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
-
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, 1);
 
 	window = glfwCreateWindow(startResolution.x, startResolution.y, "Procedural Tree Generation Using A Geometry Shader And Transform Feedback", NULL, NULL); // Windowed
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -106,6 +109,8 @@ int main(void)
 	//GLEW aufrufen damit es uns die Funktionpointer auf OpenGL-Funktionen zur Verfügung stellt.
 	glewExperimental = GL_TRUE;
 	glewInit(); //Darf erst aufgerufen weden wenn ein context gerade current ist.
+
+	registerDebugMessageCallback();
 
 	//Set some OpenGL states
 	glEnable(GL_DEPTH_TEST);
