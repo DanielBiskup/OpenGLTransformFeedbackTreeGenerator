@@ -9,6 +9,8 @@ in float[] geo_length; // Lenge die der zu generierende Ast haben soll.
 out vec3 out_position; // Output to fragment shader
 out float out_length;
 
+void emitTriangle(vec3 v0, vec3 v1, vec3 v2, float l);
+
 void main() {
 
     //UNIFORMS_BEGIN:
@@ -53,22 +55,31 @@ void main() {
 
         //Erzeugen der Geometrie:
         //Schritt 1: Erzeugen der Mantelfläche:
-        for( int i = 0; i < 3; i++) {
-            out_position = p[i];
-            EmitVertex();
-        }
-        EndPrimitive();
 
-        out_position = q[0];
-        EmitVertex();
-        out_position = q[1];
-        EmitVertex();
-        out_position = q[2];
-        EmitVertex();
-        EndPrimitive();
+
+        //Ausgabe des ursprünglichen Dreiecks.
+        emitTriangle( p[0], p[1], p[2], l );
+
+        //Ausgabe des neuen Dreiecks:
+        emitTriangle( q[0], q[1], q[2], l );
 
         //Schritt 2: Erzeugen der Pyramide:
     }
+}
+
+void emitTriangle( vec3 v0, vec3 v1, vec3 v2, float l ) {
+    out_length = l;
+
+    out_position = v0;
+    EmitVertex();
+
+    out_position = v1;
+    EmitVertex();
+
+    out_position = v2;
+    EmitVertex();
+
+    EndPrimitive();
 }
 
 //QUELLEN:
