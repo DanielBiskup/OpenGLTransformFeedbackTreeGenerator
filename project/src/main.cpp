@@ -50,6 +50,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 //C++
 #include <iostream>
+#include <cmath>
 
 //Eigene Klassen
 #include "shader.h"
@@ -67,6 +68,9 @@ struct treeVertex {
 		this->length = length;
 	}
 };
+
+int nTriangles(int numberOfIterations);
+int nVertices(int numberOfIterations);
 
 int main(void)
 {
@@ -127,7 +131,7 @@ int main(void)
 	genShaderprogram.attachShader(genVertexShader);
 	genShaderprogram.attachShader(genGeometryShader);
 
-	std::vector<std::string> varyings{"out_position"};
+	std::vector<std::string> varyings{"out_position", "out_length"};
 	genShaderprogram.transformFeedbackVaryings(varyings);
 	genShaderprogram.linkProgram();
 	genShaderprogram.detatchShaders();
@@ -152,7 +156,7 @@ int main(void)
 
 	triangleVertexBuffer.bufferDataStaticDraw(sizeof(data), data);
 
-	transformFeedbackBufferA.bufferDataStaticRead(sizeof(data) * 2, nullptr);
+	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(1), nullptr);
 
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
@@ -164,8 +168,11 @@ int main(void)
 
 	VertexArray renderVertexArray;
 	GLint renderPosition_location = renderShaderprogram.getAttirbLocation("position");
+	GLint renderLength_location = renderShaderprogram.getAttirbLocation("length");
 	renderVertexArray.enableVertexAttribArray(renderPosition_location);
-	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offsetof(treeVertex, position));
+	renderVertexArray.enableVertexAttribArray(renderPosition_location);
+	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
+	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
 
 	glm::dvec2 mouseDelta;
 	glm::vec3 cameraPosition(0,0,-50);
@@ -184,17 +191,17 @@ int main(void)
 		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transformFeedbackBufferA.getBuffer());
 		glBeginTransformFeedback(GL_TRIANGLES);
 
-		glDrawArrays(GL_TRIANGLES, 0, 2*3);
+		glDrawArrays(GL_TRIANGLES, 0, nVertices(1));
 
 		glEndTransformFeedback();
 		glFlush();
 
-		GLfloat feedback[9 * 2];
+		GLfloat feedback[nVertices(1) * 4];
 		glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
 
-		for(int i = 0; i < 6; i++) {
-			int vertexStart = i * 3;
-			std::cout << "Vertex " << i << ": (" << feedback[vertexStart+0] << ", " << feedback[vertexStart+1] << ", " << feedback[vertexStart+2] << ")" << std::endl;
+		for(int i = 0; i < nVertices(1); i++) {
+			int vertexStart = i * 4;
+			std::cout << "Vertex " << i << "\t:(" << feedback[vertexStart+0] << "\t, " << feedback[vertexStart+1] << "\t, " << feedback[vertexStart+2] <<  "\t)\tlength = " << feedback[vertexStart+3] << std::endl;
 		}
 		std::cout << "-----------------------------------" << std::endl;
 
@@ -245,7 +252,7 @@ int main(void)
 		renderVertexArray.bind();
 		renderShaderprogram.beginUsingProgram();
 
-		glDrawArrays(GL_TRIANGLES, 0, 2*3);
+		glDrawArrays(GL_TRIANGLES, 0, nVertices(1));
 
 		renderShaderprogram.stopUsingProgram();
 		renderVertexArray.unbind();
@@ -269,4 +276,19 @@ int main(void)
 
 	glfwTerminate();
 	return 0;
+}
+
+/**
+ * @brief nTriangles gibt für eine Anzahl \a numberOfIterations an Interationen
+ * durch den GeometryShader tree.geo die Anzahl an erzeugten Dreiecken zurück.
+ * @param numberOfIterations muss ein Integer größer oder gleich 0 sein.
+ * @return
+ */
+int nTriangles(int numberOfIterations) {
+	assert (numberOfIterations >= 0);
+	return 4*std::pow(3,numberOfIterations) - 3;
+}
+
+int nVertices(int numberOfIterations) {
+	return nTriangles(numberOfIterations) * 3;
 }
