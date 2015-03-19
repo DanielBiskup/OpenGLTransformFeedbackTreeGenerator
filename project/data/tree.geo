@@ -1,7 +1,7 @@
 #version 330
 
 layout(triangles) in;
-layout(triangle_strip, max_vertices = 6) out;
+layout(triangle_strip, max_vertices = 27) out;
 
 in vec3[] geo_position;
 in float[] geo_length; // Lenge die der zu generierende Ast haben soll.
@@ -50,15 +50,11 @@ void main() {
 
         //Erzeugen der Geometrie:
         //Schritt 1: Erzeugen der Mantelfläche:
-
-        //Schritt 2: Erzeugen der Pyramide:
-
-
-        //Ausgabe des ursprünglichen Dreiecks.
-        emitTriangle( p[0], p[1], p[2], l );
-
-        //Ausgabe des neuen Dreiecks:
-        emitTriangle( q[0], q[1], q[2], l );
+        for( int i = 0; i < 3; i++) {
+            int j = (i + 1) % 3;
+            emitTriangle( p[i], q[j], q[i], 0.0f );
+            emitTriangle( p[i], p[j], q[j], 0.0f );
+        }
 
         //Schritt 2: Erzeugen der Pyramide:
     }

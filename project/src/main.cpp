@@ -156,7 +156,7 @@ int main(void)
 
 	triangleVertexBuffer.bufferDataStaticDraw(sizeof(data), data);
 
-	transformFeedbackBufferA.bufferDataStaticRead(sizeof(data) * 2, nullptr);
+	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(1), nullptr);
 
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
@@ -188,7 +188,7 @@ int main(void)
 		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transformFeedbackBufferA.getBuffer());
 		glBeginTransformFeedback(GL_TRIANGLES);
 
-		glDrawArrays(GL_TRIANGLES, 0, 2*3);
+		glDrawArrays(GL_TRIANGLES, 0, nVertices(1));
 
 		glEndTransformFeedback();
 		glFlush();
@@ -249,7 +249,7 @@ int main(void)
 		renderVertexArray.bind();
 		renderShaderprogram.beginUsingProgram();
 
-		glDrawArrays(GL_TRIANGLES, 0, 2*3);
+		glDrawArrays(GL_TRIANGLES, 0, nVertices(1));
 
 		renderShaderprogram.stopUsingProgram();
 		renderVertexArray.unbind();
