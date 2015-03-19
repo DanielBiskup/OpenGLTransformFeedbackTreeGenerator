@@ -131,7 +131,7 @@ int main(void)
 	genShaderprogram.attachShader(genVertexShader);
 	genShaderprogram.attachShader(genGeometryShader);
 
-	std::vector<std::string> varyings{"out_position"};
+	std::vector<std::string> varyings{"out_position", "out_length"};
 	genShaderprogram.transformFeedbackVaryings(varyings);
 	genShaderprogram.linkProgram();
 	genShaderprogram.detatchShaders();
@@ -168,8 +168,11 @@ int main(void)
 
 	VertexArray renderVertexArray;
 	GLint renderPosition_location = renderShaderprogram.getAttirbLocation("position");
+	GLint renderLength_location = renderShaderprogram.getAttirbLocation("length");
 	renderVertexArray.enableVertexAttribArray(renderPosition_location);
-	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, 0, (GLvoid*) offsetof(treeVertex, position));
+	renderVertexArray.enableVertexAttribArray(renderPosition_location);
+	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
+	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
 
 	glm::dvec2 mouseDelta;
 	glm::vec3 cameraPosition(0,0,-50);
