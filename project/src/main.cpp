@@ -196,12 +196,12 @@ int main(void)
 		glEndTransformFeedback();
 		glFlush();
 
-		GLfloat feedback[9 * 2];
+		GLfloat feedback[nVertices(1) * 4];
 		glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
 
-		for(int i = 0; i < 6; i++) {
-			int vertexStart = i * 3;
-			std::cout << "Vertex " << i << ": (" << feedback[vertexStart+0] << ", " << feedback[vertexStart+1] << ", " << feedback[vertexStart+2] << ")" << std::endl;
+		for(int i = 0; i < nVertices(1); i++) {
+			int vertexStart = i * 4;
+			std::cout << "Vertex " << i << "\t:(" << feedback[vertexStart+0] << "\t, " << feedback[vertexStart+1] << "\t, " << feedback[vertexStart+2] <<  "\t)\tlength = " << feedback[vertexStart+3] << std::endl;
 		}
 		std::cout << "-----------------------------------" << std::endl;
 
