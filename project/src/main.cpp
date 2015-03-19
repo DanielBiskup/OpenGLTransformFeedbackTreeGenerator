@@ -51,6 +51,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //C++
 #include <iostream>
 #include <cmath>
+#include <iomanip>
 
 //Eigene Klassen
 #include "shader.h"
@@ -149,14 +150,20 @@ int main(void)
 	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
 
 	//buffer und vao für generierung:
+//	treeVertex data[3] = {
+//		treeVertex(-1.0f,-1.0f,0.0f, 2.f),
+//		treeVertex(1.0f,-1.0f,0.0f, 2.f),
+//		treeVertex(0.0f,1.0f,0.0f, 2.f)};
+
+	int scl = 2.0f;
 	treeVertex data[3] = {
-		treeVertex(-1.0f,-1.0f,0.0f, 2.f),
-		treeVertex(1.0f,-1.0f,0.0f, 2.f),
-		treeVertex(0.0f,1.0f,0.0f, 2.f)};
+		treeVertex(-1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
+		treeVertex(1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
+		treeVertex(0.0f*scl,1.0f*scl,0.0f*scl, 2.f*scl)};
 
-	triangleVertexBuffer.bufferDataStaticDraw(sizeof(data), data);
+	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(4), data);
 
-	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(1), nullptr);
+	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(4), nullptr);
 
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
@@ -172,7 +179,7 @@ int main(void)
 	renderVertexArray.enableVertexAttribArray(renderPosition_location);
 	renderVertexArray.enableVertexAttribArray(renderPosition_location);
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
-	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
+	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 
 	glm::dvec2 mouseDelta;
 	glm::vec3 cameraPosition(0,0,-50);
@@ -180,34 +187,77 @@ int main(void)
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
 
+	//Generate Step:
+	//PASS 1:
+	genVertexArray.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
+	genShaderprogram.beginUsingProgram();
+
+	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transformFeedbackBufferA.getBuffer());
+	glBeginTransformFeedback(GL_TRIANGLES);
+
+	glDrawArrays(GL_TRIANGLES, 0, nVertices(0));
+
+	glEndTransformFeedback();
+	glFlush();
+	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
+
+	transformFeedbackBufferA.bind();
+	GLfloat feedback[nVertices(1) * 4];
+	glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
+	transformFeedbackBufferA.unbind();
+
+	for(int i = 0; i < nVertices(1); i++) {
+		int vertexStart = i * 4;
+		std::cout << "Vertex " << i << "\t:("
+					 << feedback[vertexStart+0] << "\t, "
+					 << feedback[vertexStart+1] << "\t, "
+					 << feedback[vertexStart+2] <<  "\t)\tlength = "
+					 << feedback[vertexStart+3] << std::endl;
+	}
+	std::cout << "-----------------------------------" << std::endl;
+
+	genShaderprogram.stopUsingProgram();
+
+	genVertexArray.unbind();
+
+	//PASS 2:
+	{
+	renderVertexArray.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
+	genShaderprogram.beginUsingProgram();
+
+	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, triangleVertexBuffer.getBuffer());
+	glBeginTransformFeedback(GL_TRIANGLES);
+
+	glDrawArrays(GL_TRIANGLES, 0, nVertices(1));
+
+	glEndTransformFeedback();
+	glFlush();
+
+	glBindBufferBase(GL_TRANSFORM_FEEDBACK, 0, 0);
+
+	GLfloat feedback[nVertices(2) * 4];
+	triangleVertexBuffer.bind();
+	glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
+	triangleVertexBuffer.unbind();
+
+	for(int i = 0; i < nVertices(2); i++) {
+		int vertexStart = i * 4;
+		std::cout << "Vertex " << i << "\t:("
+					 << feedback[vertexStart+0] << "\t, "
+					 << feedback[vertexStart+1] << "\t, "
+					 << feedback[vertexStart+2] <<  "\t)\tlength = "
+					 << feedback[vertexStart+3] << std::endl;
+	}
+	std::cout << "-----------------------------------" << std::endl;
+
+	genShaderprogram.stopUsingProgram();
+	renderVertexArray.unbind();
+	}
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-		//Generate Step:
-		genVertexArray.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
-		genShaderprogram.beginUsingProgram();
 
-
-		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transformFeedbackBufferA.getBuffer());
-		glBeginTransformFeedback(GL_TRIANGLES);
-
-		glDrawArrays(GL_TRIANGLES, 0, nVertices(1));
-
-		glEndTransformFeedback();
-		glFlush();
-
-		GLfloat feedback[nVertices(1) * 4];
-		glGetBufferSubData(GL_TRANSFORM_FEEDBACK_BUFFER, 0, sizeof(feedback), feedback);
-
-		for(int i = 0; i < nVertices(1); i++) {
-			int vertexStart = i * 4;
-			std::cout << "Vertex " << i << "\t:(" << feedback[vertexStart+0] << "\t, " << feedback[vertexStart+1] << "\t, " << feedback[vertexStart+2] <<  "\t)\tlength = " << feedback[vertexStart+3] << std::endl;
-		}
-		std::cout << "-----------------------------------" << std::endl;
-
-
-		genShaderprogram.stopUsingProgram();
-		genVertexArray.unbind();
 
 		//Update
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
