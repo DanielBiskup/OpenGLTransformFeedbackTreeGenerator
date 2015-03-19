@@ -18,42 +18,57 @@ void main() {
 
     //Gegeben:
     vec3 p[3] = geo_position;
+    float l = geo_length[0];
 
-    //Gesucht:
-    vec3 q[3];
-    vec3 t;
-
-    //Rechnung:
-    vec3 a = p[1] - p[0];
-    vec3 b = p[2] - p[0];
-    vec3 n = cross(a, b);
-    n = normalize(n);
-    vec3 h = n * geo_length[0];
-    vec3 c = (p[0]+p[1]+p[2])/3;
-
-    //q berechnen:
-    for(int i = 0; i < 3; i++) {
-        vec3 d_i = (p[i] - c) * scaleTriangle;
-        q[i] = c + d_i + h;
+    if( l <= 0.f ) {
+        for( int i = 0; i < 3; i++ ) {
+            out_position = p[i];
+            out_length = 0.f;
+            EmitVertex();
+        }
+        EndPrimitive();
     }
+    else {
+        //Gesucht:
+        vec3 q[3];
+        vec3 t;
 
-    //t berechnen:
-    float pyramidenHoehe = 0.3f; //TODO: Die Pyramidenhöhe irgendwie ordentlich berechnen aus den gegebenen Werten!
-    t = c + h + n*pyramidenHoehe;
+        //Rechnung:
+        vec3 a = p[1] - p[0];
+        vec3 b = p[2] - p[0];
+        vec3 n = cross(a, b);
+        n = normalize(n);
+        vec3 h = n * l;
+        vec3 c = (p[0]+p[1]+p[2])/3;
 
-    for( int i = 0; i < 3; i++) {
-        out_position = p[i];
+        //q berechnen:
+        for(int i = 0; i < 3; i++) {
+            vec3 d_i = (p[i] - c) * scaleTriangle;
+            q[i] = c + d_i + h;
+        }
+
+        //t berechnen:
+        float pyramidenHoehe = 0.3f; //TODO: Die Pyramidenhöhe irgendwie ordentlich berechnen aus den gegebenen Werten!
+        t = c + h + n*pyramidenHoehe;
+
+        //Erzeugen der Geometrie:
+        //Schritt 1: Erzeugen der Mantelfläche:
+        for( int i = 0; i < 3; i++) {
+            out_position = p[i];
+            EmitVertex();
+        }
+        EndPrimitive();
+
+        out_position = q[0];
         EmitVertex();
-    }
-    EndPrimitive();
+        out_position = q[1];
+        EmitVertex();
+        out_position = q[2];
+        EmitVertex();
+        EndPrimitive();
 
-    out_position = q[0];
-    EmitVertex();
-    out_position = q[1];
-    EmitVertex();
-    out_position = q[2];
-    EmitVertex();
-    EndPrimitive();
+        //Schritt 2: Erzeugen der Pyramide:
+    }
 }
 
 //QUELLEN:
