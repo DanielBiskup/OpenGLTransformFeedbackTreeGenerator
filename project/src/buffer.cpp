@@ -34,9 +34,7 @@ void Buffer::bufferDataStaticDraw(GLsizeiptr size, const GLvoid *data)
 
 void Buffer::bufferDataStaticRead(GLsizeiptr size, const GLvoid *data)
 {
-	bind(); glErr();
-
-
+	bind();
 	glBufferData(target, size, data, GL_STATIC_READ);
 	unbind();
 }
