@@ -1,4 +1,9 @@
 #include "buffer.h"
+#include "assert.h"
+#include <iostream>
+#include <string>
+
+#include "openglerror.h"
 
 Buffer::Buffer(GLenum target) : target(target)
 {
@@ -52,3 +57,5 @@ void endTransformFeedback()
 	glEndTransformFeedback();
 	glFlush();
 }
+
+

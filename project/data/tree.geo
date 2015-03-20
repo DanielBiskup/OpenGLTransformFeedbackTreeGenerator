@@ -14,8 +14,8 @@ void emitTriangle(vec3 v0, vec3 v1, vec3 v2, float l);
 void main() {
 
     //UNIFORMS_BEGIN:
-    float scaleTriangle = 0.8f;
-    float scaleLength = 0.8f;
+    float scaleTriangle = 0.5f;
+    float scaleLength = 0.5f;
     //UNIFORMS_END:
 
     //Gegeben:
@@ -23,6 +23,7 @@ void main() {
     float l = geo_length[0];
 
     if( l <= 0.f ) {
+    //if( 1 == 1) {
         emitTriangle( p[0], p[1], p[2], 0.0f );
     }
     else {
@@ -81,6 +82,19 @@ void emitTriangle( vec3 v0, vec3 v1, vec3 v2, float l ) {
     EmitVertex();
 
     EndPrimitive();
+//    out_length = 7;
+
+//    out_position = vec3(1,2,3);
+//    EmitVertex();
+
+//    out_position = vec3(1,2,3);
+//    EmitVertex();
+
+//    out_position = vec3(1,2,3);
+//    EmitVertex();
+
+//    EndPrimitive();
+
 }
 
 //QUELLEN:
