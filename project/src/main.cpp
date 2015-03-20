@@ -179,10 +179,10 @@ int main(void)
 	genVertexArray.vertexAttribPointer(triangleVertexBuffer, length_location, 1,  GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 
 	VertexArray renderVertexArray;
-	GLint renderPosition_location = renderShaderprogram.getAttirbLocation("position");
-	GLint renderLength_location = renderShaderprogram.getAttirbLocation("length");
+	GLint renderPosition_location = genShaderprogram.getAttirbLocation("position");
+	GLint renderLength_location = genShaderprogram.getAttirbLocation("length");
 	renderVertexArray.enableVertexAttribArray(renderPosition_location);
-	renderVertexArray.enableVertexAttribArray(renderPosition_location);
+	renderVertexArray.enableVertexAttribArray(renderLength_location);
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 
@@ -237,8 +237,6 @@ int main(void)
 
 	glEndTransformFeedback();
 	glFlush();
-
-	glBindBufferBase(GL_TRANSFORM_FEEDBACK, 0, 0);
 
 	GLfloat feedback[nVertices(2) * 4];
 	triangleVertexBuffer.bind();
