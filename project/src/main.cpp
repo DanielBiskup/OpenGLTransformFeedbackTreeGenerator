@@ -192,69 +192,54 @@ int main(void)
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
 
-	//Generate Step:
-	//PASS 1:
-	genVertexArray.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
-	genShaderprogram.beginUsingProgram();
+	int numberOfIterations = 2;
 
-	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transformFeedbackBufferA.getBuffer());
-	glBeginTransformFeedback(GL_TRIANGLES);
 
-	glDrawArrays(GL_TRIANGLES, 0, nVertices(0));
+	VertexArray* currentVertexArray = &genVertexArray;
+	Buffer* currentTransformFeedbackBuffer = &transformFeedbackBufferA;
 
-	glEndTransformFeedback();
-	glFlush();
-	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
+	VertexArray* lastVertexArray = &renderVertexArray;
+	Buffer* lastTransformFeedbackBuffer = &triangleVertexBuffer;
 
-	transformFeedbackBufferA.bind();
-	GLfloat feedback[nVertices(1) * 4];
-	glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
-	transformFeedbackBufferA.unbind();
+	for(int pass = 0; pass < numberOfIterations; pass++) {
+		currentVertexArray->bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
+		genShaderprogram.beginUsingProgram();
 
-	for(int i = 0; i < nVertices(1); i++) {
-		int vertexStart = i * 4;
-		std::cout << "Vertex " << i << "\t:("
-					 << feedback[vertexStart+0] << "\t, "
-					 << feedback[vertexStart+1] << "\t, "
-					 << feedback[vertexStart+2] <<  "\t)\tlength = "
-					 << feedback[vertexStart+3] << std::endl;
-	}
-	std::cout << "-----------------------------------" << std::endl;
+		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, currentTransformFeedbackBuffer->getBuffer());
+		glBeginTransformFeedback(GL_TRIANGLES);
 
-	genShaderprogram.stopUsingProgram();
+		glDrawArrays(GL_TRIANGLES, 0, nVertices(pass));
 
-	genVertexArray.unbind();
+		glEndTransformFeedback();
+		glFlush();
+		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
 
-	//PASS 2:
-	{
-	renderVertexArray.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
-	genShaderprogram.beginUsingProgram();
+		currentTransformFeedbackBuffer->bind();
+		GLfloat feedback[nVertices(pass+1) * 4];
+		glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
+		currentTransformFeedbackBuffer->unbind();
 
-	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, triangleVertexBuffer.getBuffer());
-	glBeginTransformFeedback(GL_TRIANGLES);
+		for(int i = 0; i < nVertices(pass+1); i++) {
+			int vertexStart = i * 4;
+			std::cout << "Vertex " << i << "\t:("
+						 << feedback[vertexStart+0] << "\t, "
+						 << feedback[vertexStart+1] << "\t, "
+						 << feedback[vertexStart+2] <<  "\t)\tlength = "
+						 << feedback[vertexStart+3] << std::endl;
+		}
+		std::cout << "-----------------------------------" << std::endl;
 
-	glDrawArrays(GL_TRIANGLES, 0, nVertices(1));
+		genShaderprogram.stopUsingProgram();
 
-	glEndTransformFeedback();
-	glFlush();
+		currentVertexArray->unbind();
 
-	GLfloat feedback[nVertices(2) * 4];
-	triangleVertexBuffer.bind();
-	glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
-	triangleVertexBuffer.unbind();
-
-	for(int i = 0; i < nVertices(2); i++) {
-		int vertexStart = i * 4;
-		std::cout << "Vertex " << i << "\t:("
-					 << feedback[vertexStart+0] << "\t, "
-					 << feedback[vertexStart+1] << "\t, "
-					 << feedback[vertexStart+2] <<  "\t)\tlength = "
-					 << feedback[vertexStart+3] << std::endl;
-	}
-	std::cout << "-----------------------------------" << std::endl;
-
-	genShaderprogram.stopUsingProgram();
-	renderVertexArray.unbind();
+		//Buffer und Vertexarrays durchtauschen
+		VertexArray* swapVertexArray = currentVertexArray;
+		Buffer* swapTransformFeedbackBuffer = currentTransformFeedbackBuffer;
+		currentVertexArray = lastVertexArray;
+		currentTransformFeedbackBuffer = lastTransformFeedbackBuffer;
+		lastVertexArray = swapVertexArray;
+		lastTransformFeedbackBuffer = swapTransformFeedbackBuffer;
 	}
 
 	/* Loop until the user closes the window */
@@ -302,16 +287,13 @@ int main(void)
 		renderShaderprogram.setUniform(std::string("MVP"), MVP);
 
 		//RENDER:
-		//renderVertexArray.bind();
-		genVertexArray.bind();
+		currentVertexArray->bind();
 		renderShaderprogram.beginUsingProgram();
 
 		glDrawArrays(GL_TRIANGLES, 0, nVertices(2));
 
 		renderShaderprogram.stopUsingProgram();
-		genVertexArray.unbind();
-		//renderVertexArray.unbind();
-
+		currentVertexArray->unbind();
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
