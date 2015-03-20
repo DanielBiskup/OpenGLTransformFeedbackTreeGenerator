@@ -166,9 +166,9 @@ int main(void)
 		treeVertex(1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
 		treeVertex(0.0f*scl,1.0f*scl,0.0f*scl, 2.f*scl)};
 
-	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(4), data);
+	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(2), data);
 
-	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(4), nullptr);
+	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(2), nullptr);
 
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
@@ -302,13 +302,15 @@ int main(void)
 		renderShaderprogram.setUniform(std::string("MVP"), MVP);
 
 		//RENDER:
-		renderVertexArray.bind();
+		//renderVertexArray.bind();
+		genVertexArray.bind();
 		renderShaderprogram.beginUsingProgram();
 
-		glDrawArrays(GL_TRIANGLES, 0, nVertices(1));
+		glDrawArrays(GL_TRIANGLES, 0, nVertices(2));
 
 		renderShaderprogram.stopUsingProgram();
-		renderVertexArray.unbind();
+		genVertexArray.unbind();
+		//renderVertexArray.unbind();
 
 
 		/* Swap front and back buffers */
