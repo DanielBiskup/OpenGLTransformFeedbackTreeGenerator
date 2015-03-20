@@ -58,6 +58,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "shaderprogram.h"
 #include "buffer.h"
 #include "vertexarray.h"
+#include "openglerror.h"
 
 //Geklauter und dann bearbeiteter Quelltext:
 #include "openglerrorcallback.h"
@@ -166,9 +167,12 @@ int main(void)
 		treeVertex(1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
 		treeVertex(0.0f*scl,1.0f*scl,0.0f*scl, 2.f*scl)};
 
-	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(2), data);
+	int numberOfIterations = 4;
+	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
 
-	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(2), nullptr);
+	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), data);
+
+	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), nullptr);
 
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
@@ -192,58 +196,32 @@ int main(void)
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
 
-	//Generate Step:
-	//PASS 1:
-	genVertexArray.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
-	genShaderprogram.beginUsingProgram();
+	VertexArray* currentVertexArray = &genVertexArray;
+	Buffer* currentTransformFeedbackBuffer = &transformFeedbackBufferA;
 
-	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, transformFeedbackBufferA.getBuffer());
-	glBeginTransformFeedback(GL_TRIANGLES);
+	VertexArray* lastVertexArray = &renderVertexArray;
+	Buffer* lastTransformFeedbackBuffer = &triangleVertexBuffer;
 
-	glDrawArrays(GL_TRIANGLES, 0, nVertices(0));
 
-	glEndTransformFeedback();
-	glFlush();
-	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
-
-	transformFeedbackBufferA.bind();
-	GLfloat feedback[nVertices(1) * 4];
-	glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
-	transformFeedbackBufferA.unbind();
-
-	for(int i = 0; i < nVertices(1); i++) {
+	//Was vor den Passes in data[] liegt:
+	std::cout << "Inhalt des data[] arrays." << std::endl;
+	for(int i = 0; i < 3; i++) {
 		int vertexStart = i * 4;
 		std::cout << "Vertex " << i << "\t:("
-					 << feedback[vertexStart+0] << "\t, "
-					 << feedback[vertexStart+1] << "\t, "
-					 << feedback[vertexStart+2] <<  "\t)\tlength = "
-					 << feedback[vertexStart+3] << std::endl;
+					 << ((float*)data)[vertexStart+0] << "\t, "
+					 << ((float*)data)[vertexStart+1] << "\t, "
+					 << ((float*)data)[vertexStart+2] <<  "\t)\tlength = "
+					 << ((float*)data)[vertexStart+3] << std::endl;
 	}
 	std::cout << "-----------------------------------" << std::endl;
 
-	genShaderprogram.stopUsingProgram();
-
-	genVertexArray.unbind();
-
-	//PASS 2:
-	{
-	renderVertexArray.bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
-	genShaderprogram.beginUsingProgram();
-
-	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, triangleVertexBuffer.getBuffer());
-	glBeginTransformFeedback(GL_TRIANGLES);
-
-	glDrawArrays(GL_TRIANGLES, 0, nVertices(1));
-
-	glEndTransformFeedback();
-	glFlush();
-
-	GLfloat feedback[nVertices(2) * 4];
+	//Was vor den Passes im Array liegt:
+	std::cout << "Inhalt des Buffers vor dem ersten Pass:" << std::endl;
 	triangleVertexBuffer.bind();
+	GLfloat feedback[nVertices(0) * 4];
 	glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
 	triangleVertexBuffer.unbind();
-
-	for(int i = 0; i < nVertices(2); i++) {
+	for(int i = 0; i < nVertices(0); i++) {
 		int vertexStart = i * 4;
 		std::cout << "Vertex " << i << "\t:("
 					 << feedback[vertexStart+0] << "\t, "
@@ -253,8 +231,47 @@ int main(void)
 	}
 	std::cout << "-----------------------------------" << std::endl;
 
-	genShaderprogram.stopUsingProgram();
-	renderVertexArray.unbind();
+	//Die mehreren Passes:
+	for(int pass = 0; pass < numberOfIterations; pass++) {
+		currentVertexArray->bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
+		genShaderprogram.beginUsingProgram();
+
+		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, currentTransformFeedbackBuffer->getBuffer());
+		glBeginTransformFeedback(GL_TRIANGLES);
+
+		glDrawArrays(GL_TRIANGLES, 0, nVertices(pass));
+
+		glEndTransformFeedback();
+		glFlush();
+		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
+
+		currentTransformFeedbackBuffer->bind();
+		GLfloat feedback[nVertices(pass+1) * 4];
+		glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
+		currentTransformFeedbackBuffer->unbind();
+
+		std::cout << "Inhalt des Buffers nach dem " << pass+1 << "ten pass:" << std::endl;
+		for(int i = 0; i < nVertices(pass+1); i++) {
+			int vertexStart = i * 4;
+			std::cout << "Vertex " << i << "\t:("
+						 << feedback[vertexStart+0] << "\t, "
+						 << feedback[vertexStart+1] << "\t, "
+						 << feedback[vertexStart+2] <<  "\t)\tlength = "
+						 << feedback[vertexStart+3] << std::endl;
+		}
+		std::cout << "-----------------------------------" << std::endl;
+
+		genShaderprogram.stopUsingProgram();
+
+		currentVertexArray->unbind();
+
+		//Buffer und Vertexarrays durchtauschen
+		VertexArray* swapVertexArray = currentVertexArray;
+		Buffer* swapTransformFeedbackBuffer = currentTransformFeedbackBuffer;
+		currentVertexArray = lastVertexArray;
+		currentTransformFeedbackBuffer = lastTransformFeedbackBuffer;
+		lastVertexArray = swapVertexArray;
+		lastTransformFeedbackBuffer = swapTransformFeedbackBuffer;
 	}
 
 	/* Loop until the user closes the window */
@@ -302,16 +319,13 @@ int main(void)
 		renderShaderprogram.setUniform(std::string("MVP"), MVP);
 
 		//RENDER:
-		//renderVertexArray.bind();
-		genVertexArray.bind();
+		currentVertexArray->bind();
 		renderShaderprogram.beginUsingProgram();
 
-		glDrawArrays(GL_TRIANGLES, 0, nVertices(2));
+		glDrawArrays(GL_TRIANGLES, 0, nVertices(numberOfIterations));
 
 		renderShaderprogram.stopUsingProgram();
-		genVertexArray.unbind();
-		//renderVertexArray.unbind();
-
+		currentVertexArray->unbind();
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);
