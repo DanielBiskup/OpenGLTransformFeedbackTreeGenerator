@@ -166,9 +166,11 @@ int main(void)
 		treeVertex(1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
 		treeVertex(0.0f*scl,1.0f*scl,0.0f*scl, 2.f*scl)};
 
-	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(2), data);
+	int numberOfIterations = 4;
 
-	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(2), nullptr);
+	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), data);
+
+	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), nullptr);
 
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
@@ -191,9 +193,6 @@ int main(void)
 
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
-
-	int numberOfIterations = 2;
-
 
 	VertexArray* currentVertexArray = &genVertexArray;
 	Buffer* currentTransformFeedbackBuffer = &transformFeedbackBufferA;
@@ -290,7 +289,7 @@ int main(void)
 		currentVertexArray->bind();
 		renderShaderprogram.beginUsingProgram();
 
-		glDrawArrays(GL_TRIANGLES, 0, nVertices(2));
+		glDrawArrays(GL_TRIANGLES, 0, nVertices(numberOfIterations));
 
 		renderShaderprogram.stopUsingProgram();
 		currentVertexArray->unbind();
