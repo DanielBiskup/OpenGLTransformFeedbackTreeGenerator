@@ -58,6 +58,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "shaderprogram.h"
 #include "buffer.h"
 #include "vertexarray.h"
+#include "openglerror.h"
 
 //Geklauter und dann bearbeiteter Quelltext:
 #include "openglerrorcallback.h"
@@ -167,6 +168,7 @@ int main(void)
 		treeVertex(0.0f*scl,1.0f*scl,0.0f*scl, 2.f*scl)};
 
 	int numberOfIterations = 4;
+	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
 
 	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), data);
 
@@ -200,6 +202,36 @@ int main(void)
 	VertexArray* lastVertexArray = &renderVertexArray;
 	Buffer* lastTransformFeedbackBuffer = &triangleVertexBuffer;
 
+
+	//Was vor den Passes in data[] liegt:
+	std::cout << "Inhalt des data[] arrays." << std::endl;
+	for(int i = 0; i < 3; i++) {
+		int vertexStart = i * 4;
+		std::cout << "Vertex " << i << "\t:("
+					 << ((float*)data)[vertexStart+0] << "\t, "
+					 << ((float*)data)[vertexStart+1] << "\t, "
+					 << ((float*)data)[vertexStart+2] <<  "\t)\tlength = "
+					 << ((float*)data)[vertexStart+3] << std::endl;
+	}
+	std::cout << "-----------------------------------" << std::endl;
+
+	//Was vor den Passes im Array liegt:
+	std::cout << "Inhalt des Buffers vor dem ersten Pass:" << std::endl;
+	triangleVertexBuffer.bind();
+	GLfloat feedback[nVertices(0) * 4];
+	glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
+	triangleVertexBuffer.unbind();
+	for(int i = 0; i < nVertices(0); i++) {
+		int vertexStart = i * 4;
+		std::cout << "Vertex " << i << "\t:("
+					 << feedback[vertexStart+0] << "\t, "
+					 << feedback[vertexStart+1] << "\t, "
+					 << feedback[vertexStart+2] <<  "\t)\tlength = "
+					 << feedback[vertexStart+3] << std::endl;
+	}
+	std::cout << "-----------------------------------" << std::endl;
+
+	//Die mehreren Passes:
 	for(int pass = 0; pass < numberOfIterations; pass++) {
 		currentVertexArray->bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
 		genShaderprogram.beginUsingProgram();
@@ -218,6 +250,7 @@ int main(void)
 		glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
 		currentTransformFeedbackBuffer->unbind();
 
+		std::cout << "Inhalt des Buffers nach dem " << pass+1 << "ten pass:" << std::endl;
 		for(int i = 0; i < nVertices(pass+1); i++) {
 			int vertexStart = i * 4;
 			std::cout << "Vertex " << i << "\t:("
