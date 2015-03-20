@@ -39,6 +39,13 @@ void Buffer::bufferDataStaticRead(GLsizeiptr size, const GLvoid *data)
 	unbind();
 }
 
+void Buffer::subData(GLsizeiptr size, const GLvoid * data)
+{
+	bind();
+	glBufferSubData(target, 0, size, data);
+	unbind();
+}
+
 GLuint Buffer::getBuffer()
 {
 	return buffer;

@@ -167,12 +167,13 @@ int main(void)
 		treeVertex(1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
 		treeVertex(0.0f*scl,1.0f*scl,0.0f*scl, 2.f*scl)};
 
-	int numberOfIterations = 4;
+	int numberOfIterations = 6;
 	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
 
-	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), data);
-
+	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), nullptr);
 	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), nullptr);
+
+	triangleVertexBuffer.subData(sizeof(data), data);
 
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
