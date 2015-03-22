@@ -315,9 +315,11 @@ int main(void)
 					100.0f
 					);
 
-		glm::mat4 MVP = projection * view * model;
+		glm::mat4 MVP	= projection * view * model;
+		glm::mat4 MV	= view * model;
 
 		renderShaderprogram.setUniform(std::string("MVP"), MVP);
+		renderShaderprogram.setUniform(std::string("MV"), MV);
 
 		//RENDER:
 		currentVertexArray->bind();
