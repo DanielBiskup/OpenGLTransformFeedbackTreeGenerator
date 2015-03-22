@@ -278,8 +278,6 @@ int main(void)
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-
-
 		//Update
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -307,6 +305,8 @@ int main(void)
 					glm::vec3(0.0f,0.0f,0.0f), // and looks at the origin
 					glm::vec3(0,1,0)
 					);
+
+
 
 		glm::mat4 projection = glm::perspective(
 					50.f,
