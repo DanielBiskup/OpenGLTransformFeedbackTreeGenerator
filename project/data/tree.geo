@@ -5,9 +5,12 @@ layout(triangle_strip, max_vertices = 27) out;
 
 in vec3[] geo_position;
 in float[] geo_length; // Lenge die der zu generierende Ast haben soll.
+in vec3[] geo_normal;
+
 
 out vec3 out_position; // Output to fragment shader
 out float out_length;
+out vec3 out_normal;
 
 void emitTriangle(vec3 v0, vec3 v1, vec3 v2, float l);
 
@@ -23,8 +26,7 @@ void main() {
     float l = geo_length[0];
 
     if( l <= 0.f ) {
-    //if( 1 == 1) {
-        emitTriangle( p[0], p[1], p[2], 0.0f );
+        emitTriangle( p[0], p[1], p[2], 0.0f);
     }
     else {
         //Gesucht:
@@ -57,8 +59,8 @@ void main() {
         //Schritt 1: Erzeugen der Mantelfläche:
         for( int i = 0; i < 3; i++) {
             int j = (i + 1) % 3;
-            emitTriangle( p[i], q[j], q[i], 0.0f );
-            emitTriangle( p[i], p[j], q[j], 0.0f );
+            emitTriangle( p[i], q[j], q[i], 0.0f);
+            emitTriangle( p[i], p[j], q[j], 0.0f);
         }
 
         //Schritt 2: Erzeugen der Pyramide:
@@ -69,8 +71,10 @@ void main() {
     }
 }
 
-void emitTriangle( vec3 v0, vec3 v1, vec3 v2, float l ) {
+void emitTriangle( vec3 v0, vec3 v1, vec3 v2, float l) {
     out_length = l;
+
+    vec3 out_normal = cross(v1-v0, v2-v0);
 
     out_position = v0;
     EmitVertex();
@@ -82,19 +86,6 @@ void emitTriangle( vec3 v0, vec3 v1, vec3 v2, float l ) {
     EmitVertex();
 
     EndPrimitive();
-//    out_length = 7;
-
-//    out_position = vec3(1,2,3);
-//    EmitVertex();
-
-//    out_position = vec3(1,2,3);
-//    EmitVertex();
-
-//    out_position = vec3(1,2,3);
-//    EmitVertex();
-
-//    EndPrimitive();
-
 }
 
 //QUELLEN:

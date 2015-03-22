@@ -4,6 +4,7 @@ layout(location = 0) in vec3 position_model_v;
 //layout(location = 2) in vec2 uv_v;
 uniform mat4 MVP;
 uniform mat4 MV;
+//uniform vec3 lightposition;
 
 smooth out vec3 position_world_f;
 smooth out vec3 normal_world_f;
