@@ -66,11 +66,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 struct treeVertex {
 	glm::vec3 position;
 	float length;
+	glm::vec3 normal;
 
 	treeVertex(float x, float y, float z, float length)
 	{
 		position = glm::vec3(x,y,z);
 		this->length = length;
+		this->normal = glm::vec3(0.0f, 1.0f, 0.0f);
 	}
 };
 
@@ -138,7 +140,7 @@ int main(void)
 	genShaderprogram.attachShader(genVertexShader);
 	genShaderprogram.attachShader(genGeometryShader);
 
-	std::vector<std::string> varyings{"out_position", "out_length"};
+	std::vector<std::string> varyings{"out_position", "out_length", "out_normal"};
 	genShaderprogram.transformFeedbackVaryings(varyings);
 	genShaderprogram.linkProgram();
 	genShaderprogram.detatchShaders();
@@ -167,7 +169,7 @@ int main(void)
 		treeVertex(1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
 		treeVertex(0.0f*scl,1.0f*scl,0.0f*scl, 2.f*scl)};
 
-	int numberOfIterations = 6;
+	int numberOfIterations = 3;
 	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
 
 	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), nullptr);
@@ -178,18 +180,22 @@ int main(void)
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
 	GLint length_location = genShaderprogram.getAttirbLocation("length");
+	GLint normal_location = genShaderprogram.getAttirbLocation("normal");
 	genVertexArray.enableVertexAttribArray(position_location);
 	genVertexArray.enableVertexAttribArray(length_location);
 	genVertexArray.vertexAttribPointer(triangleVertexBuffer, position_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
 	genVertexArray.vertexAttribPointer(triangleVertexBuffer, length_location, 1,  GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
+	genVertexArray.vertexAttribPointer(triangleVertexBuffer, normal_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, normal));
 
 	VertexArray renderVertexArray;
 	GLint renderPosition_location = genShaderprogram.getAttirbLocation("position");
 	GLint renderLength_location = genShaderprogram.getAttirbLocation("length");
+	GLint renderNormal_location = genShaderprogram.getAttirbLocation("normal");
 	renderVertexArray.enableVertexAttribArray(renderPosition_location);
 	renderVertexArray.enableVertexAttribArray(renderLength_location);
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
+	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderNormal_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, normal));
 
 	glm::dvec2 mouseDelta;
 	glm::vec3 cameraPosition(0,0,-50);

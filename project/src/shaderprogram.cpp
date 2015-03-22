@@ -39,6 +39,7 @@ void Shaderprogram::linkProgram()
 	GLint linkStatus;
 	glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
 	assert(linkStatus == GL_TRUE);
+	//TODO: Linkfehlerausgabe.
 }
 
 void Shaderprogram::detatchShaders()

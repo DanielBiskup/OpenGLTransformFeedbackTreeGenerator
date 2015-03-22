@@ -73,8 +73,8 @@ void main() {
 
 void emitTriangle( vec3 v0, vec3 v1, vec3 v2, float l) {
     out_length = l;
-
-    vec3 out_normal = cross(v1-v0, v2-v0);
+    out_normal = cross(v1-v0, v2-v0);
+    out_normal = vec3(1.0,0.0,0.0);
 
     out_position = v0;
     EmitVertex();
