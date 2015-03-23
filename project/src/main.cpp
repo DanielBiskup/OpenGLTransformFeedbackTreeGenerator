@@ -157,11 +157,17 @@ int main(void)
 	Buffer triangleVertexBuffer(GL_ARRAY_BUFFER);
 	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
 
+//	int scl = 2.0f;
+//	treeVertex data[3] = {
+//		treeVertex(-1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
+//		treeVertex(1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
+//		treeVertex(0.0f*scl,1.0f*scl,0.0f*scl, 2.f*scl)};
+
 	int scl = 2.0f;
 	treeVertex data[3] = {
-		treeVertex(-1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
-		treeVertex(1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
-		treeVertex(0.0f*scl,1.0f*scl,0.0f*scl, 2.f*scl)};
+		treeVertex(-1.0f*scl,0.0f*scl,-1.0f*scl, 2.f*scl),
+		treeVertex(1.0f*scl,0.0f*scl,-1.0f*scl, 2.f*scl),
+		treeVertex(0.0f*scl,0.0f*scl,1.0f*scl, 2.f*scl)};
 
 	int numberOfIterations = 3;
 	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
@@ -192,12 +198,6 @@ int main(void)
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderNormal_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, normal));
-
-	glm::dvec2 mouseDelta;
-	glm::vec3 cameraPosition(0,0,-50);
-
-	float modelRotaitonX = 0.0f;
-	float modelRotationY = 0.0f;
 
 	VertexArray* currentVertexArray = &genVertexArray;
 	Buffer* currentTransformFeedbackBuffer = &transformFeedbackBufferA;
@@ -281,6 +281,12 @@ int main(void)
 		lastTransformFeedbackBuffer = swapTransformFeedbackBuffer;
 	}
 
+	glm::dvec2 mouseDelta;
+	glm::vec3 cameraPosition(0, 0, 50);
+
+	float modelRotaitonX = 0.0f;
+	float modelRotationY = 0.0f;
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
@@ -289,13 +295,19 @@ int main(void)
 
 		glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
+//		glm::dvec2 mousePosition;
+//		glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
+//		glm::dvec2 screenCenter(windowWidth/2.f, windowHeight/2.f);
+//		mouseDelta = mousePosition - screenCenter;
+//		glfwSetCursorPos(window, screenCenter.x, screenCenter.y);
+
 		glm::dvec2 mousePosition;
-		glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
-		glm::dvec2 screenCenter(windowWidth/2.f, windowHeight/2.f);
-		mouseDelta = mousePosition - screenCenter;
-		glfwSetCursorPos(window, screenCenter.x, screenCenter.y);
+				glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
+				mouseDelta = mousePosition;
+				glfwSetCursorPos(window, 0.0d, 0.0d);
+
 		if(mouseDelta.x != 0 || mouseDelta.y != 0 ) {
-			std::cout << "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
+			std::cout <<"mp("<<mousePosition.x<<", "<<mousePosition.y<<")" <<std::endl<< "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
 		}
 
 		//Model Matix
@@ -312,8 +324,6 @@ int main(void)
 					glm::vec3(0,1,0)
 					);
 
-
-
 		glm::mat4 projection = glm::perspective(
 					50.f,
 					(float) windowWidth / (float)windowHeight,
@@ -322,11 +332,11 @@ int main(void)
 					);
 
 		glm::mat4 MVP	= projection * view * model;
-		glm::mat4 MV	= view * model;
+		glm::mat4 M	= model;
 		glm::vec3 lightPosition(10.f ,13.f, 30.f);
 
 		renderShaderprogram.setUniform(std::string("MVP"), MVP);
-		renderShaderprogram.setUniform(std::string("MV"), MV);
+		renderShaderprogram.setUniform(std::string("M"), M);
 		renderShaderprogram.setUniform(std::string("lightposition"), lightPosition);
 
 		//RENDER:
