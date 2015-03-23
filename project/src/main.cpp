@@ -157,19 +157,13 @@ int main(void)
 	Buffer triangleVertexBuffer(GL_ARRAY_BUFFER);
 	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
 
-//	int scl = 2.0f;
-//	treeVertex data[3] = {
-//		treeVertex(-1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
-//		treeVertex(1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
-//		treeVertex(0.0f*scl,1.0f*scl,0.0f*scl, 2.f*scl)};
-
 	int scl = 2.0f;
 	treeVertex data[3] = {
 		treeVertex(-1.0f*scl,0.0f*scl,-1.0f*scl, 2.f*scl),
 		treeVertex(1.0f*scl,0.0f*scl,-1.0f*scl, 2.f*scl),
 		treeVertex(0.0f*scl,0.0f*scl,1.0f*scl, 2.f*scl)};
 
-	int numberOfIterations = 3;
+	int numberOfIterations = 6;
 	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
 
 	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), nullptr);
@@ -282,7 +276,7 @@ int main(void)
 	}
 
 	glm::dvec2 mouseDelta;
-	glm::vec3 cameraPosition(0, 0, 50);
+	glm::vec3 cameraPosition(0, -80, 50);
 
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
@@ -294,12 +288,6 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glfwGetWindowSize(window, &windowWidth, &windowHeight);
-
-//		glm::dvec2 mousePosition;
-//		glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
-//		glm::dvec2 screenCenter(windowWidth/2.f, windowHeight/2.f);
-//		mouseDelta = mousePosition - screenCenter;
-//		glfwSetCursorPos(window, screenCenter.x, screenCenter.y);
 
 		glm::dvec2 mousePosition;
 				glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
