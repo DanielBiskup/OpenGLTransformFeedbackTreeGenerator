@@ -323,9 +323,11 @@ int main(void)
 
 		glm::mat4 MVP	= projection * view * model;
 		glm::mat4 MV	= view * model;
+		glm::vec3 lightPosition(10.f ,13.f, 30.f);
 
 		renderShaderprogram.setUniform(std::string("MVP"), MVP);
 		renderShaderprogram.setUniform(std::string("MV"), MV);
+		renderShaderprogram.setUniform(std::string("lightposition"), lightPosition);
 
 		//RENDER:
 		currentVertexArray->bind();
