@@ -71,7 +71,9 @@ GLint Shaderprogram::getUniformLocation(std::string uniformName)
 
 GLint Shaderprogram::getAttirbLocation(std::string attirbuteName)
 {
-	return glGetAttribLocation(program, attirbuteName.c_str());
+	GLint attribLocation = glGetAttribLocation(program, attirbuteName.c_str());
+	//assert(attribLocation != -1);
+	return attribLocation;
 }
 
 //FLOAT

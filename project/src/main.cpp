@@ -157,12 +157,6 @@ int main(void)
 	Buffer triangleVertexBuffer(GL_ARRAY_BUFFER);
 	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
 
-	//buffer und vao für generierung:
-//	treeVertex data[3] = {
-//		treeVertex(-1.0f,-1.0f,0.0f, 2.f),
-//		treeVertex(1.0f,-1.0f,0.0f, 2.f),
-//		treeVertex(0.0f,1.0f,0.0f, 2.f)};
-
 	int scl = 2.0f;
 	treeVertex data[3] = {
 		treeVertex(-1.0f*scl,-1.0f*scl,0.0f*scl, 2.f*scl),
@@ -180,9 +174,10 @@ int main(void)
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
 	GLint length_location = genShaderprogram.getAttirbLocation("length");
-	GLint normal_location = genShaderprogram.getAttirbLocation("normal");
-	genVertexArray.enableVertexAttribArray(position_location);
-	genVertexArray.enableVertexAttribArray(length_location);
+	GLint normal_location = genShaderprogram.getAttirbLocation("normal");  //Was ist rückgabetyp?
+	genVertexArray.enableVertexAttribArray(0);
+	genVertexArray.enableVertexAttribArray(1);
+	genVertexArray.enableVertexAttribArray(2);
 	genVertexArray.vertexAttribPointer(triangleVertexBuffer, position_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
 	genVertexArray.vertexAttribPointer(triangleVertexBuffer, length_location, 1,  GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 	genVertexArray.vertexAttribPointer(triangleVertexBuffer, normal_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, normal));
@@ -191,8 +186,9 @@ int main(void)
 	GLint renderPosition_location = genShaderprogram.getAttirbLocation("position");
 	GLint renderLength_location = genShaderprogram.getAttirbLocation("length");
 	GLint renderNormal_location = genShaderprogram.getAttirbLocation("normal");
-	renderVertexArray.enableVertexAttribArray(renderPosition_location);
-	renderVertexArray.enableVertexAttribArray(renderLength_location);
+	renderVertexArray.enableVertexAttribArray(0);
+	renderVertexArray.enableVertexAttribArray(1);
+	renderVertexArray.enableVertexAttribArray(2);
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderPosition_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, position));
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderNormal_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, normal));
@@ -253,18 +249,22 @@ int main(void)
 		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
 
 		currentTransformFeedbackBuffer->bind();
-		GLfloat feedback[nVertices(pass+1) * 4];
+		GLfloat feedback[nVertices(pass+1) * 7];
 		glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
 		currentTransformFeedbackBuffer->unbind();
 
 		std::cout << "Inhalt des Buffers nach dem " << pass+1 << "ten pass:" << std::endl;
 		for(int i = 0; i < nVertices(pass+1); i++) {
-			int vertexStart = i * 4;
+			int vertexStart = i * 7;
 			std::cout << "Vertex " << i << "\t:("
 						 << feedback[vertexStart+0] << "\t, "
 						 << feedback[vertexStart+1] << "\t, "
-						 << feedback[vertexStart+2] <<  "\t)\tlength = "
-						 << feedback[vertexStart+3] << std::endl;
+						 << feedback[vertexStart+2] << "\t)\tlength = "
+						 << feedback[vertexStart+3] << "\t normal( "
+						 << feedback[vertexStart+4] << ", "
+						 << feedback[vertexStart+5] << ", "
+						 << feedback[vertexStart+6] << " )"
+						 << std::endl;
 		}
 		std::cout << "-----------------------------------" << std::endl;
 

@@ -13,6 +13,7 @@ out float out_length;
 out vec3 out_normal;
 
 void emitTriangle(vec3 v0, vec3 v1, vec3 v2, float l);
+void emitTriangleWithNormal( vec3 v0, vec3 v1, vec3 v2, float l, vec3 normal);
 
 void main() {
 
@@ -26,7 +27,7 @@ void main() {
     float l = geo_length[0];
 
     if( l <= 0.f ) {
-        emitTriangle( p[0], p[1], p[2], 0.0f);
+        emitTriangleWithNormal( p[0], p[1], p[2], 0.0f, geo_normal[0]);
     }
     else {
         //Gesucht:
@@ -71,10 +72,9 @@ void main() {
     }
 }
 
-void emitTriangle( vec3 v0, vec3 v1, vec3 v2, float l) {
+void emitTriangleWithNormal( vec3 v0, vec3 v1, vec3 v2, float l, vec3 normal) {
     out_length = l;
-    out_normal = cross(v1-v0, v2-v0);
-    out_normal = vec3(1.0,0.0,0.0);
+    out_normal = normal;
 
     out_position = v0;
     EmitVertex();
@@ -86,6 +86,12 @@ void emitTriangle( vec3 v0, vec3 v1, vec3 v2, float l) {
     EmitVertex();
 
     EndPrimitive();
+}
+
+void emitTriangle( vec3 v0, vec3 v1, vec3 v2, float l) {
+
+    vec3 normal = normalize(cross(v1-v0, v2-v0));
+    emitTriangleWithNormal(v0, v1, v2, l, normal);
 }
 
 //QUELLEN:
