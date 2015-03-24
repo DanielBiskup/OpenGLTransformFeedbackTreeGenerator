@@ -140,7 +140,10 @@ int main(void)
 	genShaderprogram.attachShader(genVertexShader);
 	genShaderprogram.attachShader(genGeometryShader);
 
-	std::vector<std::string> varyings{"out_position", "out_length", "out_normal"};
+	std::vector<std::string> varyings;
+	varyings.push_back("out_position");
+	varyings.push_back("out_length");
+	varyings.push_back("out_normal");
 	genShaderprogram.transformFeedbackVaryings(varyings);
 	genShaderprogram.linkProgram();
 	genShaderprogram.detatchShaders();
@@ -172,8 +175,8 @@ int main(void)
 
 	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
 
-	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), nullptr);
-	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), nullptr);
+	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), 0);
+	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), 0);
 
 	triangleVertexBuffer.subData(sizeof(data), data);
 
