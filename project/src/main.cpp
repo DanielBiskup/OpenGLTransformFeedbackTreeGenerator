@@ -157,11 +157,12 @@ int main(void)
 	Buffer triangleVertexBuffer(GL_ARRAY_BUFFER);
 	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
 
-	int scl = 4.0f;
+	float scl = 4.0f;
+	float length = 4.f;
 	treeVertex data[3] = {
-		treeVertex(-1.0f*scl,0.0f*scl,-1.0f*scl, 2.f*scl),
-		treeVertex(1.0f*scl,0.0f*scl,-1.0f*scl, 2.f*scl),
-		treeVertex(0.0f*scl,0.0f*scl,1.0f*scl, 2.f*scl)};
+		treeVertex(-1.0f*scl,0.0f*scl,-1.0f*scl, length*scl),
+		treeVertex(1.0f*scl,0.0f*scl,-1.0f*scl, length*scl),
+		treeVertex(0.0f*scl,0.0f*scl,1.0f*scl, length*scl)};
 
 	int numberOfIterations = 6;
 

@@ -19,7 +19,7 @@ void main() {
 
     //UNIFORMS_BEGIN:
     float scaleTriangle = 0.8f;
-    float scaleLength = 0.8f;
+    float scaleLength = 0.7f;
     //UNIFORMS_END:
 
     //Gegeben:
@@ -49,10 +49,8 @@ void main() {
             q[i] = c + d_i + h;
         }
 
-        //t berechnen:
-        //float pyramidenHoehe = 1.3f; //TODO: Die Pyramidenhöhe irgendwie ordentlich berechnen aus den gegebenen Werten!
-        //float pyramidenHoehe = l;
-        float pyramidenHoehe = l * 0.5f;
+        //float pyramidenHoehe = l * 0.5f; //gut
+        float pyramidenHoehe = length(a)*0.2f;
         t = c + h + n * pyramidenHoehe;
 
         //l_next berechnen:
