@@ -159,10 +159,20 @@ int main(void)
 
 	float scl = 4.0f;
 	float length = 4.f;
+//	treeVertex data[3] = {
+//		treeVertex(-1.0f*scl,0.0f*scl,-1.0f*scl, length*scl),
+//		treeVertex(1.0f*scl,0.0f*scl,-1.0f*scl, length*scl),
+//		treeVertex(0.0f*scl,0.0f*scl,1.0f*scl, length*scl)};
+
+	float a = 6.0f;
+	float h = std::sqrt(3) * a * 0.5f;
+
+	float halfA = a*0.5f;
+
 	treeVertex data[3] = {
-		treeVertex(-1.0f*scl,0.0f*scl,-1.0f*scl, length*scl),
-		treeVertex(1.0f*scl,0.0f*scl,-1.0f*scl, length*scl),
-		treeVertex(0.0f*scl,0.0f*scl,1.0f*scl, length*scl)};
+		treeVertex(-halfA	,0.0f	,0.0f	, length*scl),
+		treeVertex(halfA	,0.0f	,0.0f	, length*scl),
+		treeVertex(0.0f		,0.0f	,h		, length*scl)};
 
 	int numberOfIterations = 6;
 
@@ -176,7 +186,7 @@ int main(void)
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
 	GLint length_location = genShaderprogram.getAttirbLocation("length");
-	GLint normal_location = genShaderprogram.getAttirbLocation("normal");  //Was ist rückgabetyp?
+	GLint normal_location = genShaderprogram.getAttirbLocation("normal");
 	genVertexArray.enableVertexAttribArray(0);
 	genVertexArray.enableVertexAttribArray(1);
 	genVertexArray.enableVertexAttribArray(2);
