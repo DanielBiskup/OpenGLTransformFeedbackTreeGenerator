@@ -18,7 +18,6 @@ void main()
 
     position_world_f = position_world.xyz;
     normal_world_f = normal_world.xyz;
-   //normal_world_f = normalize(normal_model_v);
-//    uv_f = uv_v;
+    //    uv_f = uv_v;
    gl_Position = MVP * vec4(position_model_v, 1.0f);
 }

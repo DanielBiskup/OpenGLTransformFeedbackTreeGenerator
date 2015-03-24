@@ -159,14 +159,8 @@ int main(void)
 
 	float scl = 4.0f;
 	float length = 4.f;
-//	treeVertex data[3] = {
-//		treeVertex(-1.0f*scl,0.0f*scl,-1.0f*scl, length*scl),
-//		treeVertex(1.0f*scl,0.0f*scl,-1.0f*scl, length*scl),
-//		treeVertex(0.0f*scl,0.0f*scl,1.0f*scl, length*scl)};
-
 	float a = 6.0f;
 	float h = std::sqrt(3) * a * 0.5f;
-
 	float halfA = a*0.5f;
 
 	treeVertex data[3] = {
@@ -288,7 +282,6 @@ int main(void)
 	}
 
 	glm::dvec2 mouseDelta;
-	glm::vec3 cameraPosition(0, 0, 250);
 
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
@@ -318,9 +311,10 @@ int main(void)
 		model = glm::rotate(model, modelRotationY, glm::vec3(0.0f,1.0f,0.0f));
 
 		//View Matrix
+		glm::vec3 cameraPosition(0, -50, 250);
 		glm::mat4 view = glm::lookAt(
 					cameraPosition,
-					glm::vec3(0.0f,0.0f,0.0f), // and looks at the origin
+					glm::vec3(0.0f,-20.0f,0.0f), // and looks at the origin
 					glm::vec3(0,1,0)
 					);
 
@@ -333,7 +327,7 @@ int main(void)
 
 		glm::mat4 MVP	= projection * view * model;
 		glm::mat4 M	= model;
-		glm::vec3 lightPosition(10.f ,13.f, 30.f);
+		glm::vec3 lightPosition(cameraPosition);
 
 		renderShaderprogram.setUniform(std::string("MVP"), MVP);
 		renderShaderprogram.setUniform(std::string("M"), M);
