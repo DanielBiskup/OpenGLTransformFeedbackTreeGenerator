@@ -39,6 +39,7 @@ void Shaderprogram::linkProgram()
 	GLint linkStatus;
 	glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
 	assert(linkStatus == GL_TRUE);
+	//TODO: Linkfehlerausgabe.
 }
 
 void Shaderprogram::detatchShaders()
@@ -70,7 +71,9 @@ GLint Shaderprogram::getUniformLocation(std::string uniformName)
 
 GLint Shaderprogram::getAttirbLocation(std::string attirbuteName)
 {
-	return glGetAttribLocation(program, attirbuteName.c_str());
+	GLint attribLocation = glGetAttribLocation(program, attirbuteName.c_str());
+	//assert(attribLocation != -1);
+	return attribLocation;
 }
 
 //FLOAT
