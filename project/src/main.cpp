@@ -157,13 +157,14 @@ int main(void)
 	Buffer triangleVertexBuffer(GL_ARRAY_BUFFER);
 	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
 
-	int scl = 2.0f;
+	int scl = 4.0f;
 	treeVertex data[3] = {
 		treeVertex(-1.0f*scl,0.0f*scl,-1.0f*scl, 2.f*scl),
 		treeVertex(1.0f*scl,0.0f*scl,-1.0f*scl, 2.f*scl),
 		treeVertex(0.0f*scl,0.0f*scl,1.0f*scl, 2.f*scl)};
 
 	int numberOfIterations = 6;
+
 	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
 
 	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), nullptr);
@@ -276,7 +277,7 @@ int main(void)
 	}
 
 	glm::dvec2 mouseDelta;
-	glm::vec3 cameraPosition(0, -80, 50);
+	glm::vec3 cameraPosition(0, 0, 250);
 
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
@@ -316,7 +317,7 @@ int main(void)
 					50.f,
 					(float) windowWidth / (float)windowHeight,
 					0.1f,
-					100.0f
+					10000.0f
 					);
 
 		glm::mat4 MVP	= projection * view * model;

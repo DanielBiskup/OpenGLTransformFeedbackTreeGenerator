@@ -18,8 +18,8 @@ void emitTriangleWithNormal( vec3 v0, vec3 v1, vec3 v2, float l, vec3 normal);
 void main() {
 
     //UNIFORMS_BEGIN:
-    float scaleTriangle = 0.5f;
-    float scaleLength = 0.5f;
+    float scaleTriangle = 0.8f;
+    float scaleLength = 0.8f;
     //UNIFORMS_END:
 
     //Gegeben:
@@ -50,7 +50,9 @@ void main() {
         }
 
         //t berechnen:
-        float pyramidenHoehe = 1.3f; //TODO: Die Pyramidenhöhe irgendwie ordentlich berechnen aus den gegebenen Werten!
+        //float pyramidenHoehe = 1.3f; //TODO: Die Pyramidenhöhe irgendwie ordentlich berechnen aus den gegebenen Werten!
+        //float pyramidenHoehe = l;
+        float pyramidenHoehe = l * 0.5f;
         t = c + h + n * pyramidenHoehe;
 
         //l_next berechnen:
