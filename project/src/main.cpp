@@ -48,6 +48,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+//AntTeakBar
+#include <AntTweakBar.h>
+
 //C++
 #include <iostream>
 #include <cmath>
@@ -132,6 +135,17 @@ int main(void)
 	int windowHeight;
 	glfwGetWindowSize(window, &windowWidth, &windowHeight);
 	glfwSetWindowPos(window, (desktopWidth-windowWidth)/2, (desktopHeight-windowHeight)/2);
+
+	//Variables
+	float modelRotaitonX = 0.0f;
+	float modelRotationY = 0.0f;
+
+	//AntTweakBar
+	TwInit(TW_OPENGL_CORE, NULL); // for core profile
+	TwWindowSize(windowWidth, windowHeight);
+	TwBar *myBar;
+	myBar = TwNewBar("NameOfMyTweakBar");
+	TwAddVarRW(myBar, "NameOfMyVariable", TW_TYPE_FLOAT, &modelRotaitonX, "RotX");
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -286,8 +300,7 @@ int main(void)
 
 	glm::dvec2 mouseDelta;
 
-	float modelRotaitonX = 0.0f;
-	float modelRotationY = 0.0f;
+
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -344,6 +357,8 @@ int main(void)
 
 		renderShaderprogram.stopUsingProgram();
 		currentVertexArray->unbind();
+
+		TwDraw();  // draw the tweak bar(s)
 
 		/* Swap front and back buffers */
 		glfwSwapBuffers(window);

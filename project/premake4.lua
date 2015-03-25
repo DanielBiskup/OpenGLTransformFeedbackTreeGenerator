@@ -12,8 +12,8 @@ project "MyFirstTree"
   }
   links { "glfw"}
   --libdirs {os.findlib("glfw")} -- funktionier so wie die obere, nur dass platformunabhängig ist.
-  libdirs { "../usedLibraries/glfw-3.0.4/build/src/" }
-  includedirs { "../usedLibraries/glm/" } -- glm ist eine header-only library
+  libdirs { "../usedLibraries/glfw-3.0.4/build/src/"}
+  includedirs { "../usedLibraries/glm/"} -- glm ist eine header-only library
   --buildoptions "-std=c++11"
   --os.execute() //z.B. um Doxygen aufzurufen.
 
@@ -28,10 +28,11 @@ project "MyFirstTree"
     flags   { "Optimize" }
   
   configuration {"gmake", "linux"}
-    links { "GLEW", "GLU", "GL"}
+    links { "GLEW", "GLU", "GL", "AntTweakBar"}
     libdirs {os.findlib("glfw")}
     libdirs {os.findlib("GLU")}
     libdirs {os.findlib("GL")}
+    --libdirs {os.findlib("AntTweakBar")}
   
   configuration "windows"
     defines { "GLFW_DLL" }
@@ -39,6 +40,10 @@ project "MyFirstTree"
     libdirs {os.findlib("glew32")}
     libdirs {os.findlib("glu32")}
     libdirs {os.findlib("opengl32")}
+    
+-- http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:download
+--   AntTewakBar linkage
+-- http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:howto
 
 -- http://glew.sourceforge.net/install.html    
 --   Remember to link your project with glew32.lib, glu32.lib, and opengl32.lib on Windows and libGLEW.so, libGLU.so, and libGL.so on Unix (-lGLEW -lGLU -lGL). 
