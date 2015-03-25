@@ -171,7 +171,7 @@ int main(void)
 		treeVertex(halfA	,0.0f	,0.0f	, length*scl),
 		treeVertex(0.0f		,0.0f	,h		, length*scl)};
 
-	int numberOfIterations = 6;
+	int numberOfIterations = 5;
 
 	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
 

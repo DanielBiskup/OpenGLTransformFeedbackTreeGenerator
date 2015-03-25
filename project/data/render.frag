@@ -16,7 +16,7 @@ void main()
         float I_diffus = dot(l, n);
 
         vec3 whiteLight = vec3(1.0f,1.0f,1.0f);
+        vec3 brownSurfaceColor = vec3(90.0f/255.0f, 39.0f/255.0f, 41.0f/255.0f);
 
-        //vec3 n = normal_world_f;
-        outputColor = vec4(I_diffus * whiteLight, 1.0f);
+        outputColor = vec4(I_diffus * brownSurfaceColor, 1.0f);
 }
