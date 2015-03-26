@@ -79,8 +79,16 @@ struct treeVertex {
 	}
 };
 
+struct VertexArraysAndBufers {
+	VertexArray* currentVertexArray;
+	Buffer* currentTransformFeedbackBuffer;
+	VertexArray* lastVertexArray;
+	Buffer* lastTransformFeedbackBuffer;
+};
+
 int nTriangles(int numberOfIterations);
 int nVertices(int numberOfIterations);
+VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shaderprogram shader, int numberOfIterations);
 
 int main(void)
 {
@@ -174,25 +182,9 @@ int main(void)
 	Buffer triangleVertexBuffer(GL_ARRAY_BUFFER);
 	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
 
-	float scl = 4.0f;
-	float length = 4.f;
-	float a = 6.0f;
-	float h = std::sqrt(3) * a * 0.5f;
-	float halfA = a*0.5f;
-
-	treeVertex data[3] = {
-		treeVertex(-halfA	,0.0f	,0.0f	, length*scl),
-		treeVertex(halfA	,0.0f	,0.0f	, length*scl),
-		treeVertex(0.0f		,0.0f	,h		, length*scl)};
-
-	int numberOfIterations = 3;
-
-	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
-
-	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), 0);
-	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(numberOfIterations), 0);
-
-	triangleVertexBuffer.subData(sizeof(data), data);
+	const int maxNumberOfIterations = 9;
+	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(maxNumberOfIterations), 0);
+	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(maxNumberOfIterations), 0);
 
 	VertexArray genVertexArray;
 	GLint position_location = genShaderprogram.getAttirbLocation("position");
@@ -216,91 +208,17 @@ int main(void)
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderNormal_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, normal));
 
-	VertexArray* currentVertexArray = &genVertexArray;
-	Buffer* currentTransformFeedbackBuffer = &transformFeedbackBufferA;
+	VertexArraysAndBufers vertexArraysAndBufers;
+	vertexArraysAndBufers.currentVertexArray = &genVertexArray;
+	vertexArraysAndBufers.currentTransformFeedbackBuffer = &transformFeedbackBufferA;
+	vertexArraysAndBufers.lastVertexArray = &renderVertexArray;
+	vertexArraysAndBufers.lastTransformFeedbackBuffer = &triangleVertexBuffer;
 
-	VertexArray* lastVertexArray = &renderVertexArray;
-	Buffer* lastTransformFeedbackBuffer = &triangleVertexBuffer;
+	int numberOfIterations = 8;
 
-
-	//Was vor den Passes in data[] liegt:
-	std::cout << "Inhalt des data[] arrays." << std::endl;
-	for(int i = 0; i < 3; i++) {
-		int vertexStart = i * 4;
-		std::cout << "Vertex " << i << "\t:("
-					 << ((float*)data)[vertexStart+0] << "\t, "
-					 << ((float*)data)[vertexStart+1] << "\t, "
-					 << ((float*)data)[vertexStart+2] <<  "\t)\tlength = "
-					 << ((float*)data)[vertexStart+3] << std::endl;
-	}
-	std::cout << "-----------------------------------" << std::endl;
-
-	//Was vor den Passes im Array liegt:
-	std::cout << "Inhalt des Buffers vor dem ersten Pass:" << std::endl;
-	triangleVertexBuffer.bind();
-	GLfloat feedback[nVertices(0) * 4];
-	glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
-	triangleVertexBuffer.unbind();
-	for(int i = 0; i < nVertices(0); i++) {
-		int vertexStart = i * 4;
-		std::cout << "Vertex " << i << "\t:("
-					 << feedback[vertexStart+0] << "\t, "
-					 << feedback[vertexStart+1] << "\t, "
-					 << feedback[vertexStart+2] <<  "\t)\tlength = "
-					 << feedback[vertexStart+3] << std::endl;
-	}
-	std::cout << "-----------------------------------" << std::endl;
-
-	//Die mehreren Passes:
-	for(int pass = 0; pass < numberOfIterations; pass++) {
-		currentVertexArray->bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
-		genShaderprogram.beginUsingProgram();
-
-		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, currentTransformFeedbackBuffer->getBuffer());
-		glBeginTransformFeedback(GL_TRIANGLES);
-
-		glDrawArrays(GL_TRIANGLES, 0, nVertices(pass));
-
-		glEndTransformFeedback();
-		glFlush();
-		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
-
-		currentTransformFeedbackBuffer->bind();
-		GLfloat feedback[nVertices(pass+1) * 7];
-		glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
-		currentTransformFeedbackBuffer->unbind();
-
-		std::cout << "Inhalt des Buffers nach dem " << pass+1 << "ten pass:" << std::endl;
-		for(int i = 0; i < nVertices(pass+1); i++) {
-			int vertexStart = i * 7;
-			std::cout << "Vertex " << i << "\t:("
-						 << feedback[vertexStart+0] << "\t, "
-						 << feedback[vertexStart+1] << "\t, "
-						 << feedback[vertexStart+2] << "\t)\tlength = "
-						 << feedback[vertexStart+3] << "\t normal( "
-						 << feedback[vertexStart+4] << ", "
-						 << feedback[vertexStart+5] << ", "
-						 << feedback[vertexStart+6] << " )"
-						 << std::endl;
-		}
-		std::cout << "-----------------------------------" << std::endl;
-
-		genShaderprogram.stopUsingProgram();
-
-		currentVertexArray->unbind();
-
-		//Buffer und Vertexarrays durchtauschen
-		VertexArray* swapVertexArray = currentVertexArray;
-		Buffer* swapTransformFeedbackBuffer = currentTransformFeedbackBuffer;
-		currentVertexArray = lastVertexArray;
-		currentTransformFeedbackBuffer = lastTransformFeedbackBuffer;
-		lastVertexArray = swapVertexArray;
-		lastTransformFeedbackBuffer = swapTransformFeedbackBuffer;
-	}
+	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
 
 	glm::dvec2 mouseDelta;
-
-
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -350,13 +268,13 @@ int main(void)
 		renderShaderprogram.setUniform(std::string("lightposition"), lightPosition);
 
 		//RENDER:
-		currentVertexArray->bind();
+		vertexArraysAndBufers.currentVertexArray->bind();
 		renderShaderprogram.beginUsingProgram();
 
 		glDrawArrays(GL_TRIANGLES, 0, nVertices(numberOfIterations));
 
 		renderShaderprogram.stopUsingProgram();
-		currentVertexArray->unbind();
+		vertexArraysAndBufers.currentVertexArray->unbind();
 
 		TwDraw();  // draw the tweak bar(s)
 
@@ -394,3 +312,101 @@ int nTriangles(int numberOfIterations) {
 int nVertices(int numberOfIterations) {
 	return nTriangles(numberOfIterations) * 3;
 }
+
+
+
+VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shaderprogram shader, int numberOfIterations) {
+	float scl = 4.0f;
+	float length = 4.f;
+	float a = 6.0f;
+	float h = std::sqrt(3) * a * 0.5f;
+	float halfA = a*0.5f;
+
+	treeVertex data[3] = {
+		treeVertex(-halfA	,0.0f	,0.0f	, length*scl),
+		treeVertex(halfA	,0.0f	,0.0f	, length*scl),
+		treeVertex(0.0f		,0.0f	,h		, length*scl)};
+
+	std::cout << "nVertices( " << numberOfIterations << " ) = " << nVertices(numberOfIterations) << std::endl;
+
+	//Daten in Buffer schreiben:
+	vertexArraysAndBufers.lastTransformFeedbackBuffer->subData(sizeof(data), data);
+
+	//Was vor den Passes in data[] liegt:
+	std::cout << "Inhalt des data[] arrays." << std::endl;
+	for(int i = 0; i < 3; i++) {
+		int vertexStart = i * 4;
+		std::cout << "Vertex " << i << "\t:("
+					 << ((float*)data)[vertexStart+0] << "\t, "
+					 << ((float*)data)[vertexStart+1] << "\t, "
+					 << ((float*)data)[vertexStart+2] <<  "\t)\tlength = "
+					 << ((float*)data)[vertexStart+3] << std::endl;
+	}
+	std::cout << "-----------------------------------" << std::endl;
+
+	//Was vor den Passes im Array liegt:
+	std::cout << "Inhalt des Buffers vor dem ersten Pass:" << std::endl;
+	vertexArraysAndBufers.lastTransformFeedbackBuffer->bind();
+	GLfloat feedback[nVertices(0) * 4];
+	glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
+	vertexArraysAndBufers.lastTransformFeedbackBuffer->unbind();
+	for(int i = 0; i < nVertices(0); i++) {
+		int vertexStart = i * 4;
+		std::cout << "Vertex " << i << "\t:("
+					 << feedback[vertexStart+0] << "\t, "
+					 << feedback[vertexStart+1] << "\t, "
+					 << feedback[vertexStart+2] <<  "\t)\tlength = "
+					 << feedback[vertexStart+3] << std::endl;
+	}
+	std::cout << "-----------------------------------" << std::endl;
+
+	//Die mehreren Passes:
+	for(int pass = 0; pass < numberOfIterations; pass++) {
+		vertexArraysAndBufers.currentVertexArray->bind(); //das VertexArray weiß selbst aus welchem Buffer es die Daten lesen soll.
+		shader.beginUsingProgram();
+
+		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, vertexArraysAndBufers.currentTransformFeedbackBuffer->getBuffer());
+		glBeginTransformFeedback(GL_TRIANGLES);
+
+		glDrawArrays(GL_TRIANGLES, 0, nVertices(pass));
+
+		glEndTransformFeedback();
+		glFlush();
+		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
+
+		vertexArraysAndBufers.currentTransformFeedbackBuffer->bind();
+		GLfloat feedback[nVertices(pass+1) * 7];
+		glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
+		vertexArraysAndBufers.currentTransformFeedbackBuffer->unbind();
+
+		std::cout << "Inhalt des Buffers nach dem " << pass+1 << "ten pass:" << std::endl;
+		for(int i = 0; i < nVertices(pass+1); i++) {
+			int vertexStart = i * 7;
+			std::cout << "Vertex " << i << "\t:("
+						 << feedback[vertexStart+0] << "\t, "
+						 << feedback[vertexStart+1] << "\t, "
+						 << feedback[vertexStart+2] << "\t)\tlength = "
+						 << feedback[vertexStart+3] << "\t normal( "
+						 << feedback[vertexStart+4] << ", "
+						 << feedback[vertexStart+5] << ", "
+						 << feedback[vertexStart+6] << " )"
+						 << std::endl;
+		}
+		std::cout << "-----------------------------------" << std::endl;
+
+		shader.stopUsingProgram();
+
+		vertexArraysAndBufers.currentVertexArray->unbind();
+
+		//Buffer und Vertexarrays durchtauschen
+		VertexArray* swapVertexArray = vertexArraysAndBufers.currentVertexArray;
+		Buffer* swapTransformFeedbackBuffer = vertexArraysAndBufers.currentTransformFeedbackBuffer;
+		vertexArraysAndBufers.currentVertexArray = vertexArraysAndBufers.lastVertexArray;
+		vertexArraysAndBufers.currentTransformFeedbackBuffer = vertexArraysAndBufers.lastTransformFeedbackBuffer;
+		vertexArraysAndBufers.lastVertexArray = swapVertexArray;
+		vertexArraysAndBufers.lastTransformFeedbackBuffer = swapTransformFeedbackBuffer;
+	}
+
+	return vertexArraysAndBufers;
+}
+
