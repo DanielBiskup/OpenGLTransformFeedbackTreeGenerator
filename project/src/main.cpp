@@ -124,6 +124,7 @@ int main(void)
 	glewExperimental = GL_TRUE;
 	glewInit(); //Darf erst aufgerufen weden wenn ein context gerade current ist.
 
+	//Debbugcallback:
 	registerDebugMessageCallback();
 
 	//Set some OpenGL states
@@ -214,7 +215,7 @@ int main(void)
 	vertexArraysAndBufers.lastVertexArray = &renderVertexArray;
 	vertexArraysAndBufers.lastTransformFeedbackBuffer = &triangleVertexBuffer;
 
-	int numberOfIterations = 8;
+	int numberOfIterations = 5;
 
 	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
 
@@ -223,6 +224,9 @@ int main(void)
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
+
+
+
 		//Update
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
