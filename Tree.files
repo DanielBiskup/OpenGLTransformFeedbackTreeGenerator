@@ -1262,3 +1262,4 @@ project/src/openglerror.h
 project/src/openglerror.cpp
 project/src/openglerrorcallback.h
 project/src/openglerrorcallback.cpp
+project/premake4.lua
