@@ -1263,3 +1263,5 @@ project/src/openglerror.cpp
 project/src/openglerrorcallback.h
 project/src/openglerrorcallback.cpp
 project/premake4.lua
+project/src/tweakbarutil.h
+project/src/tweakbarutil.cpp

@@ -107,7 +107,11 @@ int main(void)
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, 1);
 
 	window = glfwCreateWindow(startResolution.x, startResolution.y, "Procedural Tree Generation Using A Geometry Shader And Transform Feedback", NULL, NULL); // Windowed
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	//Unsichtbarer Cursor:
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	//Sichtbarer Cursor:
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	//window = glfwCreateWindow(800, 600, "OpenGL", glfwGetPrimaryMonitor(), NULL); // Fullscreen
 
@@ -150,23 +154,7 @@ int main(void)
 	float modelRotationY = 0.0f;
 
 	//AntTweakBar
-	TwInit(TW_OPENGL_CORE, NULL); // for core profile
-	TwWindowSize(windowWidth, windowHeight);
-	TwBar *myBar;
-	myBar = TwNewBar("NameOfMyTweakBar");
-	TwAddVarRW(myBar, "NameOfMyVariable", TW_TYPE_FLOAT, &modelRotaitonX, "RotX");
 
-	//AntTwaekBar Callback
-	// after GLFW initialization
-	// directly redirect GLFW events to AntTweakBar
-	glfwSetMouseButtonCallback(window,(GLFWmousebuttonfun)TwEventMouseButtonGLFW);
-	glfwSetCursorPosCallback(window, (GLFWcursorposfun)TwEventMousePosGLFW);
-	glfwSetScrollCallback(window, (GLFWscrollfun)TwEventMouseWheelGLFW);
-	glfwSetKeyCallback(window, (GLFWkeyfun)TwEventKeyGLFW);
-	glfwSetCharCallback(window, (GLFWcharfun)TwEventCharGLFW);
-
-	// send window size events to AntTweakBar
-	//glfwSetWindowSizeCallback(window, MyResize); // and call TwWindowSize in the function MyResize
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -245,9 +233,9 @@ int main(void)
 		glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
 		glm::dvec2 mousePosition;
-				glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
-				mouseDelta = mousePosition;
-				glfwSetCursorPos(window, 0.0d, 0.0d);
+		//glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
+		mouseDelta = mousePosition;
+		//glfwSetCursorPos(window, 0.0d, 0.0d);
 
 		if(mouseDelta.x != 0 || mouseDelta.y != 0 ) {
 			std::cout <<"mp("<<mousePosition.x<<", "<<mousePosition.y<<")" <<std::endl<< "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
@@ -255,8 +243,8 @@ int main(void)
 
 		//Model Matix
 		glm::mat4 model  = glm::mat4(1.0f);
-		modelRotaitonX += mouseDelta.y * 0.01;
-		modelRotationY += mouseDelta.x * 0.01;
+		//modelRotaitonX += mouseDelta.y * 0.01;
+		//modelRotationY += mouseDelta.x * 0.01;
 		model = glm::rotate(model, modelRotaitonX, glm::vec3(1.0f,0.0f,0.0f));
 		model = glm::rotate(model, modelRotationY, glm::vec3(0.0f,1.0f,0.0f));
 
