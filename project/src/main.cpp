@@ -91,6 +91,7 @@ struct ButtonCallbackParameters {
 	VertexArraysAndBufers* vertexArraysAndBufers;
 	Shaderprogram* shader;
 	int* numberOfIterations;
+	int* numberOfVerticesToDraw;
 };
 
 int nTriangles(int numberOfIterations);
@@ -161,7 +162,7 @@ int main(void)
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
 	const int maxNumberOfIterations = 9;
-	int numberOfIterations = 2;
+	int numberOfIterations = 0;
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -226,18 +227,20 @@ int main(void)
 	glm::dvec2 mouseDelta;
 
 	//AntTweakBar
-
 	initTweakbar(window);
 	TwInit(TW_OPENGL_CORE, NULL); // for core profile
 	TwWindowSize(windowWidth, windowHeight);
 	TwBar *bar;
 	bar = TwNewBar("Ein Baum in 3D");
-	TwAddVarRW(bar, "Iterationen", TW_TYPE_INT8, &numberOfIterations, "min=0 max=10");
+	TwAddVarRW(bar, "Iterationen", TW_TYPE_INT8, &numberOfIterations, "min=0 max=9");
+
+	int numberOfVerticesToDraw = 0;
 
 	ButtonCallbackParameters buttonCallbackParameters;
 	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
 	buttonCallbackParameters.shader = &genShaderprogram;
 	buttonCallbackParameters.vertexArraysAndBufers = &vertexArraysAndBufers;
+	buttonCallbackParameters.numberOfVerticesToDraw = &numberOfVerticesToDraw;
 	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " label='generate tree' ");
 
 
@@ -310,7 +313,7 @@ int main(void)
 		vertexArraysAndBufers.currentVertexArray->bind();
 		renderShaderprogram.beginUsingProgram();
 
-		glDrawArrays(GL_TRIANGLES, 0, nVertices(numberOfIterations));
+		glDrawArrays(GL_TRIANGLES, 0, numberOfVerticesToDraw);
 
 		renderShaderprogram.stopUsingProgram();
 		vertexArraysAndBufers.currentVertexArray->unbind();
@@ -453,7 +456,7 @@ void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shade
 
 void theGenerateButtonCallbackFunction(void *clientData) {
 	ButtonCallbackParameters* params = (ButtonCallbackParameters*) clientData;
-	/*VertexArraysAndBufers vertexArraysAndBufers =*/generate(*(params->vertexArraysAndBufers), *(params->shader), *(params->numberOfIterations));
-	/**(params->vertexArraysAndBufers) = vertexArraysAndBufers;*/
+	generate(*(params->vertexArraysAndBufers), *(params->shader), *(params->numberOfIterations));
+	*(params->numberOfVerticesToDraw) = nVertices(*(params->numberOfIterations));
 }
 
