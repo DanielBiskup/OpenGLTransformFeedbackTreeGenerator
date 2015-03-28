@@ -1,0 +1,23 @@
+\begin{thebibliography}{CDK02}
+
+\bibitem[CDK02]{Coulouris:02}
+{\sc Coulouris, George}, {\sc Jean Dollimore} \btxandlong{}\ {\sc Tim
+  Kindberg}: {\em {Verteilte Systeme: Konzepte und Design}}.
+\newblock Addison-Wesley-Verlag, 2002.
+
+\bibitem[Che85]{Cheriton:85}
+{\sc Cheriton, David~R.}: {\em {Preliminary Thoughts on Problem-oriented Shared
+  Memory: A Decentralized Approach to Distributed Systems}}, 1985.
+
+\bibitem[Mal97]{Malte:97}
+{\sc Malte, Peter}: {\em {Replikation in Mobil Computing}}.
+\newblock Seminar\ No 31/1997, Institut f{\"u}r Telematik der Universit{\"a}t
+  Karlsruhe, Karsruhe, 1997.
+\newblock
+  \\{\url{http://www.ubka.uni-karlsruhe.de/cgi-bin/psview?document=/ira/1997/31}}.
+
+\bibitem[Mos93]{Mosberger:93}
+{\sc Mosberger, David}: {\em {Memory Consistency Models}}.
+\newblock Technical Report 93/11, University of Arizona, \btxmonnovlong{} 1993.
+
+\end{thebibliography}

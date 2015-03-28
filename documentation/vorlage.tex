@@ -1,0 +1,133 @@
+%%%%%%%%%%%%%%%%%%% vorlage.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% LaTeX-Vorlage zur Erstellung von Projekt-Dokumentationen
+% im Fachbereich Informatik der Hochschule Trier
+%
+% Basis: Vorlage svmono des Springer Verlags
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[envcountsame,envcountchap, deutsch]{i-studis}
+
+\usepackage{makeidx}         	% Index
+\usepackage{multicol}        	% Zweispaltiger Index
+%\usepackage[bottom]{footmisc}	% Erzeugung von Fußnoten
+
+%%-----------------------------------------------------
+%\newif\ifpdf
+%\ifx\pdfoutput\undefined
+%\pdffalse
+%\else
+%\pdfoutput=1
+%\pdftrue
+%\fi
+%%--------------------------------------------------------
+%\ifpdf
+\usepackage[pdftex]{graphicx}
+\usepackage[pdftex,plainpages=false]{hyperref}
+%\else
+%\usepackage{graphicx}
+%\usepackage[plainpages=false]{hyperref}
+%\fi
+
+%%-----------------------------------------------------
+\usepackage{color}				% Farbverwaltung
+%\usepackage{ngerman} 			% Neue deutsche Rechtsschreibung
+\usepackage[english, ngerman]{babel}
+\usepackage[latin1]{inputenc} 	% Ermöglicht Umlaute-Darstellung
+%\usepackage[utf8]{inputenc}  	% Ermöglicht Umlaute-Darstellung unter Linux (je nach verwendetem Format)
+
+%-----------------------------------------------------
+\usepackage{listings} 			% Code-Darstellung
+\lstset
+{
+	basicstyle=\scriptsize, 	% print whole listing small
+	keywordstyle=\color{blue}\bfseries,
+								% underlined bold black keywords
+	identifierstyle=, 			% nothing happens
+	commentstyle=\color{red}, 	% white comments
+	stringstyle=\ttfamily, 		% typewriter type for strings
+	showstringspaces=false, 	% no special string spaces
+	framexleftmargin=7mm, 
+	tabsize=3,
+	showtabs=false,
+	frame=single, 
+	rulesepcolor=\color{blue},
+	numbers=left,
+	linewidth=146mm,
+	xleftmargin=8mm
+}
+\usepackage{textcomp} 			% Celsius-Darstellung
+\usepackage{amssymb,amsfonts,amstext,amsmath}	% Mathematische Symbole
+\usepackage[german, ruled, vlined]{algorithm2e}
+\usepackage[a4paper]{geometry} % Andere Formatierung
+\usepackage{bibgerm}
+\usepackage{array}
+\hyphenation{Ele-men-tar-ob-jek-te  ab-ge-tas-tet Aus-wer-tung House-holder-Matrix Le-ast-Squa-res-Al-go-ri-th-men} 		% Weitere Silbentrennung bei Bedarf angeben
+\setlength{\textheight}{1.1\textheight}
+\pagestyle{myheadings} 			% Erzeugt selbstdefinierte Kopfzeile
+\makeindex 						% Index-Erstellung
+
+
+%--------------------------------------------------------------------------
+\begin{document}
+%------------------------- Titelblatt -------------------------------------
+\title{Entwurf einer Command Queue für Echtzeit-Strategiespiele}
+\subtitle{Creating a command queue for real time strategy games}
+%---- Die Art der Dokumentation kann hier ausgewählt werden---------------
+%\project{Bachelor-Projektarbeit}
+%\project{Bachelor-Abschlussarbeit}
+%\project{Master-Projektstudium}
+%\project{Master-Abschlussarbeit}
+%\project{Seminar zur Vorlesung ...}
+\project{Hausarbeit zur Vorlesung Künstliche Intelligenz für Spiele}
+%--------------------------------------------------------------------------
+\supervisor{Prof. Dr. Christof Rezk-Salama} 		% Betreuer der Arbeit
+\author{Daniel Biskup, 952976} 							% Autor der Arbeit
+\address{Trier,} 							% Im Zusammenhang mit dem Datum wird hinter dem Ort ein Komma angegeben
+\submitdate{7.9.2014} 				% Abgabedatum
+%\begingroup
+%  \renewcommand{\thepage}{title}
+%  \mytitlepage
+%  \newpage
+%\endgroup
+\begingroup
+  \renewcommand{\thepage}{Titel}
+  \mytitlepage
+  \newpage
+\endgroup
+%--------------------------------------------------------------------------
+\frontmatter 
+%--------------------------------------------------------------------------
+%\input{chapters/Vorwort}				% Vorwort (optional)
+%\input{chapters/Kurzfassung} 			% Kurzfassung Deutsch/English
+\tableofcontents 						% Inhaltsverzeichnis
+%\listoffigures 							% Abbildungsverzeichnis (optional)
+%\listoftables 							% Tabellenverzeichnis (optional)
+%--------------------------------------------------------------------------
+\mainmatter                        		% Hauptteil (ab hier arab. Seitenzahlen)
+%--------------------------------------------------------------------------
+% Die Kapitel werden in separaten .tex-Dateien abgelegt und hier eingebunden.
+\input{chapters/Einleitung}
+\input{chapters/Konzeption}
+\input{chapters/Implementierung}
+
+%\input{chapters/ZusammenfassungAusblick}
+
+% ...
+%--------------------------------------------------------------------------
+%\backmatter                        		% Anhang
+%-------------------------------------------------------------------------
+%\bibliographystyle{geralpha}			% Literaturverzeichnis
+%\bibliography{literatur}     			% BibTeX-File literatur.bib
+%--------------------------------------------------------------------------
+%printindex 							% Index (optional)
+%--------------------------------------------------------------------------
+%\begin{appendix}	
+   %\include{chapters/Implementierungsdetails}					
+   %\include{chapters/Grafiken} 			% z.B. Grafiken von StateMachine Kompositionen und so. 
+   %\include{chapters/Glossar}			% Glossar   
+   %\include{chapters/Selbststaendigkeitserklaerung}	% Selbstständigkeitserklärung
+%\end{appendix}
+
+\end{document}

@@ -1,0 +1,21 @@
+\chapter{Zusammenfassung und Ausblick}
+
+
+
+
+\section{Erweiterbarkeit}
+Das Beispielprogramm kennt zwar nur die zwei Command-Klassen \verb+CollectWoodCommad+ und \verb+GoToPositionCommand+ doch weitere Commands sowie StateMachine Kompositionen, welche die Ausführung dieser repräsentieren, können nach dem Vorgestellten Vorgehen ohne Probleme in die Anwendung eingefügt werden.
+
+
+\section{Ausblick}
+-- Höhere Ebene der AI
+
+%---ANHANG
+
+\section{Hinweise für Entwickler und Hinweise auf Implementierungsdetails}
+\subsection{Components als Voraussetzung für States und StatMachines}
+Es bietet sich an dieses Vorhandensein benötigter Components schon im Konstruktor des States mit assert() zu überprüfen. Sind diese nicht Vorhanden wird es früher oder später ohnehin zum Absturz des Systems kommen.
+
+\subsection{StateMachines als State verwenden}
+Die StateMachine ist im Gegensatz zur Lösung der Übungsaufgabe so implementiert, dass eine 
+

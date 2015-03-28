@@ -1,0 +1,37 @@
+\chapter{Konzeption und Umsetzung}
+Dieses Kapitel soll die grundlegenden Überlegungen, welche die Architekturentscheidungen der Beispielanwendung beeinflusst haben, beleuchten. Dazu wird an einigen Stellen auf Quelltext der Implementierung verwiesen, welchen sie in der beigefügten Archivdatei finden. Während dieses Kapitel dafür gedacht ist ihnen einen Überblick darüber zu geben welche Aufgabe die einzelnen Systeme erfüllen bietet ein Blick in den Quelltext oder die mit Doxygen erzeugte Dokumentation Informationen zu Implementierungsdetails.
+Das Beispielprogramm baut auf der Lösung zur Übungsaufgabe 3 der Vorlesung Künstliche Intelligenz für Spiele von Prof. Dr. Christopf Rezk-Salama auf. Es wird verausgesetzt, dass sie mit der Lösung von Übungsaufgabe 3, welche sie in der Archivdatei finden, vertraut sind.
+
+Folgende Klassen der Beispielanwendung sind von besonderer Bedeutung und werden im folgenden beschrieben:
+\begin{itemize}
+  \item \verb+StateMachineComponent+, \verb+StateMachine+, \verb+State+, \verb+ActionFactory+ -- Dienen der Modellierung von Aktionen
+  \item Data Components -- halten Daten welche das Verhalten von States beeinflussen
+  \item \verb+CharacterFactory+ -- Komposition von Characteren
+  \item \verb+Command+ -- Manipuliert Data Components und aktiviert ensprechende die \verb+StateMachine+ in der \verb+StateMachineComponent+
+  \item \verb+CommandQueueComponent+ -- Speichern und ausführen von Objekten der Klasse \verb+Command+
+  \item \verb+InputAndUISystem+ -- Erlaubt das Erteilen von Befehlen per  Mausklick
+\end{itemize}
+
+\section{Modellierung von Aktionen mit Hierarchical State Machines}
+Damit einer Einheit der Befehl erteilt werden kann Holz zu hacken und dieses zu einem Bestimmten Sägewerk zu bringen ist es zunächst erforderlich die Aktion ''Holzsammeln'' zu modellieren. Dazu wird der Ansatz der Hierarchical State Machines verwendet. Jede Aktion, wie zum Beispiel ''Holzsammeln'' ist als StateMachine dargestellt. Bei diesen StateMachines handelt es sich um Kompositionen von elementaren und wiederverwendbaren States und StateMachines welche im Ordner \verb+stats/basicStates+ zu finden sind. Die elementaren States und StateMachines werden dadurch wiederverwendbar, dass die Folgezustände nicht hardcodiert sind sondern dem Konstruktor jeweils als Parameter übergeben werden müssen. 
+Zusammengesetzt werden die gewünschten StateMachines, welche die Aktionen repräsentieren, in der Singleton-Klasse \verb+states/actions/ActionFactory+.
+Die Klasse \verb+StateMachineComponent+ wurde unveränder aus der Übungsaufgabe übernommen, wird hier allerdings als Container für die in der \verb+ActionFactory+ zusammengesetzten StateMachines verwendet.
+
+\section{Data Components}
+Zwar wurde keine gesonderte Klasse namens \verb+DataComponents+ definiert, dennoch ist es erwähnenswert, dass einige \verb+Components+ in \verb+update()+ und \verb+render()+ nichts tun, und lediglich als Datencontainer dienen. Einige \verb+basicStates/+ erfordern das Vorhandensein bestimmter Data Components um zu funktionieren. Data Components werden nämlich hauptsächlich dafür verwendet das Verhalten einzelner States zu beeinflussen.
+Components welche in der Beispielanwendung als Data Components verwendet werden sind zum Beispiel: \verb+LumberjackComponent+, \verb+TargetPositionComponent+, \verb+FleeDataComponent+. Die \verb+LumberjackComponent+ enthält unter Anderem Informationen darüber von welchem Baum Holz gesammelt werden soll, zu welchem Sägewerk dieses geliefert werden soll, und wie viel Holz der Character zu Zeit bei sich trägt.
+
+\section{CharacterFactory}
+Die Singleton-Klasse \verb+/core/CharacterFactory+ bietet Methoden an um aus einem leeren Character einen Peon, Tree, Lumbermill oder Villain zu machen. Dazu werden dem Character, je nach gewünschtem Charactertyp, die entsprechenden Components hinzugefügt. Je nachdem welche Aktionen der Charactertyp unterstützen soll, wird der \verb+StateMachineComponent+ des Characters die entsprechende, von der \verb+ActionFactory+ zusammengesetzte, StateMachine hinzugefügt. Der Peon hat zum Beispiel StateMachines für die Aktionen \verb+IDLE+, \verb+GO_TO_POSITION+, \verb+COLLECT_WOOD+
+
+\section{Command}
+Alle Commands implementieren das Interface \verb+/commands/Command.h+, welches die Methode \verb+void execute(Character *self)+ zur verfügung stellt. In der Regel wird diese so implementiert, dass sie in der \verb+StateMachineComponent+ des übergebenen Characters, die \verb+StateMachine+ zum Wechsel in den zum Befehl korespondierenden \verb+State+ veranlasst. Zusätlich werden Attribute in Data Components manipuliert um das Verhalten des Characters zu beeinflussen.
+So bewirkt zum Beispiel das \verb+CollectWoodCommand+ einen Wechsel in die StateMachine mit dem Namen \verb+COLLECT_WOOD+ und legt in der \verb+LumberjackComponent+ den zu fällenden Baum fest.
+
+\section{CommandQueueComponent}
+Die \verb+CommandQueueComponent+ führt eine Liste von \verb+Command+. Zudem bietet sie Funktionen um die Liste zu leeren, ein neues \verb+Command+ in die Liste einzufügen und um abzufragen ob die Liste leer ist. 
+Die \verb+CommandQueueComponent+ ist in \verb+update()+ und \verb+render()+ untätig, bietet allerdigs die Methode void executeAndDeleteNextCommand(Character* character); an, welche auf dem ersten \verb+Command+ in der seiner Liste \verb+execute(character)+ aufruft und es danach aus seiner Liste.
+
+\section{InputAndUISystem}
+Damit auf dem Bildschirm etwas passiert, wird zusätlich eine Softwarekomponente benötigt welche die Methoden auf der \verb+CommandQueueComponent+ einzelner Charactere aufruft und ihnen Dabei gegebenenfalls \verb+Command+ Objekte als Parameter übergibt. Zu Demonstrationszwecken würde es genügen dies direkt im Quelltext zu tun. In fertigen Spielen erteilt jedoch entweder ein computergesteuerter Spieler Befehle an seine Einheiten oder der menschliche Spieler selbst.
+Das \verb+InputAndUISystem+ der Beispielanwendung deckt den zweiten Fall ab indem es dem Spieler erlaubt, wie in der Einführung \ref{Anleitung} beschrieben, mit der Mouse Befehle zu erteilen. Nebenbei ist das \verb+InputAndUISystem+ auch dafür zuständig die Informationen in der oberen linken Bildschirmecke darzustellen.

@@ -1,0 +1,9 @@
+\BOOKMARK [0][-]{chapter.1}{Einleitung}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Zielsetzung}{chapter.1}% 2
+\BOOKMARK [0][-]{chapter.2}{Konzeption der Geometrieerzeugung}{}% 3
+\BOOKMARK [1][-]{section.2.1}{Attribute der Eckpunkte}{chapter.2}% 4
+\BOOKMARK [1][-]{section.2.2}{Konstruktion der Geometrie}{chapter.2}% 5
+\BOOKMARK [2][-]{subsection.2.2.1}{Konstruktion der Eckpunkte}{section.2.2}% 6
+\BOOKMARK [2][-]{subsection.2.2.2}{Konstruktion der Geometrie aus den Eckpunkten}{section.2.2}% 7
+\BOOKMARK [1][-]{section.2.3}{Herleitung der Formel zur Berechnung der Anzahl generierter Dreiecke nach n Iterationen}{chapter.2}% 8
+\BOOKMARK [0][-]{chapter.3}{Implementierung}{}% 9
