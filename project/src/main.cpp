@@ -104,7 +104,7 @@ void theGenerateButtonCallbackFunction(void *clientData);
 
 int main(void)
 {
-	const glm::i32vec2 startResolution(800,600);
+	const glm::i32vec2 startResolution(1000,800);
 	GLFWwindow* window;
 
 	/* Initialize GLFW */
@@ -120,12 +120,8 @@ int main(void)
 
 	window = glfwCreateWindow(startResolution.x, startResolution.y, "Procedural Tree Generation Using A Geometry Shader And Transform Feedback", NULL, NULL); // Windowed
 
-	//Unsichtbarer Cursor:
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	//Sichtbarer Cursor:
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-
-	//window = glfwCreateWindow(800, 600, "OpenGL", glfwGetPrimaryMonitor(), NULL); // Fullscreen
 
 	if (!window)
 	{
@@ -283,15 +279,15 @@ int main(void)
 		glm::vec3 cameraPosition(0, -50, 250);
 		glm::mat4 view = glm::lookAt(
 					cameraPosition,
-					glm::vec3(0.0f,-20.0f,0.0f), // and looks at the origin
+					glm::vec3(0.0f,-30.0f,0.0f), // and looks at the origin
 					glm::vec3(0,1,0)
 					);
 
 		glm::mat4 projection = glm::perspective(
 					50.f,
-					(float) windowWidth / (float)windowHeight,
+					(float)windowWidth / (float)windowHeight,
 					0.1f,
-					10000.0f
+					1000.0f
 					);
 
 		glm::mat4 MVP	= projection * view * model;

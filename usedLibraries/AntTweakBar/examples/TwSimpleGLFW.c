@@ -131,7 +131,7 @@ int main()
 
     // Add 'speed' to 'bar': it is a modifable (RW) variable of type TW_TYPE_DOUBLE. Its key shortcuts are [s] and [S].
     TwAddVarRW(bar, "speed", TW_TYPE_DOUBLE, &speed, 
-               " label='Rot speed' min=0 max=2 step=0.01 keyIncr=s keyDecr=S help='Rotation speed (turns/second)' ");
+               " label='Rot speed' min=0 max=2 step=0.01 git  help='Rotation speed (turns/second)' ");
 
     // Add 'wire' to 'bar': it is a modifable variable of type TW_TYPE_BOOL32 (32 bits boolean). Its key shortcut is [w].
     TwAddVarRW(bar, "wire", TW_TYPE_BOOL32, &wire, 
