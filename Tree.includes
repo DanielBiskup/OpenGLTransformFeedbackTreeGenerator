@@ -27,3 +27,7 @@ usedLibraries/glfw-3.0.4/deps
 usedLibraries/glew-1.11.0/src
 project/data
 project
+usedLibraries/AntTweakBar/src/res
+usedLibraries/AntTweakBar/src
+usedLibraries/AntTweakBar/examples
+usedLibraries/AntTweakBar/include

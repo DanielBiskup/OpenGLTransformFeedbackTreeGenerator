@@ -62,6 +62,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "buffer.h"
 #include "vertexarray.h"
 #include "openglerror.h"
+#include "tweakbarutil.h"
 
 //Geklauter und dann bearbeiteter Quelltext:
 #include "openglerrorcallback.h"
@@ -154,6 +155,7 @@ int main(void)
 	float modelRotationY = 0.0f;
 
 	//AntTweakBar
+	initTweakbar(window, windowWidth, windowHeight);
 
 
 	//Shader zum generieren der Geometrie:
