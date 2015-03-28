@@ -47,6 +47,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 //AntTeakBar
 #include <AntTweakBar.h>
@@ -166,6 +168,7 @@ int main(void)
 	float scaleLengthUniform = 0.7f;
 	float scaleTriangleUniform = 0.8f;
 	float pyramidFactorUniform = 0.2f;
+	glm::quat rotationQuaternion;
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -235,6 +238,7 @@ int main(void)
 	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "Rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "");
 
 	ButtonCallbackParameters buttonCallbackParameters;
 	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
@@ -269,11 +273,11 @@ int main(void)
 		}
 
 		//Model Matix
-		glm::mat4 model  = glm::mat4(1.0f);
+		//glm::mat4 model  = glm::mat4(1.0f);
 		//modelRotaitonX += mouseDelta.y * 0.01;
 		//modelRotationY += mouseDelta.x * 0.01;
-		model = glm::rotate(model, modelRotaitonX, glm::vec3(1.0f,0.0f,0.0f));
-		model = glm::rotate(model, modelRotationY, glm::vec3(0.0f,1.0f,0.0f));
+		//model = glm::rotate(model, modelRotaitonX, glm::vec3(1.0f,0.0f,0.0f));
+		//model = glm::rotate(model, modelRotationY, glm::vec3(0.0f,1.0f,0.0f));
 
 		//View Matrix
 		glm::vec3 cameraPosition(0, -50, 250);
@@ -290,8 +294,10 @@ int main(void)
 					1000.0f
 					);
 
-		glm::mat4 MVP	= projection * view * model;
-		glm::mat4 M	= model;
+
+
+		glm::mat4 M	= glm::toMat4(rotationQuaternion);
+		glm::mat4 MVP	= projection * view * M;
 		glm::vec3 lightPosition(cameraPosition);
 
 		renderShaderprogram.setUniform(std::string("MVP"), MVP);
