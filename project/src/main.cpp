@@ -62,6 +62,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "buffer.h"
 #include "vertexarray.h"
 #include "openglerror.h"
+#include "tweakbarutil.h"
 
 //Geklauter und dann bearbeiteter Quelltext:
 #include "openglerrorcallback.h"
@@ -86,13 +87,24 @@ struct VertexArraysAndBufers {
 	Buffer* lastTransformFeedbackBuffer;
 };
 
+struct ButtonCallbackParameters {
+	VertexArraysAndBufers* vertexArraysAndBufers;
+	Shaderprogram* shader;
+	int* numberOfIterations;
+	int* numberOfVerticesToDraw;
+	float* scaleLengthUniform;
+	float* scaleTriangleUniform;
+	float* pyramidFactorUniform;
+};
+
 int nTriangles(int numberOfIterations);
 int nVertices(int numberOfIterations);
-VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shaderprogram shader, int numberOfIterations);
+void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations);
+void theGenerateButtonCallbackFunction(void *clientData);
 
 int main(void)
 {
-	const glm::i32vec2 startResolution(800,600);
+	const glm::i32vec2 startResolution(1000,700);
 	GLFWwindow* window;
 
 	/* Initialize GLFW */
@@ -102,14 +114,14 @@ int main(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_FALSE);
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, 1);
 
 	window = glfwCreateWindow(startResolution.x, startResolution.y, "Procedural Tree Generation Using A Geometry Shader And Transform Feedback", NULL, NULL); // Windowed
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-	//window = glfwCreateWindow(800, 600, "OpenGL", glfwGetPrimaryMonitor(), NULL); // Fullscreen
+	//Sichtbarer Cursor:
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	if (!window)
 	{
@@ -148,13 +160,12 @@ int main(void)
 	//Variables
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
-
-	//AntTweakBar
-	TwInit(TW_OPENGL_CORE, NULL); // for core profile
-	TwWindowSize(windowWidth, windowHeight);
-	TwBar *myBar;
-	myBar = TwNewBar("NameOfMyTweakBar");
-	TwAddVarRW(myBar, "NameOfMyVariable", TW_TYPE_FLOAT, &modelRotaitonX, "RotX");
+	const int maxNumberOfIterations = 9;
+	int numberOfIterations = 0;
+	int numberOfVerticesToDraw = 0;
+	float scaleLengthUniform = 0.7f;
+	float scaleTriangleUniform = 0.8f;
+	float pyramidFactorUniform = 0.2f;
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -183,7 +194,6 @@ int main(void)
 	Buffer triangleVertexBuffer(GL_ARRAY_BUFFER);
 	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
 
-	const int maxNumberOfIterations = 9;
 	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(maxNumberOfIterations), 0);
 	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(maxNumberOfIterations), 0);
 
@@ -215,27 +225,44 @@ int main(void)
 	vertexArraysAndBufers.lastVertexArray = &renderVertexArray;
 	vertexArraysAndBufers.lastTransformFeedbackBuffer = &triangleVertexBuffer;
 
-	int numberOfIterations = 5;
+	//AntTweakBar
+	initTweakbar(window);
+	TwInit(TW_OPENGL_CORE, NULL); // for core profile
+	TwWindowSize(windowWidth, windowHeight);
+	TwBar *bar;
+	bar = TwNewBar("Ein Baum in 3D");
+	TwAddVarRW(bar, "Iterationen", TW_TYPE_INT8, &numberOfIterations, "min=0 max=9");
+	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 
-	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+	ButtonCallbackParameters buttonCallbackParameters;
+	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
+	buttonCallbackParameters.shader = &genShaderprogram;
+	buttonCallbackParameters.vertexArraysAndBufers = &vertexArraysAndBufers;
+	buttonCallbackParameters.numberOfVerticesToDraw = &numberOfVerticesToDraw;
+	buttonCallbackParameters.scaleLengthUniform = &scaleLengthUniform;
+	buttonCallbackParameters.scaleTriangleUniform = &scaleTriangleUniform;
+	buttonCallbackParameters.pyramidFactorUniform = &pyramidFactorUniform;
+	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " label='generate tree' ");
 
-	glm::dvec2 mouseDelta;
+	//Hier wird die callback function einmal manuell aufgerufen, damit beim Start des Programmes schon
+	//Geometrie auf dem Bildschirm zu sehen ist.
+	theGenerateButtonCallbackFunction(&buttonCallbackParameters);
 
 	/* Loop until the user closes the window */
+	glm::dvec2 mouseDelta;
 	while (!glfwWindowShouldClose(window))
 	{
-
-
-
 		//Update
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glfwGetWindowSize(window, &windowWidth, &windowHeight);
 
 		glm::dvec2 mousePosition;
-				glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
-				mouseDelta = mousePosition;
-				glfwSetCursorPos(window, 0.0d, 0.0d);
+		//glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
+		mouseDelta = mousePosition;
+		//glfwSetCursorPos(window, 0.0d, 0.0d);
 
 		if(mouseDelta.x != 0 || mouseDelta.y != 0 ) {
 			std::cout <<"mp("<<mousePosition.x<<", "<<mousePosition.y<<")" <<std::endl<< "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
@@ -243,8 +270,8 @@ int main(void)
 
 		//Model Matix
 		glm::mat4 model  = glm::mat4(1.0f);
-		modelRotaitonX += mouseDelta.y * 0.01;
-		modelRotationY += mouseDelta.x * 0.01;
+		//modelRotaitonX += mouseDelta.y * 0.01;
+		//modelRotationY += mouseDelta.x * 0.01;
 		model = glm::rotate(model, modelRotaitonX, glm::vec3(1.0f,0.0f,0.0f));
 		model = glm::rotate(model, modelRotationY, glm::vec3(0.0f,1.0f,0.0f));
 
@@ -252,15 +279,15 @@ int main(void)
 		glm::vec3 cameraPosition(0, -50, 250);
 		glm::mat4 view = glm::lookAt(
 					cameraPosition,
-					glm::vec3(0.0f,-20.0f,0.0f), // and looks at the origin
+					glm::vec3(0.0f,-30.0f,0.0f), // and looks at the origin
 					glm::vec3(0,1,0)
 					);
 
 		glm::mat4 projection = glm::perspective(
 					50.f,
-					(float) windowWidth / (float)windowHeight,
+					(float)windowWidth / (float)windowHeight,
 					0.1f,
-					10000.0f
+					1000.0f
 					);
 
 		glm::mat4 MVP	= projection * view * model;
@@ -275,7 +302,7 @@ int main(void)
 		vertexArraysAndBufers.currentVertexArray->bind();
 		renderShaderprogram.beginUsingProgram();
 
-		glDrawArrays(GL_TRIANGLES, 0, nVertices(numberOfIterations));
+		glDrawArrays(GL_TRIANGLES, 0, numberOfVerticesToDraw);
 
 		renderShaderprogram.stopUsingProgram();
 		vertexArraysAndBufers.currentVertexArray->unbind();
@@ -286,6 +313,10 @@ int main(void)
 		glfwSwapBuffers(window);
 
 		/* Poll for and process events */
+		//http://www.glfw.org/docs/latest/quick.html#quick_process_events
+		//Das aufrufen dieser Funktion löst aus, dass Events bearbeitet werden, das heißt, dass die CallbackFunktionen
+		//und damit auch die Reaktionen auf Events wie Buttonclicks in der AntTweakBar hier aufgerufen werden.
+		//Dies ist also auch jene Stelle an der neue Geometrie erzeugt wird sobald der "generate"-Button gedrückt wird.
 		glfwPollEvents();
 
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_F4) == GLFW_PRESS)
@@ -317,9 +348,7 @@ int nVertices(int numberOfIterations) {
 	return nTriangles(numberOfIterations) * 3;
 }
 
-
-
-VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shaderprogram shader, int numberOfIterations) {
+void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations) {
 	float scl = 4.0f;
 	float length = 4.f;
 	float a = 6.0f;
@@ -410,7 +439,17 @@ VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shad
 		vertexArraysAndBufers.lastVertexArray = swapVertexArray;
 		vertexArraysAndBufers.lastTransformFeedbackBuffer = swapTransformFeedbackBuffer;
 	}
+}
 
-	return vertexArraysAndBufers;
+void theGenerateButtonCallbackFunction(void *clientData) {
+	ButtonCallbackParameters* params = (ButtonCallbackParameters*) clientData;
+
+	Shaderprogram* shaderprogram = params->shader;
+	shaderprogram->setUniform("scaleLength", *(params->scaleLengthUniform));
+	shaderprogram->setUniform("scaleTriangle", *(params->scaleTriangleUniform));
+	shaderprogram->setUniform("pyramidFactor", *(params->pyramidFactorUniform));
+
+	generate(*(params->vertexArraysAndBufers), *(params->shader), *(params->numberOfIterations));
+	*(params->numberOfVerticesToDraw) = nVertices(*(params->numberOfIterations));
 }
 
