@@ -240,6 +240,9 @@ int main(void)
 	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 	TwAddVarRW(bar, "Rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "");
 
+	int autoRotateBoolean = 0;
+	TwAddVarRW(bar, "auto rotate", TW_TYPE_BOOL32, &autoRotateBoolean, " key=ALT+a ");
+
 	ButtonCallbackParameters buttonCallbackParameters;
 	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
 	buttonCallbackParameters.shader = &genShaderprogram;
@@ -248,7 +251,7 @@ int main(void)
 	buttonCallbackParameters.scaleLengthUniform = &scaleLengthUniform;
 	buttonCallbackParameters.scaleTriangleUniform = &scaleTriangleUniform;
 	buttonCallbackParameters.pyramidFactorUniform = &pyramidFactorUniform;
-	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " label='generate tree' ");
+	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " label='click to generate tree' ");
 
 	//Hier wird die callback function einmal manuell aufgerufen, damit beim Start des Programmes schon
 	//Geometrie auf dem Bildschirm zu sehen ist.
@@ -256,6 +259,7 @@ int main(void)
 
 	/* Loop until the user closes the window */
 	glm::dvec2 mouseDelta;
+	glm::quat autoRotationQuaternion;
 	while (!glfwWindowShouldClose(window))
 	{
 		//Update
@@ -272,13 +276,6 @@ int main(void)
 			std::cout <<"mp("<<mousePosition.x<<", "<<mousePosition.y<<")" <<std::endl<< "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
 		}
 
-		//Model Matix
-		//glm::mat4 model  = glm::mat4(1.0f);
-		//modelRotaitonX += mouseDelta.y * 0.01;
-		//modelRotationY += mouseDelta.x * 0.01;
-		//model = glm::rotate(model, modelRotaitonX, glm::vec3(1.0f,0.0f,0.0f));
-		//model = glm::rotate(model, modelRotationY, glm::vec3(0.0f,1.0f,0.0f));
-
 		//View Matrix
 		glm::vec3 cameraPosition(0, -50, 250);
 		glm::mat4 view = glm::lookAt(
@@ -294,8 +291,9 @@ int main(void)
 					1000.0f
 					);
 
-
-
+		if(autoRotateBoolean) {
+			rotationQuaternion = rotationQuaternion * glm::angleAxis(0.1f, glm::vec3(0,1,0));
+		}
 		glm::mat4 M	= glm::toMat4(rotationQuaternion);
 		glm::mat4 MVP	= projection * view * M;
 		glm::vec3 lightPosition(cameraPosition);
