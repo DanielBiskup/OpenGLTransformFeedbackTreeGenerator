@@ -10,4 +10,5 @@
 \contentsline {paragraph}{Die Dreiecke der Mantelfl\"ache}{3}{section*.2}
 \contentsline {paragraph}{Die Dreiecke der Pyramide}{4}{section*.3}
 \contentsline {section}{\numberline {2.3}Herleitung der Formel zur Berechnung der Anzahl generierter Dreiecke nach n Iterationen}{4}{section.2.3}
-\contentsline {chapter}{\numberline {3}Implementierung}{5}{chapter.3}
+\contentsline {paragraph}{Herleitung}{4}{section*.4}
+\contentsline {chapter}{\numberline {3}Implementierung}{6}{chapter.3}

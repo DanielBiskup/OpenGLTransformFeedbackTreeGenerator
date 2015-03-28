@@ -60,5 +60,30 @@ Die Menge $P$ der Dreiecke der Pyramide lässt sich beschreiben durch $P := \{(q_
 Die Menge $D$ aller Dreiecke der in (KABB1) abgebildeten Geometrie ergibt sich damit zu $D = M_L \cup P_L$. $D$ hat eine Mächtigkeit von neun.
 
 \section{Herleitung der Formel zur Berechnung der Anzahl generierter Dreiecke nach n Iterationen}
+Beim absetzen eines Draw Calls an OpenGL über die Methode \code{void glDrawArrays( 	GLenum mode, GLint first, GLsizei count);} muss als dritter Parameter angegeben werden, wie viele Eckpunkte zu zeichnen sind. Da die in diesem Kapitel generierte Geometrie aus einzelnen Dreiecken zusammensetzt, und jedes Dreieck sich aus drei Eckpunkten besteht, ist die Anzahl der Eckpunkte in der Geometrie dreimal so groß wie die der Dreiecke. Um die Anzahl der Eckpunkte in der Geometrie zu bestimmen ist es daher hilfreich zunächst die Anzahl der Dreiecke aus denen diese sich zusammensetzt zu bestimmen.
 
+Nach $n$ Iterationen besteht die Geometrie des generierten Baumes aus $4*3^n-3$ Eckpunkten. Diese Formel wird im Folgenden hergeleitet.
+
+\paragraph{Herleitung}
+Für jedes Eingabedreieck $p=((p_0, p_1, p_2),l)$, für welches $l=0$ gilt wird keine neue Geometrie erzeugt, die Gesamtzahl der Dreiecke bleibt unverändert. Gilt $l>0$ so wird das Eingabedreieck durch neun andere Dreiecke ersetzt, die Gesamtzahl steigt um acht Dreiecke.
+
+In jeder Iteration wird jedes Dreieck mit $l>0$ ersetzt durch drei neue Dreiecke mit $l>0$. Also enthält die Eingabemenge der Dreiecke nach $n$ Iterationen genau $3^{n}$ Dreiecke mit $l>0$. Da mit jeder Iteration für jedes Dreieck mit $l>0$ genau acht neue Dreiecke hinzukommen, und nach $m$ Iterationen $3^{m}$ Dreiecke in der Eingabemenge enthalten sind die  diese Bedingung erfüllen, kommen in Iteration $n$ genau $3^n$ Dreiecke hinzu für $n \geq 0$. Für die Anzahl der Dreiecke $f$ die in Iteration $n$ hinzukommen gilt daher $f(n) := 3^n * 8$.
+
+Die Gesamtzahl $g(n)$ der Dreiecke nach $n$ Iterationen ist damit:
+%Quelle: Summenrechnung
+$$g(n) := 1 + \sum_{i = 0}^{n-1} f(i)$$
+$$= 1 + \sum_{i = 0}^{n-1} 8 * 3^i$$
+$$= 1 + 8 * \sum_{i = 0}^{n-1} 3^i$$
+$$= 1 + 8 * ((\sum_{i = 0}^{n} 3^i) - 3^n )$$
+$$= 1 + 8 * (\frac{1-3^{n+1}}{1-3} - 3^n ) $$
+$$= 1 + 8 * (\frac{1-3^{n+1}}{-2} - 3^n )$$
+$$= 1 + 8 * (\frac{1-3^{n+1}+2*3^n}{-2})$$
+$$= 1 + 8 * (\frac{1-3*3^{n}+2*3^n}{-2})$$
+$$= 1 + 8 * (\frac{1-3^n}{-2})$$
+$$= 1 + (\frac{4*(1-3^n)}{-1})$$
+$$= 1 - (4 -4 * 3^n)$$
+$$= 4 * 3^n - 3$$
+
+Da für $n = 0$ gilt $g(0) = 4 * 3^0 - 3 = 1$, gilt:
+$$\forall n \in \mathbb{N}:g(n) := 4 * 3^n - 3$$
 \par
