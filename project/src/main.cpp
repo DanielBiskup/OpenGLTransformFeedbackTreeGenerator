@@ -87,9 +87,16 @@ struct VertexArraysAndBufers {
 	Buffer* lastTransformFeedbackBuffer;
 };
 
+struct ButtonCallbackParameters {
+	VertexArraysAndBufers* vertexArraysAndBufers;
+	Shaderprogram* shader;
+	int* numberOfIterations;
+};
+
 int nTriangles(int numberOfIterations);
 int nVertices(int numberOfIterations);
 VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shaderprogram shader, int numberOfIterations);
+void theGenerateButtonCallbackFunction(void *clientData);
 
 int main(void)
 {
@@ -153,10 +160,8 @@ int main(void)
 	//Variables
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
-
-	//AntTweakBar
-	initTweakbar(window, windowWidth, windowHeight);
-
+	const int maxNumberOfIterations = 9;
+	int numberOfIterations = 5;
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -185,7 +190,6 @@ int main(void)
 	Buffer triangleVertexBuffer(GL_ARRAY_BUFFER);
 	Buffer transformFeedbackBufferA(GL_ARRAY_BUFFER);
 
-	const int maxNumberOfIterations = 9;
 	triangleVertexBuffer.bufferDataStaticRead(sizeof(treeVertex) * nVertices(maxNumberOfIterations), 0);
 	transformFeedbackBufferA.bufferDataStaticRead(sizeof(treeVertex) * nVertices(maxNumberOfIterations), 0);
 
@@ -217,18 +221,28 @@ int main(void)
 	vertexArraysAndBufers.lastVertexArray = &renderVertexArray;
 	vertexArraysAndBufers.lastTransformFeedbackBuffer = &triangleVertexBuffer;
 
-	int numberOfIterations = 5;
-
-	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+	//vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
 
 	glm::dvec2 mouseDelta;
+
+	//AntTweakBar
+	initTweakbar(window);
+	TwInit(TW_OPENGL_CORE, NULL); // for core profile
+	TwWindowSize(windowWidth, windowHeight);
+	TwBar *bar;
+	bar = TwNewBar("Ein Baum in 3D");
+
+	TwAddVarRW(bar, "Iterationen", TW_TYPE_INT8, &numberOfIterations, "min=0 max=10");
+
+	ButtonCallbackParameters buttonCallbackParameters;
+	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
+	buttonCallbackParameters.shader = &genShaderprogram;
+	buttonCallbackParameters.vertexArraysAndBufers = &vertexArraysAndBufers;
+	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " label='generate tree' ");
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
-
-
-
 		//Update
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -288,6 +302,10 @@ int main(void)
 		glfwSwapBuffers(window);
 
 		/* Poll for and process events */
+		//http://www.glfw.org/docs/latest/quick.html#quick_process_events
+		//Das aufrufen dieser Funktion löst aus, dass Events bearbeitet werden, das heißt, dass die CallbackFunktionen
+		//und damit auch die Reaktionen auf Events wie Buttonclicks in der AntTweakBar hier aufgerufen werden.
+		//Dies ist also auch jene Stelle an der neue Geometrie erzeugt wird sobald der "generate"-Button gedrückt wird.
 		glfwPollEvents();
 
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_F4) == GLFW_PRESS)
@@ -318,8 +336,6 @@ int nTriangles(int numberOfIterations) {
 int nVertices(int numberOfIterations) {
 	return nTriangles(numberOfIterations) * 3;
 }
-
-
 
 VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shaderprogram shader, int numberOfIterations) {
 	float scl = 4.0f;
@@ -414,5 +430,11 @@ VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shad
 	}
 
 	return vertexArraysAndBufers;
+}
+
+void theGenerateButtonCallbackFunction(void *clientData) {
+	ButtonCallbackParameters* params = (ButtonCallbackParameters*) clientData;
+	VertexArraysAndBufers vertexArraysAndBufers = generate(*(params->vertexArraysAndBufers), *(params->shader), *(params->numberOfIterations));
+	*(params->vertexArraysAndBufers) = vertexArraysAndBufers;
 }
 

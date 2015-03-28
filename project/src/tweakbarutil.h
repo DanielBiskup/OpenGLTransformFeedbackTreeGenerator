@@ -2,6 +2,7 @@
 #define TWEAKBARUTIL_H
 
 #include <GLFW/glfw3.h>
-void initTweakbar(GLFWwindow* window, float windowWidth, float windowHeight);
+#include <AntTweakBar.h>
+void initTweakbar(GLFWwindow* window);
 
 #endif // TWEAKBARUTIL_H
