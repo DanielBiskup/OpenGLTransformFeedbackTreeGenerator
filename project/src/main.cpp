@@ -156,6 +156,18 @@ int main(void)
 	myBar = TwNewBar("NameOfMyTweakBar");
 	TwAddVarRW(myBar, "NameOfMyVariable", TW_TYPE_FLOAT, &modelRotaitonX, "RotX");
 
+	//AntTwaekBar Callback
+	// after GLFW initialization
+	// directly redirect GLFW events to AntTweakBar
+	glfwSetMouseButtonCallback(window,(GLFWmousebuttonfun)TwEventMouseButtonGLFW);
+	glfwSetCursorPosCallback(window, (GLFWcursorposfun)TwEventMousePosGLFW);
+	glfwSetScrollCallback(window, (GLFWscrollfun)TwEventMouseWheelGLFW);
+	glfwSetKeyCallback(window, (GLFWkeyfun)TwEventKeyGLFW);
+	glfwSetCharCallback(window, (GLFWcharfun)TwEventCharGLFW);
+
+	// send window size events to AntTweakBar
+	//glfwSetWindowSizeCallback(window, MyResize); // and call TwWindowSize in the function MyResize
+
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
 	Shader genGeometryShader(ShaderType::Geometry, "data/tree.geo");
