@@ -3,10 +3,14 @@
 layout(triangles) in;
 layout(triangle_strip, max_vertices = 27) out;
 
+//Uniform mit sinnvollen Standartwerten.
+uniform float scaleTriangle = 0.8f;
+uniform float scaleLength = 0.7f;
+uniform float pyramidFactor = 0.2f;
+
 in vec3[] geo_position;
 in float[] geo_length; // Lenge die der zu generierende Ast haben soll.
 in vec3[] geo_normal;
-
 
 out vec3 out_position; // Output to fragment shader
 out float out_length;
@@ -16,13 +20,6 @@ void emitTriangle(vec3 v0, vec3 v1, vec3 v2, float l);
 void emitTriangleWithNormal( vec3 v0, vec3 v1, vec3 v2, float l, vec3 normal);
 
 void main() {
-
-    //UNIFORMS_BEGIN:
-    float scaleTriangle = 0.8f;
-    float scaleLength = 0.7f;
-    float pyramidFactor = 0.2f;
-    //UNIFORMS_END:
-
     //Gegeben:
     vec3 p[3] = geo_position;
     float l = geo_length[0];

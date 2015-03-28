@@ -92,6 +92,9 @@ struct ButtonCallbackParameters {
 	Shaderprogram* shader;
 	int* numberOfIterations;
 	int* numberOfVerticesToDraw;
+	float* scaleTriangleUniform;
+	float* scaleLengthUniform;
+	float* pyramidFactorUniform;
 };
 
 int nTriangles(int numberOfIterations);
@@ -163,6 +166,10 @@ int main(void)
 	float modelRotationY = 0.0f;
 	const int maxNumberOfIterations = 9;
 	int numberOfIterations = 0;
+	int numberOfVerticesToDraw = 0;
+	float scaleTriangleUniform = 0.8f;
+	float scaleLengthUniform = 0.7f;
+	float pyramidFactorUniform = 0.2f;
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -222,10 +229,6 @@ int main(void)
 	vertexArraysAndBufers.lastVertexArray = &renderVertexArray;
 	vertexArraysAndBufers.lastTransformFeedbackBuffer = &triangleVertexBuffer;
 
-	//vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-
-	glm::dvec2 mouseDelta;
-
 	//AntTweakBar
 	initTweakbar(window);
 	TwInit(TW_OPENGL_CORE, NULL); // for core profile
@@ -234,35 +237,22 @@ int main(void)
 	bar = TwNewBar("Ein Baum in 3D");
 	TwAddVarRW(bar, "Iterationen", TW_TYPE_INT8, &numberOfIterations, "min=0 max=9");
 
-	int numberOfVerticesToDraw = 0;
-
 	ButtonCallbackParameters buttonCallbackParameters;
 	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
 	buttonCallbackParameters.shader = &genShaderprogram;
 	buttonCallbackParameters.vertexArraysAndBufers = &vertexArraysAndBufers;
 	buttonCallbackParameters.numberOfVerticesToDraw = &numberOfVerticesToDraw;
+	buttonCallbackParameters.scaleLengthUniform = &scaleLengthUniform;
+	buttonCallbackParameters.scaleTriangleUniform = &scaleTriangleUniform;
+	buttonCallbackParameters.pyramidFactorUniform = &pyramidFactorUniform;
 	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " label='generate tree' ");
 
-
-	//DEBUG HERE: !!!
-//	numberOfIterations = 3;
-//	generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-//	generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-
-//	numberOfIterations = 3;
-//	generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-//	generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-//	generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-
-	//vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-
-	//vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-//	numberOfIterations = 1;
-//	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-//	numberOfIterations = 5;
-//	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+	//Hier wird die callback function einmal manuell aufgerufen, damit beim Start des Programmes schon
+	//Geometrie auf dem Bildschirm zu sehen ist.
+	theGenerateButtonCallbackFunction(&buttonCallbackParameters);
 
 	/* Loop until the user closes the window */
+	glm::dvec2 mouseDelta;
 	while (!glfwWindowShouldClose(window))
 	{
 		//Update
