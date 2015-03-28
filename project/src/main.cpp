@@ -160,8 +160,6 @@ int main(void)
 	glfwSetWindowPos(window, (desktopWidth-windowWidth)/2, (desktopHeight-windowHeight)/2);
 
 	//Variables
-	float modelRotaitonX = 0.0f;
-	float modelRotationY = 0.0f;
 	const int maxNumberOfIterations = 9;
 	int numberOfIterations = 0;
 	int numberOfVerticesToDraw = 0;
@@ -169,6 +167,7 @@ int main(void)
 	float scaleTriangleUniform = 0.8f;
 	float pyramidFactorUniform = 0.2f;
 	glm::quat rotationQuaternion;
+	float autoRotationSpeed = 0.1f;
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -239,6 +238,7 @@ int main(void)
 	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 	TwAddVarRW(bar, "Rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "");
+	TwAddVarRW(bar, "autoRotationSpeed", TW_TYPE_FLOAT, &autoRotationSpeed, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 
 	int autoRotateBoolean = 0;
 	TwAddVarRW(bar, "auto rotate", TW_TYPE_BOOL32, &autoRotateBoolean, " key=ALT+a ");
@@ -259,9 +259,15 @@ int main(void)
 
 	/* Loop until the user closes the window */
 	glm::dvec2 mouseDelta;
-	glm::quat autoRotationQuaternion;
+	double currentFrame, deltaTime;
+	double lastFrame = glfwGetTime();
 	while (!glfwWindowShouldClose(window))
 	{
+		//Deltatime bestimmen:
+		currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		//Update
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -292,7 +298,7 @@ int main(void)
 					);
 
 		if(autoRotateBoolean) {
-			rotationQuaternion = rotationQuaternion * glm::angleAxis(0.1f, glm::vec3(0,1,0));
+			rotationQuaternion = rotationQuaternion * glm::angleAxis(10.f * autoRotationSpeed * (float)deltaTime, glm::vec3(0,1,0));
 		}
 		glm::mat4 M	= glm::toMat4(rotationQuaternion);
 		glm::mat4 MVP	= projection * view * M;
