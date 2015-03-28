@@ -4,8 +4,8 @@ layout(triangles) in;
 layout(triangle_strip, max_vertices = 27) out;
 
 //Uniform mit sinnvollen Standartwerten.
-uniform float scaleTriangle = 0.8f;
 uniform float scaleLength = 0.7f;
+uniform float scaleTriangle = 0.8f;
 uniform float pyramidFactor = 0.2f;
 
 in vec3[] geo_position;

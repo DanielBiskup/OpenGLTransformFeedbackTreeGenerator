@@ -92,8 +92,8 @@ struct ButtonCallbackParameters {
 	Shaderprogram* shader;
 	int* numberOfIterations;
 	int* numberOfVerticesToDraw;
-	float* scaleTriangleUniform;
 	float* scaleLengthUniform;
+	float* scaleTriangleUniform;
 	float* pyramidFactorUniform;
 };
 
@@ -167,8 +167,8 @@ int main(void)
 	const int maxNumberOfIterations = 9;
 	int numberOfIterations = 0;
 	int numberOfVerticesToDraw = 0;
-	float scaleTriangleUniform = 0.8f;
 	float scaleLengthUniform = 0.7f;
+	float scaleTriangleUniform = 0.8f;
 	float pyramidFactorUniform = 0.2f;
 
 	//Shader zum generieren der Geometrie:
@@ -236,6 +236,9 @@ int main(void)
 	TwBar *bar;
 	bar = TwNewBar("Ein Baum in 3D");
 	TwAddVarRW(bar, "Iterationen", TW_TYPE_INT8, &numberOfIterations, "min=0 max=9");
+	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 
 	ButtonCallbackParameters buttonCallbackParameters;
 	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
@@ -440,12 +443,16 @@ void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shade
 		vertexArraysAndBufers.lastVertexArray = swapVertexArray;
 		vertexArraysAndBufers.lastTransformFeedbackBuffer = swapTransformFeedbackBuffer;
 	}
-
-	//return vertexArraysAndBufers;
 }
 
 void theGenerateButtonCallbackFunction(void *clientData) {
 	ButtonCallbackParameters* params = (ButtonCallbackParameters*) clientData;
+
+	Shaderprogram* shaderprogram = params->shader;
+	shaderprogram->setUniform("scaleLength", *(params->scaleLengthUniform));
+	shaderprogram->setUniform("scaleTriangle", *(params->scaleTriangleUniform));
+	shaderprogram->setUniform("pyramidFactor", *(params->pyramidFactorUniform));
+
 	generate(*(params->vertexArraysAndBufers), *(params->shader), *(params->numberOfIterations));
 	*(params->numberOfVerticesToDraw) = nVertices(*(params->numberOfIterations));
 }
