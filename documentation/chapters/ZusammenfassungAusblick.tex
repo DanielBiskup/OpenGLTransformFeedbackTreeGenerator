@@ -1,0 +1,33 @@
+\chapter{Zusammenfassung und Ausblick}
+
+\section{Fazit}
+Das Beispielprogramm bietet die Möglichkeit Einheiten eine Reihe von Befehlen zu erteilen welche sie nacheinander ausführen sollen.
+Bisher sind zwar nur die zwei Command-Klassen \verb+CollectWoodCommad+ und \verb+GoToPositionCommand+, doch weitere Commands sowie korrespondierende StateMachine Kompositionen, können ohne Probleme in die Anwendung eingegliedert werden. Allerdings stellt sich die Kompositionen komplexerer StateMachines aus den grundlegenden States und StateMachines als recht unübersichtlich und fehleranfällig heraus.
+Grundsätzlich jedoch, scheint die in dieser Hausarbeit gezeigt Herangehensweise Command Queues zu implementieren zumindest für kleinere Projekte vollkommen außreichend zu sein.
+
+\section{Ausblick}
+Auf Basis der Beispielanwendung könnte man durchaus noch aufbauen. Die möglichen Erweiterungen sind so mannigfaltig, dass sie leider nicht im Rahmen dieser Hausarbeit realisiert werden konnen.
+
+\subsection{Hinzufügen und abändern von Charactertypen, Verhalten und Gebäude}
+Denkbar wäre die Implementierung von Gebäudetypen wie Kaserne welche über die Command Queue Befehle zum Bau von Einheiten entgegennehmen können.
+
+Es könnte ein Patrouilleverhalten implementiert werden, welches es erlaubt einem Character den Befehl zu erteilen immer die selbe Route ab zu laufen.
+
+Bäume könnten so abgeändert werden, dass sie nur noch eine begrenzte Menge Holz abgeben. Dazu würde man eine TreeComponent entwerfen und implementieren.
+
+Die möglichkeit Gebäude zu errichten könnte implementiert werden.
+
+\subsection*{Kollisionsvermeidung, Wegfindung, Formationen}
+Damit die Simulation glaubwürdiger erscheint, wäre es hilfreich dafür zu sorgen, dass Einheiten nicht mehr miteinander kollidieren können. Setzt man dies um, so muss man allerdings auch einen Wegfindungsalgorithmus wie A* implementieren welcher dafür sorgt, dass Einheiten einen Weg zu ihrem Ziel finden obwohl der direkte Weg blockiert ist. Denkt man diesen Gedanken weiter ergibt sich daraus die Idee, dass eigene Einheiten die einer Einheit des selben Teams im Weg stehen, dies mitgeteilt bekommen und versuchen die Blockade aufzulösen.
+
+Sobald man mehre Einheiten hat, könnte es sich auch anbieten über Gruppenformationen (wie sie in ''Artificial Intelligence for Games'' von Ian Millington in Kapitel 3.7.3 beschrieben) nachzudenken.
+
+\subsection{High-Level und Intermediate-Level AI}
+Höhere Ebenen der AI, welche die bereits vorhandene Command Queue-Infrastruktur verwenden würden, könnten entwickelt werden. Zum Beispiel AIs welche sich um den Basisbau kümmern.
+
+Ohne hier weiter ins Detail zu gehen möchte ich auf das Kapitel 8.2 in ''AI Game Programming Wisdom'' verweisen in welchem die üblichen Schichten einer AI für Echtzeit-Strategiespiele aufgeführt sind.
+
+\subsection{Editor für die Komposition von StateMachines}
+Es wäre denkebar einen grafischen Editor für zu entwickeln, der die Komposition von StateMachines aus bereis vorhandenen States und StateMachines aus \verb+stats/basicStates+ erleichtert. Als mögliches Ausgabevormat würde für den Anfang schon C++ Quelltext ausreichen. Ein solcher Editor könnt zum Beispiel im Rahmen einer anderen Vorlesung umgesetzt werden.
+
+

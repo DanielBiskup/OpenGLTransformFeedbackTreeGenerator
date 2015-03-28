@@ -1,0 +1,356 @@
+% BibTeX database for AFT at i3A
+
+%% bibtexfile{
+%%  author	= " ",
+%%  version	= "1.0",
+%%  date	= "10 April 2003",
+%%  filename	= "fuzzy.bib",
+%%  adress	= "Fachhochschule Trier
+%%		   University of Applied Sciences Trier
+%%		   Postfach 1826
+%%		   D-54208 Trier
+%%		   Germany",
+%%  email	= "<i3a.fh-trier.de>" }
+
+
+% How to use this file within an german document!
+%
+% - set 'german' as global option to documentclass
+%   e.g.: '\documentclass[12pt,a4paper,oneside,german,epsfig]{ai-paper}'
+% - use package 'babel': '\usepackage{babel}'
+% - use package 'bibgerm': '\usepackage{bibgerm}'
+% - use bibstyle 'geralpha', 'gerplain', ...
+%   e.g.: '\bibliographystyle{geralpha}'
+%
+% Within this .bib-file use 'and' to specify more than one author. 
+% You have to use only the english abbreviations WITHOUT curly brackets
+% for months! e.g.: 'jan', 'feb', 'mar', 'apr', 'mai', 'jun', 'jul',
+% 'aug', 'sep', 'oct', 'nov', 'dec'.
+
+
+
+% Short explanation of entry types:
+%
+% Article:          An article from a journal or magazine.
+% Book:             A Book with an explicit publisher.
+% Booklet:          A work that is printed and bound, but without a 
+%                   named publisher or sponsoring institution.
+% InBook:           A part of a book which may be a chapter (or section
+%                   or whatever) and/or a range of pages.
+% InCollection:     A part of a book having ots own title.
+% InProceedings:    An article in a conference proceedings.
+% Manual:           Technical documentation.
+% Mastersthesis:    A Master's thesis.
+% Misc:             Use this type when nothing else fits.
+% PhDthesis:        A PhD thesis.
+% Proceedings:      The proceedings of a conference. See also: inproceedings.
+% Techreport:       A report published by a school or other institution, 
+%                   usally numbered within a series.
+%
+% Further Information may be found at www.din1505.informationskompetenz.net
+
+
+
+%%%%%%%% article
+%%
+%% An article from a journal or magazine.
+%%
+%% Required fields:
+%% author, title, journal, year
+%%
+%% Optional fields:
+%% volume, number, pages, month, note
+
+
+%%%%%%%% book
+%%
+%% A Book with an explicit publisher.
+%%
+%% Required fields:
+%% author or editor, title, publisher, year
+%%
+%% Optional fields:
+%% volume or number, series, address, edition, month, isbn, note
+@book{Coulouris:02,
+  author	= {George Coulouris and Jean Dollimore and Tim Kindberg},
+  title		= {{Verteilte Systeme: Konzepte und Design}},
+  publisher	= {Addison-Wesley-Verlag},
+  howpublished	= {3. überarbeitete Auflage},
+  year		= 2002,
+  isbn		= {3-8273-7022-1}
+}
+
+@book{Cormen:90,
+  author	= {Thomas H. Cormen and Charles E. Leiserson and Ronald L. Rivest},
+  title		= {{Introduction to Algorithms}},
+  year		= 1990,
+  isbn		= {0-262-03141-8}
+}
+
+@book{Heckenthaler:96,
+  author	= {Thomas Heckenthaler},
+  title		= {{Systematischer Entwurf fast-zeitoptimaler Fuzzy-Regelungen.}},
+  publisher	= {Shaker Verlag, Aachen},
+  year		= 1996,
+}
+
+
+%%%%%%%% booklet
+%%
+%% A work that is printed and bound, but without a named publisher or
+%% sponsoring institution.
+%%
+%% Required fields:
+%% title
+%%
+%% Optional fields:
+%% author, howpublished, address, month, year, note
+
+
+
+%%%%%%%% inbook
+%%
+%% A part of a book which may be a chapter (or section or whatever) and/or 
+%% a range of pages.
+%%
+%% Required fields:
+%% author or editor, title, chapter and/or pages, publisher, year
+%%
+%% Optional fields:
+%% volume or number, series, type, address, edition, month, note
+
+@book{DeLoura:2001:GPG:516343,
+ author = {DeLoura, Mark},
+ title = {Game Programming Gems 2},
+ year = {2001},
+ isbn = {1584500549},
+ publisher = {Charles River Media, Inc.},
+ address = {Rockland, MA, USA}
+} 
+
+@book{Millington:2009:AIG:1795711,
+ author = {Millington, Ian and Funge, John},
+ title = {Artificial Intelligence for Games, Second Edition},
+ year = {2009},
+ isbn = {0123747317, 9780123747310},
+ edition = {2nd},
+ publisher = {Morgan Kaufmann Publishers Inc.},
+ address = {San Francisco, CA, USA}
+}
+
+
+%%%%%%%% incollection
+%%
+%% A part of a book having its own title.
+%%
+%% Required fields:
+%% author, title, booktitle, publisher, year
+%%
+%% Optional fields:
+%% editor, volume or number, series, type, chapter, pages, address, 
+%% edition, month, note
+
+
+
+
+%%%%%%%% inproceedings
+%%
+%% An article in a conference preceedings.
+%%
+%% Required fields:
+%% author, title, booktitle, year
+%%
+%% Optional fields:
+%% editor, volume or number, series, pages, address, month, organization, 
+%% publisher, note
+
+@misc{Cheriton:85,
+    author	= {David R. Cheriton},
+    title	= {
+    {Preliminary Thoughts on Problem-oriented Shared Memory: A Decentralized Approach to Distributed Systems}
+    },
+    editor      = {ACM Operating Systems Review},
+    organization= {Stanford University},
+    year	= 1985,
+    number      = {4, Vol. 19},
+    pages	= {26-33}
+}
+
+%%%%%%%% manual
+%%
+%% Technical documentation.
+%%
+%% Required fields:
+%% title
+%%
+%% Optional fields:
+%% author, editor, organization, address, edition, month, year, note
+
+%%%%%%%% mastersthesis
+%%
+%% A Master's thesis.
+%%
+%% Required fields:
+%% author, title, school, year
+%%
+%% Optional fields:
+%% type, address, month, note
+
+
+@mastersthesis{Gottwald:03,
+    author      = {Tim Gottwald and Rainer Oechsle},
+    title       = {
+    {DisASTer (Distributed Algorithms Simulation Terrain) A Platform for the Implementation of Distributed Algorithms}
+    },
+    school      = {Fachhochschule Trier Fachbereich Angewandte Informatik},
+    year        = 2003,
+    type	= {Diplomarbeit}
+}
+
+@mastersthesis{Weinhold:03,
+    author      = {Jens-Ole Weinhold and Andreas Meister},
+    title       = {
+    {Effiziente Lösung restrigierter Least-Squares-Probleme zur Parameteroptimierung in TSK-Fuzzy-Systemen}
+    },
+    school      = {Universität zu Lübeck},
+    year        = 2003,
+    type	= {Diplomarbeit}
+}
+%%%%%%%% misc
+%%
+%% Use this type when nothing else fits.
+%%
+%% Required fields:
+%% none.
+%%
+%% Optional fields:
+%% author, title, url, month, year, note
+
+@misc{Wikipedia:00,
+	title={{Wikipedia - Online Lexikon}},
+	url={de.wikipedia.org/wiki/Speicherseite},
+	note={\\ {\url{de.wikipedia.org/wiki/Speicherseite}}}
+}
+
+@misc{Zeller:03,
+	author	={Andreas Zeller},
+	title		= {{Software-Metriken}},
+	url			={www.st.cs.uni-sb.de/edu/se/2003/metriken.pdf},
+	note		={Lehrstuhl Softwaretechnik, Universität des Saarlandes, Saarbrücken
+						\\ \url{http://www.st.cs.uni-sb.de/edu/se/2003/metriken.pdf}},
+	year		={2003}
+}
+
+
+@misc{Janko:04,
+	author	={Wolfgang H. Janko and Stefan Koch},
+	title		={{Informationswirtschaft 3, Software-Metriken}},
+	url			={wwwai.wu-wien.ac.at/~koch/lehre/inf-wirt-3-pi-ws-05/metriken.pdf},
+	note		={Institut für Informationsverarbeitung und Informationswirtschaft,
+Wirtschaftsuniversität Wien
+						\\
+\url{http://wwwai.wu-wien.ac.at/~koch/lehre/inf-wirt-3-pi-ws-05/metriken.pdf}},
+	year		={2004}
+}
+
+
+
+%%%%%%%% phdthesis
+%%
+%% A PhD thesis.
+%%
+%% Required fields:
+%% author, title, school, year
+%% 
+%% Optional fields:
+%% type, address, month, note
+
+%%%%%%%% proceedings
+%%
+%% The proceedings of a conference. See also: inproceedings.
+%%
+%% Required fields:
+%% title, year
+%%
+%% Optional fields:
+%% editor, volume or number, series, address, month, organization, publisher, note
+
+%%%%%%%% techreport
+%%
+%% A report published by a school or other institution, usally 
+%% numbered within a series.
+%%
+%% Required fields:
+%% author, title, institution, year
+%%
+%% Optional fields:
+%% type, number, address, month, note
+
+
+@techreport{Mosberger:93,
+  author	= {David Mosberger},
+  title		= {{Memory Consistency Models}},
+  year		= 1993,
+  month		= Nov,
+  type		= {Technical Report 93/11},
+  institution	= {University of Arizona}
+}
+
+@techreport{Malte:97,
+  author	= {Peter Malte},
+  title		= {{Replikation in Mobil Computing}},
+  institution	= {Institut f{\"u}r Telematik der Universit{\"a}t Karlsruhe},
+  year		= 1997,
+  type		= {Seminar},
+  address	= {Karsruhe},
+  number	= {No 31/1997},
+  url		= {http://www.ubka.uni-karlsruhe.de/cgi-bin/psview?document=/ira/1997/31},
+  note={\\{\url{http://www.ubka.uni-karlsruhe.de/cgi-bin/psview?document=/ira/1997/31}}}
+}
+
+@techreport{Moser:97,
+  author	= {Boris Moser},
+  title		= {{Memory Consistency Modelle}},
+  institution	= {Institut f{\"u}r Telematik der Universit{\"a}t Karlsruhe},
+  year		= 1997,
+  type		= {Seminar},
+  address	= {Karsruhe},
+  number	= {No 31/1997},
+  url		= {http://www.ubka.uni-karlsruhe.de/cgi-bin/psview?document=/ira/1997/31},
+  note={\\ {\url{http://www.ubka.uni-karlsruhe.de/cgi-bin/psview?document=/ira/1997/31}}}
+}
+
+@techreport{Bastian:02,
+  author	= {Peter Bastian},
+  title		= {{Paralleles Rechnen}},
+  year		= 2002,
+  type		= {Vorlesungsskript},
+  institution	= {Uni Heidelberg},
+  url		= {http://hal.iwr.uni-heidelberg.de/~peter/Papers/pr1.pdf},
+  note={\\ {\url{http://hal.iwr.uni-heidelberg.de/~peter/Papers/pr1.pdf}}}
+}
+
+@techreport{Becker:01,
+  author	= {Christoph Becker},
+  title		= {{Rechenorganisation der AG Betriebssysteme}},
+  type		= {Proseminar},
+  year		= 2001,  
+  institution	= {Uni Magdeburg},
+  url		= {http://ivs.cs.uni-magdeburg.de/bs/lehre/wise0001/proro/sm.html},
+  note={\\ {\url{http://ivs.cs.uni-magdeburg.de/bs/lehre/wise0001/proro/sm.html}}}
+}
+
+@techreport{Nguyen:03,
+  author	= {Van-Phai Nguyen},
+  title		= {{Fenite Elemente Methode}},
+  year		= 2003,
+  type		= {Vorlesungsskript},
+  institution	= {FH-Trier}
+  }
+  @techreport{Schmitz:05,
+  author	= {Heinz Schmitz},
+  title		= {{Optimierungsprobleme und Approximation}},
+  year		= 2005,
+  type		= {Vorlesungsskript},
+  institution	= {FH-Trier}
+}

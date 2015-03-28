@@ -20,6 +20,7 @@ void main() {
     //UNIFORMS_BEGIN:
     float scaleTriangle = 0.8f;
     float scaleLength = 0.7f;
+    float pyramidFactor = 0.2f;
     //UNIFORMS_END:
 
     //Gegeben:
@@ -41,17 +42,17 @@ void main() {
         vec3 n = cross(a, b);
         n = normalize(n);
         vec3 h = n * l;
-        vec3 c = (p[0]+p[1]+p[2])/3;
+        vec3 c_p = (p[0]+p[1]+p[2])/3;
 
         //q berechnen:
         for(int i = 0; i < 3; i++) {
-            vec3 d_i = (p[i] - c) * scaleTriangle;
-            q[i] = c + d_i + h;
+            vec3 d_i = (p[i] - c_p) * scaleTriangle;
+            q[i] = c_p + d_i + h;
         }
 
-        //float pyramidenHoehe = l * 0.5f; //gut
-        float pyramidenHoehe = length(a)*0.2f;
-        t = c + h + n * pyramidenHoehe;
+        float h_pyramid = length(a)*pyramidFactor;
+
+        t = c_p + h + n * h_pyramid;
 
         //l_next berechnen:
         l_next = l * scaleLength;
