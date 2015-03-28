@@ -95,7 +95,7 @@ struct ButtonCallbackParameters {
 
 int nTriangles(int numberOfIterations);
 int nVertices(int numberOfIterations);
-VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shaderprogram shader, int numberOfIterations);
+void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations);
 void theGenerateButtonCallbackFunction(void *clientData);
 
 int main(void)
@@ -161,7 +161,7 @@ int main(void)
 	float modelRotaitonX = 0.0f;
 	float modelRotationY = 0.0f;
 	const int maxNumberOfIterations = 9;
-	int numberOfIterations = 5;
+	int numberOfIterations = 2;
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -226,12 +226,12 @@ int main(void)
 	glm::dvec2 mouseDelta;
 
 	//AntTweakBar
+
 	initTweakbar(window);
 	TwInit(TW_OPENGL_CORE, NULL); // for core profile
 	TwWindowSize(windowWidth, windowHeight);
 	TwBar *bar;
 	bar = TwNewBar("Ein Baum in 3D");
-
 	TwAddVarRW(bar, "Iterationen", TW_TYPE_INT8, &numberOfIterations, "min=0 max=10");
 
 	ButtonCallbackParameters buttonCallbackParameters;
@@ -240,12 +240,24 @@ int main(void)
 	buttonCallbackParameters.vertexArraysAndBufers = &vertexArraysAndBufers;
 	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " label='generate tree' ");
 
+
 	//DEBUG HERE: !!!
-	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-	numberOfIterations = 1;
-	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
-	numberOfIterations = 5;
-	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+//	numberOfIterations = 3;
+//	generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+//	generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+
+//	numberOfIterations = 3;
+//	generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+//	generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+//	generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+
+	//vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+
+	//vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+//	numberOfIterations = 1;
+//	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+//	numberOfIterations = 5;
+//	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
 
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
@@ -344,7 +356,7 @@ int nVertices(int numberOfIterations) {
 	return nTriangles(numberOfIterations) * 3;
 }
 
-VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shaderprogram shader, int numberOfIterations) {
+void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations) {
 	float scl = 4.0f;
 	float length = 4.f;
 	float a = 6.0f;
@@ -436,12 +448,12 @@ VertexArraysAndBufers generate(VertexArraysAndBufers vertexArraysAndBufers, Shad
 		vertexArraysAndBufers.lastTransformFeedbackBuffer = swapTransformFeedbackBuffer;
 	}
 
-	return vertexArraysAndBufers;
+	//return vertexArraysAndBufers;
 }
 
 void theGenerateButtonCallbackFunction(void *clientData) {
 	ButtonCallbackParameters* params = (ButtonCallbackParameters*) clientData;
-	VertexArraysAndBufers vertexArraysAndBufers = generate(*(params->vertexArraysAndBufers), *(params->shader), *(params->numberOfIterations));
-	*(params->vertexArraysAndBufers) = vertexArraysAndBufers;
+	/*VertexArraysAndBufers vertexArraysAndBufers =*/generate(*(params->vertexArraysAndBufers), *(params->shader), *(params->numberOfIterations));
+	/**(params->vertexArraysAndBufers) = vertexArraysAndBufers;*/
 }
 
