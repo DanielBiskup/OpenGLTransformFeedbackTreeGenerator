@@ -240,6 +240,13 @@ int main(void)
 	buttonCallbackParameters.vertexArraysAndBufers = &vertexArraysAndBufers;
 	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " label='generate tree' ");
 
+	//DEBUG HERE: !!!
+	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+	numberOfIterations = 1;
+	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+	numberOfIterations = 5;
+	vertexArraysAndBufers = generate(vertexArraysAndBufers, genShaderprogram, numberOfIterations);
+
 	/* Loop until the user closes the window */
 	while (!glfwWindowShouldClose(window))
 	{
