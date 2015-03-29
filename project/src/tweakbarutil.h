@@ -37,6 +37,16 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.
 */
 
+/**
+  Die Methode initTweakbar() meldet die Input Methoden der AntTweakbar
+  als CallbackMethoden an GLFW an. Normalerweise sollte AntTewakbar
+  dafür selbst leicht zu verwendende Möglichkeiten anbiete. Das tut
+  sie auch, für GLFW2. FÜr das in diesem Projekt verwendete GLFW3
+  allerdings nicht, sodass ich selbst dafür sorgen musst.
+  Das Problem ist auch anderen Menschen bekannt:
+	http://sourceforge.net/p/anttweakbar/tickets/11/
+  */
+
 #ifndef TWEAKBARUTIL_H
 #define TWEAKBARUTIL_H
 

@@ -37,13 +37,6 @@ USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.
 */
 
-//Referenz: http://sourceforge.net/p/anttweakbar/tickets/11/
-
-//Damit die Tasten wie Backspace richtig erkannt werden, müsste die Datei MiniGLFW.h ersetzt werden.
-//Das habe ich nicht gemacht, weil ich keine Lust hatte AntTweakBar neu zu compilen, deshabl muss
-//man Eingaben wenn man sie löschen oder ersetzen möchte nun vorher mit der Mouse markieren.
-// http://sourceforge.net/p/anttweakbar/discussion/AntTweakBar/thread/d69d995c/#9e25/94a1
-
 #include "tweakbarutil.h"
 #include <AntTweakBar.h>
 #include <GLFW/glfw3.h>
