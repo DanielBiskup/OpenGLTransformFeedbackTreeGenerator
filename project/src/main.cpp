@@ -247,17 +247,6 @@ int main(void)
 	TwDefine(" TweakBar size='250 280' color='25 102 51' "); // change default tweak bar size and color
 	//color='245 143 34'
 
-	TwAddVarRW(bar, "numberOfIterations", TW_TYPE_INT8, &numberOfIterations, "group='generation parameters' min=0 max=12");
-	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-
-	TwAddVarRW(bar, "Rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "group='presentation parameters' opened=true");
-	TwAddVarRW(bar, "autoRotationSpeed", TW_TYPE_FLOAT, &autoRotationSpeed, "group='presentation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-
-	TwAddVarRO(bar, "number of vertices", TW_TYPE_INT32, &numberOfVerticesToDraw, "group='read-only scene information'");
-	TwAddVarRO(bar, "number of triangles", TW_TYPE_INT32, &numberOfTrianglesToDraw, "group='read-only scene information'");
-
 	ButtonCallbackParameters buttonCallbackParameters;
 	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
 	buttonCallbackParameters.shader = &genShaderprogram;
@@ -267,7 +256,20 @@ int main(void)
 	buttonCallbackParameters.scaleLengthUniform = &scaleLengthUniform;
 	buttonCallbackParameters.scaleTriangleUniform = &scaleTriangleUniform;
 	buttonCallbackParameters.pyramidFactorUniform = &pyramidFactorUniform;
-	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " group='generation parameters' label='click to generate tree' ");
+
+	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " group='generation parameters' key=g label='click here to generate tree' ");
+	TwAddVarRW(bar, "numberOfIterations", TW_TYPE_INT8, &numberOfIterations, "group='generation parameters' min=0 max=12");
+	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+
+	TwAddVarRW(bar, "Rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "group='presentation parameters' opened=true");
+	TwAddVarRW(bar, "autoRotationSpeed", TW_TYPE_FLOAT, &autoRotationSpeed, "group='presentation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+
+	TwAddVarRO(bar, "number of triangles", TW_TYPE_INT32, &numberOfTrianglesToDraw, "group='read-only scene information'");
+	TwAddVarRO(bar, "number of vertices", TW_TYPE_INT32, &numberOfVerticesToDraw, "group='read-only scene information'");
+
+
 
 	//Hier wird die callback function einmal manuell aufgerufen, damit beim Start des Programmes schon
 	//Geometrie auf dem Bildschirm zu sehen ist.
