@@ -159,15 +159,20 @@ int main(void)
 	glfwGetWindowSize(window, &windowWidth, &windowHeight);
 	glfwSetWindowPos(window, (desktopWidth-windowWidth)/2, (desktopHeight-windowHeight)/2);
 
-	//Variables
-	const int maxNumberOfIterations = 9;
-	int numberOfIterations = 0;
-	int numberOfVerticesToDraw = 0;
-	float scaleLengthUniform = 0.7f;
-	float scaleTriangleUniform = 0.8f;
-	float pyramidFactorUniform = 0.2f;
+	//Variables exposed by UI
+	//--generation
+	int numberOfIterations = 5;
+	float scaleLengthUniform = 0.75f;
+	float scaleTriangleUniform = 0.58f;
+	float pyramidFactorUniform = 0.14f;
+	//--presentation
 	glm::quat rotationQuaternion;
 	float autoRotationSpeed = 0.1f;
+	int autoRotateBoolean = 1;
+
+	//Variables not exposed by UI
+	int numberOfVerticesToDraw = 0;
+	const int maxNumberOfIterations = 9;
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -232,16 +237,20 @@ int main(void)
 	TwInit(TW_OPENGL_CORE, NULL); // for core profile
 	TwWindowSize(windowWidth, windowHeight);
 	TwBar *bar;
-	bar = TwNewBar("Ein Baum in 3D");
-	TwAddVarRW(bar, "Iterationen", TW_TYPE_INT8, &numberOfIterations, "min=0 max=9");
-	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-	TwAddVarRW(bar, "Rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "");
-	TwAddVarRW(bar, "autoRotationSpeed", TW_TYPE_FLOAT, &autoRotationSpeed, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	bar = TwNewBar("TweakBar");
+	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar with GLUT and OpenGL.' "); // Message added to the help bar.
+	TwDefine(" TweakBar size='250 250' color='25 102 51' "); // change default tweak bar size and color
+	//color='245 143 34'
 
-	int autoRotateBoolean = 0;
-	TwAddVarRW(bar, "auto rotate", TW_TYPE_BOOL32, &autoRotateBoolean, " key=ALT+a ");
+	TwAddVarRW(bar, "numberOfIterations", TW_TYPE_INT8, &numberOfIterations, "group='generation' min=0 max=9");
+	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "group='generation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "group='generation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "group='generation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+
+	TwAddVarRW(bar, "Rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "group='presentation' opened=true");
+	TwAddVarRW(bar, "autoRotationSpeed", TW_TYPE_FLOAT, &autoRotationSpeed, "group='presentation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+
+	TwAddVarRW(bar, "auto rotate", TW_TYPE_BOOL32, &autoRotateBoolean, "group='presentation'");
 
 	ButtonCallbackParameters buttonCallbackParameters;
 	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
@@ -251,7 +260,7 @@ int main(void)
 	buttonCallbackParameters.scaleLengthUniform = &scaleLengthUniform;
 	buttonCallbackParameters.scaleTriangleUniform = &scaleTriangleUniform;
 	buttonCallbackParameters.pyramidFactorUniform = &pyramidFactorUniform;
-	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " label='click to generate tree' ");
+	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " group='generation' label='click to generate tree' ");
 
 	//Hier wird die callback function einmal manuell aufgerufen, damit beim Start des Programmes schon
 	//Geometrie auf dem Bildschirm zu sehen ist.
