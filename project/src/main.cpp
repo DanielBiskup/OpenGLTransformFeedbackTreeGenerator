@@ -384,6 +384,7 @@ void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shade
 	//Daten in Buffer schreiben:
 	vertexArraysAndBufers.lastTransformFeedbackBuffer->subData(sizeof(data), data);
 
+	/*
 	//Was vor den Passes in data[] liegt:
 	std::cout << "Inhalt des data[] arrays." << std::endl;
 	for(int i = 0; i < 3; i++) {
@@ -411,6 +412,7 @@ void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shade
 					 << feedback[vertexStart+3] << std::endl;
 	}
 	std::cout << "-----------------------------------" << std::endl;
+	*/
 
 	//Die mehreren Passes:
 	for(int pass = 0; pass < numberOfIterations; pass++) {
@@ -426,6 +428,7 @@ void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shade
 		glFlush();
 		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
 
+		/*
 		vertexArraysAndBufers.currentTransformFeedbackBuffer->bind();
 		GLfloat feedback[nVertices(pass+1) * 7];
 		glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
@@ -445,6 +448,7 @@ void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shade
 						 << std::endl;
 		}
 		std::cout << "-----------------------------------" << std::endl;
+		*/
 
 		shader.stopUsingProgram();
 
