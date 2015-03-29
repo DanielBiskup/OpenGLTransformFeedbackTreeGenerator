@@ -245,7 +245,6 @@ int main(void)
 	bar = TwNewBar("TweakBar");
 	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar with GLUT and OpenGL.' "); // Message added to the help bar.
 	TwDefine(" TweakBar size='250 280' color='25 102 51' "); // change default tweak bar size and color
-	//color='245 143 34'
 
 	ButtonCallbackParameters buttonCallbackParameters;
 	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
@@ -268,8 +267,6 @@ int main(void)
 
 	TwAddVarRO(bar, "number of triangles", TW_TYPE_INT32, &numberOfTrianglesToDraw, "group='read-only scene information'");
 	TwAddVarRO(bar, "number of vertices", TW_TYPE_INT32, &numberOfVerticesToDraw, "group='read-only scene information'");
-
-
 
 	//Hier wird die callback function einmal manuell aufgerufen, damit beim Start des Programmes schon
 	//Geometrie auf dem Bildschirm zu sehen ist.
