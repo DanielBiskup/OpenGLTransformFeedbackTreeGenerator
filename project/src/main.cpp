@@ -172,7 +172,7 @@ int main(void)
 
 	//Variables not exposed by UI
 	int numberOfVerticesToDraw = 0;
-	const int maxNumberOfIterations = 9;
+	const int maxNumberOfIterations = 12;
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -242,7 +242,7 @@ int main(void)
 	TwDefine(" TweakBar size='250 250' color='25 102 51' "); // change default tweak bar size and color
 	//color='245 143 34'
 
-	TwAddVarRW(bar, "numberOfIterations", TW_TYPE_INT8, &numberOfIterations, "group='generation' min=0 max=9");
+	TwAddVarRW(bar, "numberOfIterations", TW_TYPE_INT8, &numberOfIterations, "group='generation' min=0 max=12");
 	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "group='generation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "group='generation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "group='generation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
