@@ -87,6 +87,7 @@ void main() {
         }
 
         float h_pyramid = length(a)*pyramidFactor;
+        //float h_pyramid = l * pyramidFactor;
 
         t = c_p + h + n * h_pyramid;
 
