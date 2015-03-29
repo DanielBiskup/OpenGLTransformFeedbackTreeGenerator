@@ -47,6 +47,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 //GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 //AntTeakBar
 #include <AntTweakBar.h>
@@ -157,15 +159,20 @@ int main(void)
 	glfwGetWindowSize(window, &windowWidth, &windowHeight);
 	glfwSetWindowPos(window, (desktopWidth-windowWidth)/2, (desktopHeight-windowHeight)/2);
 
-	//Variables
-	float modelRotaitonX = 0.0f;
-	float modelRotationY = 0.0f;
-	const int maxNumberOfIterations = 9;
-	int numberOfIterations = 0;
+	//Variables exposed by UI
+	//--generation
+	int numberOfIterations = 5;
+	float scaleLengthUniform = 0.75f;
+	float scaleTriangleUniform = 0.58f;
+	float pyramidFactorUniform = 0.14f;
+	//--presentation
+	glm::quat rotationQuaternion;
+	float autoRotationSpeed = 0.1f;
+	int autoRotateBoolean = 1;
+
+	//Variables not exposed by UI
 	int numberOfVerticesToDraw = 0;
-	float scaleLengthUniform = 0.7f;
-	float scaleTriangleUniform = 0.8f;
-	float pyramidFactorUniform = 0.2f;
+	const int maxNumberOfIterations = 12;
 
 	//Shader zum generieren der Geometrie:
 	Shader genVertexShader(ShaderType::Vertex, "data/tree.vert");
@@ -230,11 +237,20 @@ int main(void)
 	TwInit(TW_OPENGL_CORE, NULL); // for core profile
 	TwWindowSize(windowWidth, windowHeight);
 	TwBar *bar;
-	bar = TwNewBar("Ein Baum in 3D");
-	TwAddVarRW(bar, "Iterationen", TW_TYPE_INT8, &numberOfIterations, "min=0 max=9");
-	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	bar = TwNewBar("TweakBar");
+	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar with GLUT and OpenGL.' "); // Message added to the help bar.
+	TwDefine(" TweakBar size='250 250' color='25 102 51' "); // change default tweak bar size and color
+	//color='245 143 34'
+
+	TwAddVarRW(bar, "numberOfIterations", TW_TYPE_INT8, &numberOfIterations, "group='generation' min=0 max=12");
+	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "group='generation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "group='generation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "group='generation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+
+	TwAddVarRW(bar, "Rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "group='presentation' opened=true");
+	TwAddVarRW(bar, "autoRotationSpeed", TW_TYPE_FLOAT, &autoRotationSpeed, "group='presentation' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+
+	TwAddVarRW(bar, "auto rotate", TW_TYPE_BOOL32, &autoRotateBoolean, "group='presentation'");
 
 	ButtonCallbackParameters buttonCallbackParameters;
 	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
@@ -244,7 +260,7 @@ int main(void)
 	buttonCallbackParameters.scaleLengthUniform = &scaleLengthUniform;
 	buttonCallbackParameters.scaleTriangleUniform = &scaleTriangleUniform;
 	buttonCallbackParameters.pyramidFactorUniform = &pyramidFactorUniform;
-	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " label='generate tree' ");
+	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " group='generation' label='click to generate tree' ");
 
 	//Hier wird die callback function einmal manuell aufgerufen, damit beim Start des Programmes schon
 	//Geometrie auf dem Bildschirm zu sehen ist.
@@ -252,8 +268,15 @@ int main(void)
 
 	/* Loop until the user closes the window */
 	glm::dvec2 mouseDelta;
+	double currentFrame, deltaTime;
+	double lastFrame = glfwGetTime();
 	while (!glfwWindowShouldClose(window))
 	{
+		//Deltatime bestimmen:
+		currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
 		//Update
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -267,13 +290,6 @@ int main(void)
 		if(mouseDelta.x != 0 || mouseDelta.y != 0 ) {
 			std::cout <<"mp("<<mousePosition.x<<", "<<mousePosition.y<<")" <<std::endl<< "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
 		}
-
-		//Model Matix
-		glm::mat4 model  = glm::mat4(1.0f);
-		//modelRotaitonX += mouseDelta.y * 0.01;
-		//modelRotationY += mouseDelta.x * 0.01;
-		model = glm::rotate(model, modelRotaitonX, glm::vec3(1.0f,0.0f,0.0f));
-		model = glm::rotate(model, modelRotationY, glm::vec3(0.0f,1.0f,0.0f));
 
 		//View Matrix
 		glm::vec3 cameraPosition(0, -50, 250);
@@ -290,8 +306,11 @@ int main(void)
 					1000.0f
 					);
 
-		glm::mat4 MVP	= projection * view * model;
-		glm::mat4 M	= model;
+		if(autoRotateBoolean) {
+			rotationQuaternion = rotationQuaternion * glm::angleAxis(10.f * autoRotationSpeed * (float)deltaTime, glm::vec3(0,1,0));
+		}
+		glm::mat4 M	= glm::toMat4(rotationQuaternion);
+		glm::mat4 MVP	= projection * view * M;
 		glm::vec3 lightPosition(cameraPosition);
 
 		renderShaderprogram.setUniform(std::string("MVP"), MVP);
@@ -365,6 +384,7 @@ void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shade
 	//Daten in Buffer schreiben:
 	vertexArraysAndBufers.lastTransformFeedbackBuffer->subData(sizeof(data), data);
 
+	/*
 	//Was vor den Passes in data[] liegt:
 	std::cout << "Inhalt des data[] arrays." << std::endl;
 	for(int i = 0; i < 3; i++) {
@@ -392,6 +412,7 @@ void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shade
 					 << feedback[vertexStart+3] << std::endl;
 	}
 	std::cout << "-----------------------------------" << std::endl;
+	*/
 
 	//Die mehreren Passes:
 	for(int pass = 0; pass < numberOfIterations; pass++) {
@@ -407,6 +428,7 @@ void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shade
 		glFlush();
 		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, 0);
 
+		/*
 		vertexArraysAndBufers.currentTransformFeedbackBuffer->bind();
 		GLfloat feedback[nVertices(pass+1) * 7];
 		glGetBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(feedback), feedback);
@@ -426,6 +448,7 @@ void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shade
 						 << std::endl;
 		}
 		std::cout << "-----------------------------------" << std::endl;
+		*/
 
 		shader.stopUsingProgram();
 
