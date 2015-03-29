@@ -1,5 +1,5 @@
 // NICHT MEIN EIGENTUM!
-// DIESER QUELLTEXT WURDE GEKLAUT VON:
+// DIESER QUELLTEXT WURDE GEKLAUT (aber anschließend von mit angepasst) VON:
 // http://blog.nobel-joergensen.com/2013/02/17/debugging-opengl-part-2-using-gldebugmessagecallback/
 
 #include "openglerrorcallback.h"
