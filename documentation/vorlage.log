@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.3.31)  31 MAR 2015 22:21
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.3.31)  31 MAR 2015 22:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -678,7 +678,7 @@ Man spricht deutsch.
 
 bibgerm.sty: babel.sty detected
 
-<fhlogo_new.pdf, id=56, 208.22191pt x 64.9889pt>
+<fhlogo_new.pdf, id=60, 208.22191pt x 64.9889pt>
 File: fhlogo_new.pdf Graphic file (type pdf)
  <use fhlogo_new.pdf>
 Package pdftex.def Info: fhlogo_new.pdf used on input line 96.
@@ -717,26 +717,26 @@ Kapitel 2.
 [2
 
 
-] <images/KABB1.png, id=132, 60.42816pt x 71.13806pt>
+] <images/KABB1.png, id=137, 60.42816pt x 71.13806pt>
 File: images/KABB1.png Graphic file (type png)
  <use images/KABB1.png>
 Package pdftex.def Info: images/KABB1.png used on input line 22.
 (pdftex.def)             Requested size: 60.42801pt x 71.13788pt.
 
-<images/KABB2.png, id=136, 72.70589pt x 62.76767pt>
+<images/KABB2.png, id=141, 72.70589pt x 62.76767pt>
 File: images/KABB2.png Graphic file (type png)
  <use images/KABB2.png>
 Package pdftex.def Info: images/KABB2.png used on input line 40.
 (pdftex.def)             Requested size: 72.7057pt x 62.7675pt.
 
 [3 <./images/KABB1.png> <./images/KABB2.png>]
-<images/KABB3.png, id=149, 133.39474pt x 109.3628pt>
+<images/KABB3.png, id=154, 133.39474pt x 109.3628pt>
 File: images/KABB3.png Graphic file (type png)
  <use images/KABB3.png>
 Package pdftex.def Info: images/KABB3.png used on input line 66.
 (pdftex.def)             Requested size: 133.39441pt x 109.36252pt.
 
-<images/KABB4.png, id=151, 72.27pt x 61.82132pt>
+<images/KABB4.png, id=156, 72.27pt x 61.82132pt>
 File: images/KABB4.png Graphic file (type png)
  <use images/KABB4.png>
 Package pdftex.def Info: images/KABB4.png used on input line 79.
@@ -750,63 +750,63 @@ e \OT1/cmtt/m/n/12 void glDrawArrays(
 
 [5 <./images/KABB4.png>]) (./chapters/Implementierung.tex [6]
 Kapitel 3.
-[7
+<images/applicationScreenShot.png, id=182, 404.51125pt x 293.095pt>
+File: images/applicationScreenShot.png Graphic file (type png)
+
+<use images/applicationScreenShot.png>
+Package pdftex.def Info: images/applicationScreenShot.png used on input line 8.
+
+(pdftex.def)             Requested size: 404.51025pt x 293.09427pt.
+ [7
 
 
-]
-Overfull \hbox (13.99654pt too wide) in paragraph at lines 45--48
+ <./images/applicationScreenShot.png>] [8]
+Overfull \hbox (13.99654pt too wide) in paragraph at lines 52--55
 \OT1/cmtt/m/n/12 anttweakbar : howto # 5 . _handle _ mouse _ and _ keyboard _ e
 vents _ and _ window _ size _
  []
 
 
-Overfull \hbox (21.03456pt too wide) in paragraph at lines 45--48
+Overfull \hbox (21.03456pt too wide) in paragraph at lines 52--55
 \OT1/cmr/m/n/12 AntT-weak-Bar un-terst[]utzt GLFW3 nicht. []$\OT1/cmtt/m/n/12 h
 ttp : / / sourceforge . net / p / anttweakbar /
  []
 
-[8]
-Overfull \hbox (7.41039pt too wide) in paragraph at lines 54--56
+
+Overfull \hbox (7.41039pt too wide) in paragraph at lines 61--63
 \OT1/cmtt/m/n/12 com / 2013 / 02 / 17 / debugging-[]opengl-[]part-[]2-[]using-[
 ]gldebugmessagecallback/$[]\OT1/cmr/m/n/12 .
  []
 
 [9]
-Overfull \hbox (3.71237pt too wide) in paragraph at lines 68--69
+Overfull \hbox (3.71237pt too wide) in paragraph at lines 75--76
 \OT1/cmr/m/n/12 ni-ge Dis-tri-bu-tio-nen Packe-te. Ar-ch-Li-nux: []$\OT1/cmtt/m
 /n/12 https : / / aur . archlinux . org / packages /
  []
 
 
-Overfull \hbox (20.54323pt too wide) in paragraph at lines 68--69
+Overfull \hbox (20.54323pt too wide) in paragraph at lines 75--76
 \OT1/cmtt/m/n/12 anttweakbar/$[]\OT1/cmr/m/n/12 , Fe-do-ra: []$\OT1/cmtt/m/n/12
  https : / / apps . fedoraproject . org / packages / AntTweakBar$[]\OT1/cmr/m/n
 /12 ,
  []
 
-)
+) [10]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 135.
- [10]
+ [11]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 135.
  (./vorlage.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 135.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 135.
-
-
-Package rerunfilecheck Warning: File `vorlage.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `vorlage.out':
-(rerunfilecheck)             Before: 4168F63C5055405AC1C11C9C9EB6C65F;1006
-(rerunfilecheck)             After:  AECF55337C563967DD67F20EB20ABDBE;1082.
+Package rerunfilecheck Info: File `vorlage.out' has not changed.
+(rerunfilecheck)             Checksum: AECF55337C563967DD67F20EB20ABDBE;1082.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 135.
  ) 
 Here is how much of TeX's memory you used:
- 10772 strings out of 493108
- 151786 string characters out of 6140725
- 283815 words of memory out of 5000000
- 14037 multiletter control sequences out of 15000+600000
+ 10781 strings out of 493108
+ 152000 string characters out of 6140725
+ 283853 words of memory out of 5000000
+ 14043 multiletter control sequences out of 15000+600000
  10954 words of font info for 42 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
  29i,9n,32p,1152b,447s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -822,10 +822,10 @@ cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
 r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf-dist/fonts/typ
 e1/public/amsfonts/symbols/msbm10.pfb>
-Output written on vorlage.pdf (12 pages, 464488 bytes).
+Output written on vorlage.pdf (13 pages, 540956 bytes).
 PDF statistics:
- 274 PDF objects out of 1000 (max. 8388607)
- 218 compressed objects within 3 object streams
- 39 named destinations out of 1000 (max. 500000)
- 130 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 288 PDF objects out of 1000 (max. 8388607)
+ 229 compressed objects within 3 object streams
+ 41 named destinations out of 1000 (max. 500000)
+ 143 words of extra memory for PDF output out of 10000 (max. 10000000)
 
