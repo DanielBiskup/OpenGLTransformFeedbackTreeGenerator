@@ -2,7 +2,7 @@
 Dieses Kapitel behandelt das diesem Dokument beiliegende Programm.
 Zunächst wird Überblick darüber gegeben, wie das Programm zu bedienen ist. Anschließend wird auf die verwendeten Libraries, und den Aufbau des Programmes eingegangen. Zuletzt wird ausgeführt wie das Programm auf den Plattformen Windows und Linux kompiliert werden kann.
 
-\subsection{Bedienung des Programmes}
+\section{Bedienung des Programmes}
 Nach dem Start des Programmes ist in der Mitte des Fensters ein sich drehender Baum zu sehen. In der linken oberen Ecke befindet sich ein Fenster mit der mit dem Titel "'TweakBar"' welches im folgenden als Tweak Bar bezeichnet wird.
 
 Die Tweak Bar enthält drei Gruppen von Einträgen, mit Namen "'generation parameters"', "'presentation parameters"' und "'read-only scene information"'.
@@ -27,7 +27,7 @@ Der Parameter "'pyramidFactor"' bestimmt, wie hoch die Pyramide am Ende eines As
 
 %Die äußere Gestaltung der Ausarbeitung hinsichtlich %Abschnittformate, Abbildungen, mathematische Formeln %usw. wird in \hyperref[Stile]{Kapitel~\ref*{Stile}} %kurz dargestellt.
 
-\subsection{Verwendet Libraries}
+\section{Verwendet Libraries}
 Das Programm nutzt mehrere plattformunabhänge Open Source Libraries.
 \paragraph{GLEW}
 \url{http://glew.sourceforge.net/}
@@ -46,7 +46,7 @@ Eine Header-Only Library die sich um Mathematik kümmert. Sie stellt unter andere
 Erlaubt es schnell und einfach einfache Bedienelemente in die eigene OpenGL Anwendung zu integrieren. Sie bietet wie auf dem Folgenden Link zu sehen ist Methoden um sie ganz leicht mit GLFW2, SDL, usw. zu verbinden. \url{http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:howto#5._handle_mouse_and_keyboard_events_and_window_size_changes}
 GLFW3, welches ich hier nutze, bringt allerdings API-Änderungen und AntTweakBar unterstützt GLFW3 nicht. \url{http://sourceforge.net/p/anttweakbar/tickets/11/}. Deshalb habe ich in \code{tweakbarutil.cpp} ein paar Methoden geschrieben, welche dieses Problem für mich teilweise lösen.
 
-\subsection{Aufbau des Programmes}
+\section{Aufbau des Programmes}
 
 \paragraph{OpenGL Errorbehandlung}
 Wenn man sich als Programmierer oder Programmiererin nicht darum kümmert wird einem ein OpenGL Programm nicht mitteilen, warum es gerade abgestürzt ist. OpenGL bietet allerdings einige Funktionen, mit denen man sich relativ hilfreiche Fehlermeldungen ausgeben lassen kann. So sollte man sich nach dem Kompilieren von Shadern und dem Linken von Shaderprogrammen jeweils den Error-Log ausgeben lassen mit \code{glGetProgramiv}, \code{glGetProgramInfoLog}, \code{glGetShaderiv} und \code{glGetShaderInfoLog}. Ich verwende diese in meinem Programm in den Funktionen \code{void Shaderprogram::linkProgram} und \code{void ""Shader""::""create""Shader""From""String}.
@@ -54,7 +54,7 @@ Wenn man sich als Programmierer oder Programmiererin nicht darum kümmert wird ei
 Allgemein ist es eine gute Idee, \code{glDebugMessageCallback} zu verwenden, welches einem Erlaubt eine Callbackfunktion anzumelden, die immer aufgerufen wird, wenn ein Fehler auftritt. Ich habe mich an der folgenden Website bedient und den Code für die Funktion großteils übernommen: \url{http://blog.nobel-joergensen.com/2013/02/17/debugging-opengl-part-2-using-gldebugmessagecallback/}.
 In meinem Programm Befindet sich die Implementierung dieser Funktion in \code{openglerrorcallback.cpp}.
 
-\subsection{Der Build Prozess unter Windows 7 mit VisualStudio 2012}
+\section{Der Build Prozess unter Windows 7 mit VisualStudio 2012}
 ACHTUNG: Das Programm kompiliert und linkt zwar unter Windows, stürzt beim Ausführen allerdings ab. Damit sie sich vorstellen können wie das Programm aussehen würde wenn sie es ausführen könnten, habe ich ihnen ein Video davon aufgenommen, wie das Programm aussieht, wenn es unter Linux ausgeführt wird. Die Videodatei heißt \code{Video.mp4}.
 
 Der Beschriebene Buildprozess wurde auf den Poolrechnern in Raum L3 getestet.
@@ -62,7 +62,7 @@ Entpacken sie \code{Projekt\_Windows.rar}. Navigieren sie zu \code{Projekt\_Wind
 
 Es wird in Zeile 94 der Datei \code{buffer.cpp} beim Ausführen des Befehls \code{gl""Buffer""Sub""Data""(...)} abstürzen. Ich konnte den Fehler leider nicht beheben.
 
-\subsection{Der Build Prozess unter Linux}
+\section{Der Build Prozess unter Linux}
 Auf meinem System, einem Arch Linux, kompiliert, linkt und läuft das Programm fehlerfrei. Um das es unter Linux zu kompilieren müssen sie zunächst folgende Abhängigkeiten auflösen indem sie die entsprechenden Pakete ihrer Distribution installieren oder von Hand die benötigten Bibliotheken installieren.
 
 Wie sie \code{AntTweakBar} installieren ist hier beschrieben: \url{http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:download}. Alternativ gibt es für einige Distributionen Packete. ArchLinux: \url{https://aur.archlinux.org/packages/anttweakbar/}, Fedora: \url{https://apps.fedoraproject.org/packages/AntTweakBar}, Gentoo: \code{http://gpo.zugaina.org/media-libs/anttweakbar}.

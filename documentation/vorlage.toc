@@ -11,13 +11,13 @@
 \contentsline {section}{\numberline {2.3}Herleitung der Formel zur Berechnung der Anzahl generierter Dreiecke nach n Iterationen}{4}{section.2.3}
 \contentsline {paragraph}{Herleitung}{4}{section*.4}
 \contentsline {chapter}{\numberline {3}Implementierung}{6}{chapter.3}
-\contentsline {subsection}{\numberline {3.0.1}Bedienung des Programmes}{6}{subsection.3.0.1}
-\contentsline {subsection}{\numberline {3.0.2}Verwendet Libraries}{7}{subsection.3.0.2}
+\contentsline {section}{\numberline {3.1}Bedienung des Programmes}{6}{section.3.1}
+\contentsline {section}{\numberline {3.2}Verwendet Libraries}{7}{section.3.2}
 \contentsline {paragraph}{GLEW}{7}{section*.5}
 \contentsline {paragraph}{GLFW}{7}{section*.6}
 \contentsline {paragraph}{GLM}{7}{section*.7}
 \contentsline {paragraph}{AntTweakBar}{7}{section*.8}
-\contentsline {subsection}{\numberline {3.0.3}Aufbau des Programmes}{8}{subsection.3.0.3}
+\contentsline {section}{\numberline {3.3}Aufbau des Programmes}{8}{section.3.3}
 \contentsline {paragraph}{OpenGL Errorbehandlung}{8}{section*.9}
-\contentsline {subsection}{\numberline {3.0.4}Der Build Prozess unter Windows 7 mit VisualStudio 2012}{8}{subsection.3.0.4}
-\contentsline {subsection}{\numberline {3.0.5}Der Build Prozess unter Linux}{9}{subsection.3.0.5}
+\contentsline {section}{\numberline {3.4}Der Build Prozess unter Windows 7 mit VisualStudio 2012}{8}{section.3.4}
+\contentsline {section}{\numberline {3.5}Der Build Prozess unter Linux}{9}{section.3.5}
