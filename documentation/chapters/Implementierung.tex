@@ -29,16 +29,33 @@ Am oberen Ende eines Astsegmentes befindet sich eine Pyramide. Die Pyramide hat 
 %Die äußere Gestaltung der Ausarbeitung hinsichtlich %Abschnittformate, Abbildungen, mathematische Formeln %usw. wird in \hyperref[Stile]{Kapitel~\ref*{Stile}} %kurz dargestellt.
 
 \subsection{Verwendet Libraries}
-Das Programm nutzt mehrere Programmbibliotheken.
+Das Programm nutzt mehrere plattformunabhänge Open Source Libraries.
+\paragraph{GLEW}
+\url{http://glew.sourceforge.net/}
+Sorgt dafür, dass man als Programmierer gleich die OpenGL Funktionen aufrufen kann, ohne sich selbst darum kümmern zu müssen irgendwie an die functionpointer zu diesen Funktionen zu kommen.
 
+\paragraph{GLFW}
+\url{http://www.glfw.org/}
+Vergleichbar mit SDL oder FreeGLUT. Erstellt Fenster und den OpenGL Kontext. Bietet Methoden zur Eingabebehandlung von Mouse und Tastatur.
 
-\paragr
+\paragraph{GLM}
+\url{http://glm.g-truc.net/0.9.6/index.html}
+Eine Header-Only Library die sich um Mathematik kümmert. Sie stellt unter anderem eine Klasse für Quaternionen zur verfügung und Methoden um View- und Projection-Matrizen zu erzeugen.
+
+\paragraph{AntTweakBar}
+\url{http://anttweakbar.sourceforge.net/doc/}
+Erlaubt es schnell und einfach einfache Bedienelemente in die eigene OpenGL Anwendung zu integrieren. Sie bietet wie auf dem Folgenden Link zu sehen ist Methoden um sie ganz leicht mit GLFW2, SDL, usw. zu verbinden. \url{}
+GLFW3, welches ich hier nutze, bringt allerdings API-Änderungen und AntTweakBar unterstützt GLFW3 nicht. \url{http://sourceforge.net/p/anttweakbar/tickets/11/}. Deshalb habe ich in \code{tweakbarutil.cpp} ein paar Methoden geschrieben, welche dieses Problem für mich teilweise lösen.
+
 \subsection{Aufbau des Programmes}
+
+\paragraph{OpenGL Errorbehandlung}
+\paragraph{title}
 
 \subsection{Der Build Prozess unter Windows 7 mit VisualStudio 2012}
 Achtung: Das Programm kompiliert und linkt zwar unter Windows, stürzt beim Ausführen allerdings ab. Damit sie sich vorstellen können wie das Programm aussehen würde wenn sie es ausführen würden, möchte ich auf folgenden YouTube-Link verweisen: \code{www.youtube....}.
 Der Beschriebene Buildprozess wurde auf den Poolrechnern in Raum L3 getestet.
-Entpacken sie \code{Projekt_Windows.rar}. Navigieren sie zu \code{Projekt_Windows/Projekt/Projekt/project}. Dort finden sie die Ausführbare Datei \code{premake4.exe}, dies ist das Build Tool. Halten sie \code{CTRL + SHIFT} gedrückt, während sie mit der rechten Mousetaste irgendwo in das gerade geöffnete Fenster des Filemanagers klicken. Es öffnet sich ein Kontextmenue. Wählen sie \code{Eingabeaufforderung hier öffnen} aus. In der nun offenen CMD geben sie den Befehl \code{premake4.exe vs2012} ein, welcher ein *.sln-File für Visual Studio 2012 generiert. Doppelklicken sie auf \code{ProcedualTreeGeneration.sln}. Sollte VS 2012 nun gestartet sein, im Projektmappen-Explorer jedoch nur ein \code{MyFirstTree (Laden fehlgeschlagen)} stehen, rechtsklicken sie darauf, und wählen \code{Projekt erneut laden} aus. Nun können sie durch einen Klick auf \code{Lokaler Windows-Debugger} das Programm kompilieren und linken. Normalerweise sollte das es ohne Fehler (mit ein paar Warnungen) kompilieren und linken. Es wird anschließen versuchen zu starten und kurz danach abstürzen.
+Entpacken sie \code{Projekt\_Windows.rar}. Navigieren sie zu \code{Projekt\_Windows/Projekt/Projekt/project}. Dort finden sie die Ausführbare Datei \code{premake4.exe}, dies ist das Build Tool. Halten sie \code{CTRL + SHIFT} gedrückt, während sie mit der rechten Mousetaste irgendwo in das gerade geöffnete Fenster des Filemanagers klicken. Es öffnet sich ein Kontextmenue. Wählen sie \code{Eingabeaufforderung hier öffnen} aus. In der nun offenen CMD geben sie den Befehl \code{premake4.exe vs2012} ein, welcher ein *.sln-File für Visual Studio 2012 generiert. Doppelklicken sie auf \code{ProcedualTreeGeneration.sln}. Sollte VS 2012 nun gestartet sein, im Projektmappen-Explorer jedoch nur ein \code{MyFirstTree (Laden fehlgeschlagen)} stehen, rechtsklicken sie darauf, und wählen \code{Projekt erneut laden} aus. Nun können sie durch einen Klick auf \code{Lokaler Windows-Debugger} das Programm kompilieren und linken. Normalerweise sollte das es ohne Fehler (mit ein paar Warnungen) kompilieren und linken. Es wird anschließen versuchen zu starten und kurz danach abstürzen.
 
 Es wird in Zeile 94 der Datei \code{buffer.cpp} beim Ausführen des Befehls \code{glBufferSubData(...)} abstürzen. Ich konnte den Fehler leider nicht beheben.
 
@@ -47,5 +64,5 @@ Auf meinem System, einem Arch Linux, kompiliert, linkt und läuft das Programm fe
 
 Wie sie \code{AntTweakBar} installieren ist hier beschrieben: \url{http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:download}. Alternativ gibt es für einige Distributionen Packete. ArchLinux: \url{https://aur.archlinux.org/packages/anttweakbar/}, Fedora: \url{https://apps.fedoraproject.org/packages/AntTweakBar}, Gentoo: \code{http://gpo.zugaina.org/media-libs/anttweakbar}.
 
-Sind alle Abhängigkeiten aufgelöst, so kompilieren sie folgendermaßen. Entpacken sie code{Projekt_Linux.rar}. Navigieren sie mit der Bash nach code{Projkt_Linux/Projekt/project}. In diesem Ordner liegt bereits die Ausführbare Datei des Buildtools Premake. Generieren sie die GNU-Makefiles mit dem Befehl \code{./premake4 gmake}. Anschließend sollte im Ordner die Datei \code{Makefile} enthalten sein. Die Debug-Version kompilieren sie nun mit \code{make config=debug} und die Release-Version mit \code{make config=release}. Die Ausführbaren Programme liegen nun, falls der Kompilier- und Linkvorgang erfolgreich waren, in \code{./bin/debug} bzw. \code{./bin/release}. Ausführen können sie diese meist mit Doppelklick oder über die Bash.
+Sind alle Abhängigkeiten aufgelöst, so kompilieren sie folgendermaßen. Entpacken sie code{Projekt\_Linux.rar}. Navigieren sie mit der Bash nach \code{Projkt\_Linux/Projekt/project}. In diesem Ordner liegt bereits die Ausführbare Datei des Buildtools Premake. Generieren sie die GNU-Makefiles mit dem Befehl \code{./premake4 gmake}. Anschließend sollte im Ordner die Datei \code{Makefile} enthalten sein. Die Debug-Version kompilieren sie nun mit \code{make config=debug} und die Release-Version mit \code{make config=release}. Die Ausführbaren Programme liegen nun, falls der Kompilier- und Linkvorgang erfolgreich waren, in \code{./bin/debug} bzw. \code{./bin/release}. Ausführen können sie diese meist mit Doppelklick oder über die Bash.
 

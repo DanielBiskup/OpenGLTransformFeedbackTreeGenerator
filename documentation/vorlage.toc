@@ -15,4 +15,5 @@
 \contentsline {subsection}{\numberline {3.0.1}Bedienung des Programmes}{6}{subsection.3.0.1}
 \contentsline {subsection}{\numberline {3.0.2}Verwendet Libraries}{7}{subsection.3.0.2}
 \contentsline {subsection}{\numberline {3.0.3}Aufbau des Programmes}{7}{subsection.3.0.3}
-\contentsline {subsection}{\numberline {3.0.4}Der Build Prozess}{7}{subsection.3.0.4}
+\contentsline {subsection}{\numberline {3.0.4}Der Build Prozess unter Windows 7 mit VisualStudio 2012}{7}{subsection.3.0.4}
+\contentsline {subsection}{\numberline {3.0.5}Der Build Prozess unter Linux}{8}{subsection.3.0.5}
