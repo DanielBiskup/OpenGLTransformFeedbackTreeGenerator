@@ -23,8 +23,7 @@ Der Parameter "scaleLength" bestimmt, wie lang ein Astsegment im Verhältnis zu s
 
 Der Parameter "scaleTriangle" bestimmt, wie dick das obere Ende eines Astsegmentes im Verhältnis zu seinem Unteren Ende ist.
 
-%TODO: Stimmt diese Aussage noch?
-Am oberen Ende eines Astsegmentes befindet sich eine Pyramide. Die Pyramide hat als Grundfläche jenes Dreieck dessen Größe durch "scaleTriangle" bestimmt wird. Wie hoch diese Pyramide Verhältnis zu der Seitenlänge des Dreieckes welches ihre Basis bildet ist, bestimmt das Attribut "pyramidFactor".
+Der Parameter "pyramidFactor" bestimmt, wie hoch die Pyramide am Ende eines Astsegmentes im Verhältnis zu dessen Länge ist.
 
 %Die äußere Gestaltung der Ausarbeitung hinsichtlich %Abschnittformate, Abbildungen, mathematische Formeln %usw. wird in \hyperref[Stile]{Kapitel~\ref*{Stile}} %kurz dargestellt.
 
@@ -50,7 +49,10 @@ GLFW3, welches ich hier nutze, bringt allerdings API-Änderungen und AntTweakBar 
 \subsection{Aufbau des Programmes}
 
 \paragraph{OpenGL Errorbehandlung}
-\paragraph{title}
+Wenn man sich als Programmierer oder Programmiererin nicht darum kümmert wird einem ein OpenGL Programm nicht mitteilen, warum es gerade abgestürzt ist. OpenGL bietet allerdings einige Funktionen, mit denen man sich relativ hilfreiche Fehlermeldungen ausgeben lassen kann. So sollte man sich nach dem Kompilieren von Shadern und dem Linken von Shaderprogrammen jeweils den Error-Log ausgeben lassen mit \code{glGetProgramiv}, \code{glGetProgramInfoLog}, \code{glGetShaderiv} und \code{glGetShaderInfoLog}. Ich verwende diese in meinem Programm in den Funktionen \code{void Shaderprogram::linkProgram} und \code{void Shader::createShaderFromString}.
+
+Allgemein ist es eine gute Idee, \code{glDebugMessageCallback} zu verwenden, welches einem Erlaubt eine Callbackfunktion anzumelden, die immer aufgerufen wird, wenn ein Fehler auftritt. Ich habe mich an der folgenden Website bedient und den Code für die Funktion großteils übernommen: \url{http://blog.nobel-joergensen.com/2013/02/17/debugging-opengl-part-2-using-gldebugmessagecallback/}.
+In meinem Programm Befindet sich die Implementierung dieser Funktion in \code{openglerrorcallback.cpp}.
 
 \subsection{Der Build Prozess unter Windows 7 mit VisualStudio 2012}
 Achtung: Das Programm kompiliert und linkt zwar unter Windows, stürzt beim Ausführen allerdings ab. Damit sie sich vorstellen können wie das Programm aussehen würde wenn sie es ausführen würden, möchte ich auf folgenden YouTube-Link verweisen: \code{www.youtube....}.
@@ -65,4 +67,3 @@ Auf meinem System, einem Arch Linux, kompiliert, linkt und läuft das Programm fe
 Wie sie \code{AntTweakBar} installieren ist hier beschrieben: \url{http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:download}. Alternativ gibt es für einige Distributionen Packete. ArchLinux: \url{https://aur.archlinux.org/packages/anttweakbar/}, Fedora: \url{https://apps.fedoraproject.org/packages/AntTweakBar}, Gentoo: \code{http://gpo.zugaina.org/media-libs/anttweakbar}.
 
 Sind alle Abhängigkeiten aufgelöst, so kompilieren sie folgendermaßen. Entpacken sie code{Projekt\_Linux.rar}. Navigieren sie mit der Bash nach \code{Projkt\_Linux/Projekt/project}. In diesem Ordner liegt bereits die Ausführbare Datei des Buildtools Premake. Generieren sie die GNU-Makefiles mit dem Befehl \code{./premake4 gmake}. Anschließend sollte im Ordner die Datei \code{Makefile} enthalten sein. Die Debug-Version kompilieren sie nun mit \code{make config=debug} und die Release-Version mit \code{make config=release}. Die Ausführbaren Programme liegen nun, falls der Kompilier- und Linkvorgang erfolgreich waren, in \code{./bin/debug} bzw. \code{./bin/release}. Ausführen können sie diese meist mit Doppelklick oder über die Bash.
-
