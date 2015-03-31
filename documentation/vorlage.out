@@ -1,14 +1,12 @@
-\BOOKMARK [0][-]{chapter.1}{Einleitung}{}% 1
-\BOOKMARK [1][-]{section.1.1}{Zielsetzung}{chapter.1}% 2
-\BOOKMARK [0][-]{chapter.2}{Konzeption der Geometrieerzeugung}{}% 3
-\BOOKMARK [1][-]{section.2.1}{Attribute der Eckpunkte}{chapter.2}% 4
-\BOOKMARK [1][-]{section.2.2}{Konstruktion der Geometrie}{chapter.2}% 5
-\BOOKMARK [2][-]{subsection.2.2.1}{Konstruktion der Eckpunkte}{section.2.2}% 6
-\BOOKMARK [2][-]{subsection.2.2.2}{Konstruktion der Geometrie aus den Eckpunkten}{section.2.2}% 7
-\BOOKMARK [1][-]{section.2.3}{Herleitung der Formel zur Berechnung der Anzahl generierter Dreiecke nach n Iterationen}{chapter.2}% 8
-\BOOKMARK [0][-]{chapter.3}{Implementierung}{}% 9
-\BOOKMARK [1][-]{subsection.3.0.1}{Bedienung des Programmes}{chapter.3}% 10
-\BOOKMARK [2][-]{subsection.3.0.2}{Verwendet Libraries}{subsection.3.0.1}% 11
-\BOOKMARK [2][-]{subsection.3.0.3}{Aufbau des Programmes}{subsection.3.0.1}% 12
-\BOOKMARK [2][-]{subsection.3.0.4}{Der Build Prozess unter Windows 7 mit VisualStudio 2012}{subsection.3.0.1}% 13
-\BOOKMARK [2][-]{subsection.3.0.5}{Der Build Prozess unter Linux}{subsection.3.0.1}% 14
+\BOOKMARK [0][-]{chapter.1}{Konzeption der Geometrieerzeugung}{}% 1
+\BOOKMARK [1][-]{section.1.1}{Attribute der Eckpunkte}{chapter.1}% 2
+\BOOKMARK [1][-]{section.1.2}{Konstruktion der Geometrie}{chapter.1}% 3
+\BOOKMARK [2][-]{subsection.1.2.1}{Konstruktion der Eckpunkte}{section.1.2}% 4
+\BOOKMARK [2][-]{subsection.1.2.2}{Konstruktion der Geometrie aus den Eckpunkten}{section.1.2}% 5
+\BOOKMARK [1][-]{section.1.3}{Herleitung der Formel zur Berechnung der Anzahl generierter Dreiecke nach n Iterationen}{chapter.1}% 6
+\BOOKMARK [0][-]{chapter.2}{Implementierung}{}% 7
+\BOOKMARK [1][-]{subsection.2.0.1}{Bedienung des Programmes}{chapter.2}% 8
+\BOOKMARK [2][-]{subsection.2.0.2}{Verwendet Libraries}{subsection.2.0.1}% 9
+\BOOKMARK [2][-]{subsection.2.0.3}{Aufbau des Programmes}{subsection.2.0.1}% 10
+\BOOKMARK [2][-]{subsection.2.0.4}{Der Build Prozess unter Windows 7 mit VisualStudio 2012}{subsection.2.0.1}% 11
+\BOOKMARK [2][-]{subsection.2.0.5}{Der Build Prozess unter Linux}{subsection.2.0.1}% 12

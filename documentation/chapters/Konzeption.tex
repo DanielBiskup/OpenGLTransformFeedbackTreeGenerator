@@ -1,7 +1,7 @@
 \newcommand{\code}[1]{\texttt{#1}}
 
 \chapter{Konzeption der Geometrieerzeugung}
-In diesem Kapitel werden die Rechnungen und Definitionen hergeleitet, die benötigt werden, um rekursiv die in der Einleitung beschriebene Geometrie zu erzeugen.
+In diesem Kapitel werden die Rechnungen und Definitionen hergeleitet, die benötigt werden, um die Geometrie des Baumes zu erzeugen.
 
 \section{Attribute der Eckpunkte}
 %Quellen: 
@@ -35,7 +35,7 @@ Der Vektor vom Schwerpunkt $c_p$ zu jenem des Dreiecks $q$ ist $h = n \cdot l$.
 Damit ergeben sich die Eckpunkte von $q$ zu:
 $$q_i = c_p + d_i + h \text{ für } i \in \{0,1,2\}$$
 
-Die Höhe $h_{pyramid}$ der Pyramide $(q_0,q_1,q_2,t)$ wird in diesem Projekt, ohne, dass es dazu besondere mathematische Überlegungen gäbe, festgelegt als $h_{pyramid} = |a| * \code{pyramidFactor}$, wobei es sich bei $\code{pyramidFactor}$ um eine Konstante handelt.
+Die Höhe $h_{pyramid}$ der Pyramide $(q_0,q_1,q_2,t)$ wird in diesem Projekt festgelegt als ein Vielfaches der Länge $l$. $h_{pyramid} = l * \code{pyramidFactor}$, wobei es sich bei $\code{pyramidFactor}$ um eine Konstante handelt.
 Die Spitze $t$ der Pyramide liegt damit bei $t = c_p + h + h_{pyramid} * n$.
 
 \subsection{Konstruktion der Geometrie aus den Eckpunkten}
