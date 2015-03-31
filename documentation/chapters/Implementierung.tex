@@ -9,15 +9,15 @@ Die Tweak Bar enthält drei Gruppen von Einträgen, mit Namen "'generation paramet
 
 Während die ersten Beiden Gruppen Felder die vom Benutzer oder der Benutzerin manipuliert werden können enthalten, enthält die letzte Gruppe die nicht vom Benutzer oder der Benutzerin nicht direkt manipulierbaren Einträge "'number of triangles"' und "'number of vertices"'. Unter "'number of triangles"' ist die Anzahl der Dreiecke und unter "'number of vertices"' anderen die Anzahl der Eckpunkte aufgeführt, aus denen sich der aktuell auf dem Bildschirm angezeigt Baum zusammensetzt.
 
-In der Gruppe "'presentation parameters"' findet der Benutzer oder die Benutzerin den Schalter "'autoRotation"' mit dem sich festlegen lässt, ob der Baum automatisch entlang seiner Y-Achse gedreht werden soll, sowie das Eingabefeld "''autoRotationSpeed"'' über welches die bei automatischer Rotation anzuwendende Rotationsgeschwindigkeit festgelegt werden kann.
+In der Gruppe "'presentation parameters"' findet der Benutzer oder die Benutzerin den Schalter "'autoRotation"' mit dem sich festlegen lässt, ob der Baum automatisch entlang seiner Y-Achse gedreht werden soll, sowie das Eingabefeld "'autoRotationSpeed"' über welches die bei automatischer Rotation anzuwendende Rotationsgeschwindigkeit festgelegt werden kann.
 Über den Eintrag "'rotation"' kann durch klicken und ziehen der bunt eingefärbten Kugel die Orientierung des Baumes im Raum verändert werde.
 
 In der Gruppe "'generation parameters"' sind Einträge aufgeführt über die sich der Prozess der Geometriegenerierung des Baumes konfigurieren lässt.
-Den ersten Eintrag bildet ein Button mit Aufschrift "'click here to generate tree"'. Ein Klick auf diesen löst die Ausführung des in [Kapite X] beschriebenen Geometrieerzeugungsalgorithmus aus, welchem als Parameter die Werte der übrigen Eingabefelder, die in der Gruppe "'generation parameters"' enthalten sind, übergeben werde. Wurde die Geometrie erfolgreich erzeugt, so wird der diese nun anstelle der zuvor angezeigten angezeigt.
+Den ersten Eintrag bildet ein Button mit Aufschrift "'click here to generate tree"'. Ein Klick auf diesen löst die Ausführung des in Kapitel \ref{capter_geometrie} beschriebenen Geometrieerzeugungsalgorithmus aus, welchem als Parameter die Werte der übrigen Eingabefelder, die in der Gruppe "'generation parameters"' enthalten sind, übergeben werde. Wurde die Geometrie erfolgreich erzeugt, so wird der diese nun anstelle der zuvor angezeigten angezeigt.
 
 Der Parameter "'numberOfIterations"' gibt an, wie viele Iterationen des Geometrieerzeugungsalgorithmus verwendet werden sollen.
 
-Die übrigen Parameter sind bereits aus [Kapitel X] bekannt, ihr Bedeutung soll hier dennoch kurz geklärt werden.
+Die übrigen Parameter sind bereits aus \ref{capter_geometrie} bekannt, ihr Bedeutung soll hier dennoch kurz geklärt werden.
 
 Der Parameter "'scaleLength"' bestimmt, wie lang ein Astsegment im Verhältnis zu seinem Vorgänger ist.
 
@@ -48,7 +48,7 @@ GLFW3, welches ich hier nutze, bringt allerdings API-Änderungen und AntTweakBar 
 
 \section{Aufbau des Programmes}
 
-\paragraph{OpenGL Errorbehandlung}
+\subsection{OpenGL Errorbehandlung}
 Wenn man sich als Programmierer oder Programmiererin nicht darum kümmert wird einem ein OpenGL Programm nicht mitteilen, warum es gerade abgestürzt ist. OpenGL bietet allerdings einige Funktionen, mit denen man sich relativ hilfreiche Fehlermeldungen ausgeben lassen kann. So sollte man sich nach dem Kompilieren von Shadern und dem Linken von Shaderprogrammen jeweils den Error-Log ausgeben lassen mit \code{glGetProgramiv}, \code{glGetProgramInfoLog}, \code{glGetShaderiv} und \code{glGetShaderInfoLog}. Ich verwende diese in meinem Programm in den Funktionen \code{void Shaderprogram::linkProgram} und \code{void ""Shader""::""create""Shader""From""String}.
 
 Allgemein ist es eine gute Idee, \code{glDebugMessageCallback} zu verwenden, welches einem Erlaubt eine Callbackfunktion anzumelden, die immer aufgerufen wird, wenn ein Fehler auftritt. Ich habe mich an der folgenden Website bedient und den Code für die Funktion großteils übernommen: \url{http://blog.nobel-joergensen.com/2013/02/17/debugging-opengl-part-2-using-gldebugmessagecallback/}.
