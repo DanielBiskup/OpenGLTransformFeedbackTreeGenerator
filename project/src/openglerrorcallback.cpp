@@ -59,7 +59,7 @@ void registerDebugMessageCallback() {
 		if(glDebugMessageCallback){
 			cout << "Register OpenGL debug callback " << endl;
 			glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
-			glDebugMessageCallback(openglCallbackFunction, nullptr);
+			glDebugMessageCallback(openglCallbackFunction, NULL);
 			GLuint unusedIds = 0;
 			glDebugMessageControl(GL_DONT_CARE,
 								  GL_DONT_CARE,

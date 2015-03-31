@@ -79,8 +79,15 @@ void Shaderprogram::linkProgram()
 
 	GLint linkStatus;
 	glGetProgramiv(program, GL_LINK_STATUS, &linkStatus);
-	assert(linkStatus == GL_TRUE);
-	//TODO: Linkfehlerausgabe.
+	if( linkStatus != GL_TRUE) {
+		GLint logSize = 10;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logSize);
+		std::vector<GLchar> errorLog(logSize);
+		glGetProgramInfoLog(program, logSize, NULL, &errorLog[0]);
+		std::string errorMessage = std::string(&errorLog[0]);
+		std::cout << "Shader Link Error: " << errorMessage << std::endl;
+		assert(linkStatus == GL_TRUE);
+	}
 }
 
 void Shaderprogram::detatchShaders()
