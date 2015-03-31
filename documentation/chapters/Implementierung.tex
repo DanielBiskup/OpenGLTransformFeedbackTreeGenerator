@@ -35,5 +35,17 @@ Das Programm nutzt mehrere Programmbibliotheken.
 \paragr
 \subsection{Aufbau des Programmes}
 
-\subsection{Der Build Prozess}
+\subsection{Der Build Prozess unter Windows 7 mit VisualStudio 2012}
+Achtung: Das Programm kompiliert und linkt zwar unter Windows, stürzt beim Ausführen allerdings ab. Damit sie sich vorstellen können wie das Programm aussehen würde wenn sie es ausführen würden, möchte ich auf folgenden YouTube-Link verweisen: \code{www.youtube....}.
+Der Beschriebene Buildprozess wurde auf den Poolrechnern in Raum L3 getestet.
+Entpacken sie \code{Projekt_Windows.rar}. Navigieren sie zu \code{Projekt_Windows/Projekt/Projekt/project}. Dort finden sie die Ausführbare Datei \code{premake4.exe}, dies ist das Build Tool. Halten sie \code{CTRL + SHIFT} gedrückt, während sie mit der rechten Mousetaste irgendwo in das gerade geöffnete Fenster des Filemanagers klicken. Es öffnet sich ein Kontextmenue. Wählen sie \code{Eingabeaufforderung hier öffnen} aus. In der nun offenen CMD geben sie den Befehl \code{premake4.exe vs2012} ein, welcher ein *.sln-File für Visual Studio 2012 generiert. Doppelklicken sie auf \code{ProcedualTreeGeneration.sln}. Sollte VS 2012 nun gestartet sein, im Projektmappen-Explorer jedoch nur ein \code{MyFirstTree (Laden fehlgeschlagen)} stehen, rechtsklicken sie darauf, und wählen \code{Projekt erneut laden} aus. Nun können sie durch einen Klick auf \code{Lokaler Windows-Debugger} das Programm kompilieren und linken. Normalerweise sollte das es ohne Fehler (mit ein paar Warnungen) kompilieren und linken. Es wird anschließen versuchen zu starten und kurz danach abstürzen.
+
+Es wird in Zeile 94 der Datei \code{buffer.cpp} beim Ausführen des Befehls \code{glBufferSubData(...)} abstürzen. Ich konnte den Fehler leider nicht beheben.
+
+\subsection{Der Build Prozess unter Linux}
+Auf meinem System, einem Arch Linux, kompiliert, linkt und läuft das Programm fehlerfrei. Um das es unter Linux zu kompilieren müssen sie zunächst folgende Abhängigkeiten auflösen indem sie die entsprechenden Pakete ihrer Distribution installieren oder von Hand die benötigten Bibliotheken installieren.
+
+Wie sie \code{AntTweakBar} installieren ist hier beschrieben: \url{http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:download}. Alternativ gibt es für einige Distributionen Packete. ArchLinux: \url{https://aur.archlinux.org/packages/anttweakbar/}, Fedora: \url{https://apps.fedoraproject.org/packages/AntTweakBar}, Gentoo: \code{http://gpo.zugaina.org/media-libs/anttweakbar}.
+
+Sind alle Abhängigkeiten aufgelöst, so kompilieren sie folgendermaßen. Entpacken sie code{Projekt_Linux.rar}. Navigieren sie mit der Bash nach code{Projkt_Linux/Projekt/project}. In diesem Ordner liegt bereits die Ausführbare Datei des Buildtools Premake. Generieren sie die GNU-Makefiles mit dem Befehl \code{./premake4 gmake}. Anschließend sollte im Ordner die Datei \code{Makefile} enthalten sein. Die Debug-Version kompilieren sie nun mit \code{make config=debug} und die Release-Version mit \code{make config=release}. Die Ausführbaren Programme liegen nun, falls der Kompilier- und Linkvorgang erfolgreich waren, in \code{./bin/debug} bzw. \code{./bin/release}. Ausführen können sie diese meist mit Doppelklick oder über die Bash.
 

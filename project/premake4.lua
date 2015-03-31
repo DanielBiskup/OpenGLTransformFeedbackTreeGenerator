@@ -59,7 +59,8 @@ project "MyFirstTree"
   configuration "Debug"
     targetdir "bin/debug"
     defines { "_DEBUG", "DEBUG" }
-    flags { "Symbols", "ExtraWarnings", "FatalWarnings" }    
+    flags { "Symbols", "ExtraWarnings"}
+    --flags {"FatalWarnings" }    
  
   configuration "Release"
     targetdir "bin/release"
