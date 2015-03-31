@@ -8,9 +8,16 @@ In diesem Kapitel werden die Rechnungen und Definitionen hergeleitet, die benöti
 In der Computergrafik setzen sich Objekte üblicherweise aus Dreiecken zusammen. Jedes Dreieck ist über drei Eckpunkte eindeutig definiert. Häufig ist es wichtig zwischen der Vorder- und Rückseite eines Dreiecks unterscheiden zu können, zum Beispiel um Face Culling durchzuführen. Für ein auf eine Ebene projiziertes Dreieck im $\mathbb{R}^3$ kann diese Unterscheidung kann anhand der Drehrichtung in der die Eckpunkte um den Mittelpunkt des Dreiecks angeordnet sind getroffen werden. 
 Sind die Punkte in mathematisch positiver Drehrichtung -- gegen den Uhrzeigersinn -- um den Mittelpunkt des Dreiecks angeordnet handelt es sich um ein Dreieck mit positiver Wicklungsrichtung (englisch. winding order) andernfalls um eines mit negativer Wicklungsrichtung.
 Je nach Konvention wird entweder die Seite eines Dreiecks die in negativer oder in positiver Wicklungsrichtung erscheint als Vorderseite interpretiert. 
-In der vorliegenden Arbeit verwendete Konvention entspricht der Standarteinstellung \code{glFrontFace( GL\_CCW );} von OpenGL, bei der die Seite mit positiver Wicklungsrichtung -- gegen den Uhrzeigersinn -- als Vorderseite interpretiert wird.
+In der vorliegenden Arbeit verwendete Konvention entspricht der Standarteinstellung \code{glFrontFace( GL\_CCW );} von OpenGL, bei der die Seite mit positiver Wicklungsrichtung -- gegen den Uhrzeigersinn -- als Vorderseite interpretiert wird (siehe \ref{a1}).
+
 %Beispielgrafik:
 % http://www.marekknows.com/images/forum/posts/post_722.jpg
+\begin{figure} %[hbtp]
+	\centering
+	\includegraphics{images/windingOrder.jpg}
+	\caption{Winding Order}
+	\label{a1}
+\end{figure}
 
 Daher muss bei der Generierung neuer Geometrie darauf geachtet werden, dass die Punkte der generierten Dreiecke in der richten Reihenfolge angegeben werde.
 
@@ -40,7 +47,7 @@ Die Spitze $t$ der Pyramide liegt damit bei $t = c_p + h + h_{pyramid} * n$.
 Wenn die Punkte $p_0, p_1, p_2, q_1, q_2, q_3$ und $t$ bekannt sind, so kann aus diesen sowohl die Geometrie der Mantelfläche, als auch die der Pyramide erzeugt werden.
 
 \paragraph{Die Dreiecke der Mantelfläche}
-Die Dreiecke welche die Mantelfläche des Pyramidenstumpfes bilden sollen einen Längenwert von $0$ haben, damit sie bei der nächsten Iteration nicht durch weitere Geometrie ersetzt werden. Zudem sind die Eckpunkte der Dreiecke in negativer Wicklungsrichtung an zu geben, damit es auch im nächsten Schritt möglich ist die Normalen der Dreiecke zu berechnen und damit OpenGL Backface Culling durchführen kann. Wie Abbildung KAAB3 entnommen werden kann, ergibt sich die Menge der Dreiecke der Mantelfläche zu:
+Die Dreiecke welche die Mantelfläche des Pyramidenstumpfes bilden sollen einen Längenwert von $0$ haben, damit sie bei der nächsten Iteration nicht durch weitere Geometrie ersetzt werden. Zudem sind die Eckpunkte der Dreiecke in negativer Wicklungsrichtung an zu geben, damit es auch im nächsten Schritt möglich ist die Normalen der Dreiecke zu berechnen und damit OpenGL Backface Culling durchführen kann. Wie Abbildung KABB3 entnommen werden kann, ergibt sich die Menge der Dreiecke der Mantelfläche zu:
 $$M := \{(p_0, q_1, q_0), (p_0,p_1,q_1), (p_1, q_2, q_1), (p_1,p_2,q_2), (p_2, q_0, q_2), (p_2,p_0,q_0)\}
 $$
 Oder kürzer:

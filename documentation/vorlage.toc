@@ -5,19 +5,19 @@
 \contentsline {section}{\numberline {2.1}Attribute der Eckpunkte}{2}{section.2.1}
 \contentsline {section}{\numberline {2.2}Konstruktion der Geometrie}{2}{section.2.2}
 \contentsline {subsection}{\numberline {2.2.1}Konstruktion der Eckpunkte}{3}{subsection.2.2.1}
-\contentsline {subsection}{\numberline {2.2.2}Konstruktion der Geometrie aus den Eckpunkten}{3}{subsection.2.2.2}
-\contentsline {paragraph}{Die Dreiecke der Mantelfl\"ache}{3}{section*.2}
+\contentsline {subsection}{\numberline {2.2.2}Konstruktion der Geometrie aus den Eckpunkten}{4}{subsection.2.2.2}
+\contentsline {paragraph}{Die Dreiecke der Mantelfl\"ache}{4}{section*.2}
 \contentsline {paragraph}{Die Dreiecke der Pyramide}{4}{section*.3}
-\contentsline {section}{\numberline {2.3}Herleitung der Formel zur Berechnung der Anzahl generierter Dreiecke nach n Iterationen}{4}{section.2.3}
-\contentsline {paragraph}{Herleitung}{4}{section*.4}
-\contentsline {chapter}{\numberline {3}Implementierung}{6}{chapter.3}
-\contentsline {section}{\numberline {3.1}Bedienung des Programmes}{6}{section.3.1}
-\contentsline {section}{\numberline {3.2}Verwendet Libraries}{7}{section.3.2}
-\contentsline {paragraph}{GLEW}{7}{section*.5}
-\contentsline {paragraph}{GLFW}{7}{section*.6}
-\contentsline {paragraph}{GLM}{7}{section*.7}
-\contentsline {paragraph}{AntTweakBar}{7}{section*.8}
-\contentsline {section}{\numberline {3.3}Aufbau des Programmes}{8}{section.3.3}
-\contentsline {paragraph}{OpenGL Errorbehandlung}{8}{section*.9}
-\contentsline {section}{\numberline {3.4}Der Build Prozess unter Windows 7 mit VisualStudio 2012}{8}{section.3.4}
-\contentsline {section}{\numberline {3.5}Der Build Prozess unter Linux}{9}{section.3.5}
+\contentsline {section}{\numberline {2.3}Herleitung der Formel zur Berechnung der Anzahl generierter Dreiecke nach n Iterationen}{5}{section.2.3}
+\contentsline {paragraph}{Herleitung}{5}{section*.4}
+\contentsline {chapter}{\numberline {3}Implementierung}{7}{chapter.3}
+\contentsline {section}{\numberline {3.1}Bedienung des Programmes}{7}{section.3.1}
+\contentsline {section}{\numberline {3.2}Verwendet Libraries}{8}{section.3.2}
+\contentsline {paragraph}{GLEW}{8}{section*.5}
+\contentsline {paragraph}{GLFW}{8}{section*.6}
+\contentsline {paragraph}{GLM}{8}{section*.7}
+\contentsline {paragraph}{AntTweakBar}{8}{section*.8}
+\contentsline {section}{\numberline {3.3}Aufbau des Programmes}{9}{section.3.3}
+\contentsline {paragraph}{OpenGL Errorbehandlung}{9}{section*.9}
+\contentsline {section}{\numberline {3.4}Der Build Prozess unter Windows 7 mit VisualStudio 2012}{9}{section.3.4}
+\contentsline {section}{\numberline {3.5}Der Build Prozess unter Linux}{10}{section.3.5}
