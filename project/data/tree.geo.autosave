@@ -86,8 +86,8 @@ void main() {
             q[i] = c_p + d_i + h;
         }
 
-        //float h_pyramid = length(a)*pyramidFactor;
-        float h_pyramid = l * pyramidFactor;
+        float h_pyramid = length(a)*pyramidFactor;
+        //float h_pyramid = l * pyramidFactor;
 
         t = c_p + h + n * h_pyramid;
 

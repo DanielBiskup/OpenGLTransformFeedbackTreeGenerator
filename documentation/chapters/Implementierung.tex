@@ -1,4 +1,39 @@
 \chapter{Implementierung}
+Dieses Kapitel behandelt das diesem Dokument beiliegende Programm.
+Zunächst wird Überblick darüber gegeben, wie das Programm zu bedienen ist. Anschließend wird auf die verwendeten Libraries, und den Aufbau des Programmes eingegangen. Zuletzt wird ausgeführt wie das Programm auf den Plattformen Windows und Linux kompiliert werden kann.
 
+\subsection{Bedienung des Programmes}
+Nach dem Start des Programmes ist in der Mitte des Fensters ein sich drehender Baum zu sehen. In der linken oberen Ecke befindet sich ein Fenster mit der mit dem Titel "TweakBar" welches im folgenden als Tweak Bar bezeichnet wird.
+
+Die Tweak Bar enthält drei Gruppen von Einträgen, mit Namen "generation parameters", "presentation parameters" und "read-only scene information".
+
+Während die ersten Beiden Gruppen Felder die vom Benutzer oder der Benutzerin manipuliert werden können enthalten, enthält die letzte Gruppe die nicht vom Benutzer oder der Benutzerin nicht direkt manipulierbaren Einträge "number of triangles" und "number of vertices". Unter "number of triangles" ist die Anzahl der Dreiecke und unter "number of vertices" anderen die Anzahl der Eckpunkte aufgeführt, aus denen sich der aktuell auf dem Bildschirm angezeigt Baum zusammensetzt.
+
+In der Gruppe "presentation parameters" findet der Benutzer oder die Benutzerin den Schalter "autoRotation" mit dem sich festlegen lässt, ob der Baum automatisch entlang seiner Y-Achse gedreht werden soll, sowie das Eingabefeld "autoRotationSpeed" über welches die bei automatischer Rotation anzuwendende Rotationsgeschwindigkeit festgelegt werden kann.
+Über den Eintrag "rotation" kann durch klicken und ziehen der bunt eingefärbten Kugel die Orientierung des Baumes im Raum verändert werde.
+
+In der Gruppe "generation parameters" sind Einträge aufgeführt über die sich der Prozess der Geometriegenerierung des Baumes konfigurieren lässt.
+Den ersten Eintrag bildet ein Button mit Aufschrift "click here to generate tree". Ein Klick auf diesen löst die Ausführung des in [Kapite X] beschriebenen Geometrieerzeugungsalgorithmus aus, welchem als Parameter die Werte der übrigen Eingabefelder, die in der Gruppe "generation parameters" enthalten sind, übergeben werde. Wurde die Geometrie erfolgreich erzeugt, so wird der diese nun anstelle der zuvor angezeigten angezeigt.
+
+Der Parameter "numberOfIterations" gibt an, wie viele Iterationen des Geometrieerzeugungsalgorithmus verwendet werden sollen.
+
+Die übrigen Parameter sind bereits aus [Kapitel X] bekannt, ihr Bedeutung soll hier dennoch kurz geklärt werden.
+
+Der Parameter "scaleLength" bestimmt, wie lang ein Astsegment im Verhältnis zu seinem Vorgänger ist.
+
+Der Parameter "scaleTriangle" bestimmt, wie dick das obere Ende eines Astsegmentes im Verhältnis zu seinem Unteren Ende ist.
+
+%TODO: Stimmt diese Aussage noch?
+Am oberen Ende eines Astsegmentes befindet sich eine Pyramide. Die Pyramide hat als Grundfläche jenes Dreieck dessen Größe durch "scaleTriangle" bestimmt wird. Wie hoch diese Pyramide Verhältnis zu der Seitenlänge des Dreieckes welches ihre Basis bildet ist, bestimmt das Attribut "pyramidFactor".
 
 %Die äußere Gestaltung der Ausarbeitung hinsichtlich %Abschnittformate, Abbildungen, mathematische Formeln %usw. wird in \hyperref[Stile]{Kapitel~\ref*{Stile}} %kurz dargestellt.
+
+\subsection{Verwendet Libraries}
+Das Programm nutzt mehrere Programmbibliotheken.
+
+
+\paragr
+\subsection{Aufbau des Programmes}
+
+\subsection{Der Build Prozess}
+

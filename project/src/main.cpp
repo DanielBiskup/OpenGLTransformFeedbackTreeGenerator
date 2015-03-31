@@ -256,7 +256,7 @@ int main(void)
 	TwBar *bar;
 	bar = TwNewBar("TweakBar");
 	TwDefine(" GLOBAL help='This example shows how to integrate AntTweakBar with GLUT and OpenGL.' "); // Message added to the help bar.
-	TwDefine(" TweakBar size='250 280' color='25 102 51' "); // change default tweak bar size and color
+	TwDefine(" TweakBar size='250 300' color='25 102 51' "); // change default tweak bar size and color
 
 	ButtonCallbackParameters buttonCallbackParameters;
 	buttonCallbackParameters.numberOfIterations = &numberOfIterations;
@@ -274,7 +274,8 @@ int main(void)
 	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 
-	TwAddVarRW(bar, "Rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "group='presentation parameters' opened=true");
+	TwAddVarRW(bar, "rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "group='presentation parameters' opened=true");
+	TwAddVarRW(bar, "autoRotation", TW_TYPE_BOOL32, &autoRotateBoolean, "group='presentation parameters' help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 	TwAddVarRW(bar, "autoRotationSpeed", TW_TYPE_FLOAT, &autoRotationSpeed, "group='presentation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
 
 	TwAddVarRO(bar, "number of triangles", TW_TYPE_INT32, &numberOfTrianglesToDraw, "group='read-only scene information'");
@@ -310,7 +311,7 @@ int main(void)
 		}
 
 		//View Matrix
-		glm::vec3 cameraPosition(0, -50, 250);
+		glm::vec3 cameraPosition(0, -50, -250);
 		glm::mat4 view = glm::lookAt(
 					cameraPosition,
 					glm::vec3(0.0f,-30.0f,0.0f), // and looks at the origin

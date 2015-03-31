@@ -12,3 +12,7 @@
 \contentsline {section}{\numberline {2.3}Herleitung der Formel zur Berechnung der Anzahl generierter Dreiecke nach n Iterationen}{4}{section.2.3}
 \contentsline {paragraph}{Herleitung}{4}{section*.4}
 \contentsline {chapter}{\numberline {3}Implementierung}{6}{chapter.3}
+\contentsline {subsection}{\numberline {3.0.1}Bedienung des Programmes}{6}{subsection.3.0.1}
+\contentsline {subsection}{\numberline {3.0.2}Verwendet Libraries}{7}{subsection.3.0.2}
+\contentsline {subsection}{\numberline {3.0.3}Aufbau des Programmes}{7}{subsection.3.0.3}
+\contentsline {subsection}{\numberline {3.0.4}Der Build Prozess}{7}{subsection.3.0.4}
