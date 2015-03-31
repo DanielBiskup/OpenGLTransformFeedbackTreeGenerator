@@ -94,7 +94,7 @@ struct treeVertex {
 	}
 };
 
-struct VertexArraysAndBufers {
+struct VertexArraysAndBuffers {
 	VertexArray* currentVertexArray;
 	Buffer* currentTransformFeedbackBuffer;
 	VertexArray* lastVertexArray;
@@ -102,7 +102,7 @@ struct VertexArraysAndBufers {
 };
 
 struct ButtonCallbackParameters {
-	VertexArraysAndBufers* vertexArraysAndBufers;
+	VertexArraysAndBuffers* vertexArraysAndBufers;
 	Shaderprogram* shader;
 	int* numberOfIterations;
 	int* numberOfVerticesToDraw;
@@ -114,7 +114,7 @@ struct ButtonCallbackParameters {
 
 int nTriangles(int numberOfIterations);
 int nVertices(int numberOfIterations);
-void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations);
+void generate(VertexArraysAndBuffers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations);
 void theGenerateButtonCallbackFunction(void *clientData);
 
 int main(void)
@@ -243,7 +243,7 @@ int main(void)
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderNormal_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, normal));
 
-	VertexArraysAndBufers vertexArraysAndBufers;
+	VertexArraysAndBuffers vertexArraysAndBufers;
 	vertexArraysAndBufers.currentVertexArray = &genVertexArray;
 	vertexArraysAndBufers.currentTransformFeedbackBuffer = &transformFeedbackBufferA;
 	vertexArraysAndBufers.lastVertexArray = &renderVertexArray;
@@ -286,7 +286,6 @@ int main(void)
 	theGenerateButtonCallbackFunction(&buttonCallbackParameters);
 
 	/* Loop until the user closes the window */
-	glm::dvec2 mouseDelta;
 	double currentFrame, deltaTime;
 	double lastFrame = glfwGetTime();
 	while (!glfwWindowShouldClose(window))
@@ -300,15 +299,6 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glfwGetWindowSize(window, &windowWidth, &windowHeight);
-
-		glm::dvec2 mousePosition;
-		//glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
-		mouseDelta = mousePosition;
-		//glfwSetCursorPos(window, 0.0d, 0.0d);
-
-		if(mouseDelta.x != 0 || mouseDelta.y != 0 ) {
-			std::cout <<"mp("<<mousePosition.x<<", "<<mousePosition.y<<")" <<std::endl<< "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
-		}
 
 		//View Matrix
 		glm::vec3 cameraPosition(0, -50, -250);
@@ -386,7 +376,7 @@ int nVertices(int numberOfIterations) {
 	return nTriangles(numberOfIterations) * 3;
 }
 
-void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations) {
+void generate(VertexArraysAndBuffers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations) {
 	float scl = 4.0f;
 	float length = 4.f;
 	float a = 6.0f;

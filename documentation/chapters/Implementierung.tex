@@ -36,8 +36,6 @@ Die Parameter können auch über Tasten auf der Tastatur verändert werden. Welche 
 
 In der unteren linken Ecke des Fensters ist ein kleines Dreieck zu sehen. Ein Klick darauf öffnet ein Fenster, in welchem die Parameter, ähnlich wie in dem Dokument was sie gerade lesen, kurz erklärt werden.
 
-%Die äußere Gestaltung der Ausarbeitung hinsichtlich %Abschnittformate, Abbildungen, mathematische Formeln %usw. wird in \hyperref[Stile]{Kapitel~\ref*{Stile}} %kurz dargestellt.
-
 \section{Verwendet Libraries}
 Das Programm nutzt mehrere plattformunabhänge Open Source Libraries.
 \paragraph{GLEW}
@@ -59,19 +57,33 @@ GLFW3, welches ich hier nutze, bringt allerdings API-Änderungen und AntTweakBar 
 
 \section{Aufbau des Programmes}
 
+\subsection{Wrapperklassen für OpenGL Objekte}
+Ich habe versucht Wrapperklassen für OpenGL Objekte zu schreiben. Dabei habe ich mich von folgendem Projekt inspirieren lassen. Ich möchte betonen, dass ich dennoch nicht einfach den Quelltext des Projektes geklaut habe, sondern, dass ich mir selbst Gedanken gemacht habe. \url{https://github.com/Overv/OOGL}.
+
+\subsection{Transform Feedback und Geometry Shader}
+Quellen die ich genutzt habe um Transform Feedback und Geometry Shader zu verstehen sind: \url{https://open.gl/geometry} und \url{https://open.gl/feedback}. Erste Erfahrung mit OpenGL habe ich schon vor einem halben Jahr gemacht, damals halfen mir folgende Websites sehr weiter: \url{http://www.opengl-tutorial.org/} und \url{http://arcsynthesis.org/?nr=0} (die seit ein paar Wochen nicht mehr online ist).
+
+Ich habe auch öfter direkt in der OpenGL Dokumentation nachgeschaut, bzw. auf der folgenden etwas übersichtlicher strukturierten Website \url{http://docs.gl/}.
+
+Bei der Implementierung der Geometriegenerierung habe ich mich an ihren Vorschlag aus der Aufgabenstellung gehalten. Ich verwende zwei VBOs und zwei VAOs. Zwei VBOs, weil ich immer einen VBO als Input für die Pipeline und den anderen als Ziel für die Ausgabe per Transform Feedback verwende. Zwei VAOs, weil ich abwechselnd den einen oder den anderen VBO als Eingabe verwende, und VAOs speichern aus welchem VBO die Daten für die einzelnen Attribute kommen. In meinem Programm halte ich eine Instanz vom Typ \code{Vertex""Arrays""And""Buffers} die jeweils Pointer auf die aktuellen Eingabe- und Ausgabebuffer und die zu ihnen gehörenden VAOs enthält. Die Funktion \code{void"" generate(""Vertex""Arrays""And""Buffers""\& vertex""Arrays""AndBufers"", Shaderprogram""\& shader"", int"" number""Of""Iterations"")} zum Beispiel erwartet eine Referenz auf diese Struktur um zu wissen welcher VBO und VAO gerade zur Eingabe und welcher zu Ausgabe verwendet werden soll. \code{generate} Vertauscht zudem bei Bedarf auch die Pointer in der Struct miteinander, damit auch andere Teile des Programms, wie zum Beispiel der Renderer im Main-Loop, wissen welches VAO sie zum Rendern verwenden müssen.
+
 \subsection{OpenGL Errorbehandlung}
 Wenn man sich als Programmierer oder Programmiererin nicht darum kümmert wird einem ein OpenGL Programm nicht mitteilen, warum es gerade abgestürzt ist. OpenGL bietet allerdings einige Funktionen, mit denen man sich relativ hilfreiche Fehlermeldungen ausgeben lassen kann. So sollte man sich nach dem Kompilieren von Shadern und dem Linken von Shaderprogrammen jeweils den Error-Log ausgeben lassen mit \code{glGetProgramiv}, \code{glGetProgramInfoLog}, \code{glGetShaderiv} und \code{glGetShaderInfoLog}. Ich verwende diese in meinem Programm in den Funktionen \code{void Shaderprogram::linkProgram} und \code{void ""Shader""::""create""Shader""From""String}.
 
-Allgemein ist es eine gute Idee, \code{glDebugMessageCallback} zu verwenden, welches einem Erlaubt eine Callbackfunktion anzumelden, die immer aufgerufen wird, wenn ein Fehler auftritt. Ich habe mich an der folgenden Website bedient und den Code für die Funktion großteils übernommen: \url{http://blog.nobel-joergensen.com/2013/02/17/debugging-opengl-part-2-using-gldebugmessagecallback/}.
-In meinem Programm Befindet sich die Implementierung dieser Funktion in \code{openglerrorcallback.cpp}.
+Allgemein ist es eine gute Idee, \code{glDebugMessageCallback} zu verwenden, welches einem Erlaubt eine Callbackfunktion anzumelden, die immer aufgerufen wird, wenn ein Fehler auftritt. Ich habe mich an der folgenden Website bedient und den Code für die Funktion großteils übernommen, man könne auch sagen, ich habe sie geklaut: \url{http://blog.nobel-joergensen.com/2013/02/17/debugging-opengl-part-2-using-gldebugmessagecallback/}.
+In meinem Programm Befindet sich die Implementierung dieser Funktion in \code{opengl""error""callback.""cpp}.
 
-\section{Der Build Prozess unter Windows 7 mit VisualStudio 2012}
+\section{Der Build Prozess}
+Sowohl unter Windows als auch unter Linux wird das Tool \code{Premake} verwendet um Makefiles oder VS-StudioSolutions zu generieren. \url{https://premake.github.io/}. Premake erfüllt den selben Zweck wie CMake, und verwendet Lua als Scripsprache.
+Ich musste mich auch ein wenig in die Nutzung dieses Werkzeugs einarbeiten, dabei half der User Guide des Projektes: \url{http://industriousone.com/scripting-premake}
+
+\subsection{Der Build Prozess unter Windows 7 mit VisualStudio 2012}
 Der Beschriebene Buildprozess wurde auf den Poolrechnern in Raum L3 getestet.
-Entpacken sie \code{Projekt\_Windows.rar}. Navigieren sie zu \code{Projekt\_Windows/""Projekt/""Projekt/""project}. Dort finden sie die Ausführbare Datei \code{premake4.exe}, dies ist das Build Tool. Halten sie \code{CTRL + SHIFT} gedrückt, während sie mit der rechten Mousetaste irgendwo in das gerade geöffnete Fenster des Filemanagers klicken. Es öffnet sich ein Kontextmenue. Wählen sie \code{Eingabeaufforderung hier öffnen} aus. In der nun offenen CMD geben sie den Befehl \code{premake4.exe vs2012} ein, welcher ein *.sln-File für Visual Studio 2012 generiert. Doppelklicken sie auf \code{ProcedualTreeGeneration.sln}. Sollte VS 2012 nun gestartet sein, im Projektmappen-Explorer jedoch nur ein \code{MyFirstTree (Laden fehlgeschlagen)} stehen, rechtsklicken sie darauf, und wählen \code{Projekt erneut laden} aus. Nun können sie durch einen Klick auf \code{Lokaler Windows-Debugger} das Programm kompilieren und linken. Normalerweise sollte das es ohne Fehler (mit ein paar Warnungen) kompilieren und linken. Es wird anschließen versuchen zu starten und kurz danach abstürzen.
+Entpacken sie \code{Projekt\_Windows.rar}. Navigieren sie zu \code{Projekt\_Windows/""Projekt/""Projekt/""project}. Dort finden sie die Ausführbare Datei \code{premake4.exe}, dies ist das Build Tool. Halten sie \code{CTRL + SHIFT} gedrückt, während sie mit der rechten Mousetaste irgendwo in das gerade geöffnete Fenster des Filemanagers klicken. Es öffnet sich ein Kontextmenü. Wählen sie \code{Eingabeaufforderung hier öffnen} aus. In der nun offenen CMD geben sie den Befehl \code{premake4.exe vs2012} ein, welcher ein *.sln-File für Visual Studio 2012 generiert. Doppelklicken sie auf \code{ProcedualTreeGeneration.sln}. Sollte VS 2012 nun gestartet sein, im Projektmappen-Explorer jedoch nur ein \code{MyFirstTree (Laden fehlgeschlagen)} stehen, rechts-klicken sie darauf, und wählen \code{Projekt erneut laden} aus. Nun können sie durch einen Klick auf \code{Lokaler Windows-Debugger} das Programm kompilieren und linken. Normalerweise sollte das es ohne Fehler (mit ein paar Warnungen) kompilieren und linken. Es wird anschließen versuchen zu starten und kurz danach abstürzen.
 
 Es wird in Zeile 94 der Datei \code{buffer.cpp} beim Ausführen des Befehls \code{gl""Buffer""Sub""Data""(...)} abstürzen. Ich konnte den Fehler leider nicht beheben.
 
-\section{Der Build Prozess unter Linux}
+\subsection{Der Build Prozess unter Linux}
 Auf meinem System, einem Arch Linux, kompiliert, linkt und läuft das Programm fehlerfrei. Um das es unter Linux zu kompilieren müssen sie zunächst folgende Abhängigkeiten auflösen indem sie die entsprechenden Pakete ihrer Distribution installieren oder von Hand die benötigten Bibliotheken installieren.
 
 Wie sie \code{AntTweakBar} installieren ist hier beschrieben: \url{http://anttweakbar.sourceforge.net/doc/tools:anttweakbar:download}. Alternativ gibt es für einige Distributionen Packete. ArchLinux: \url{https://aur.archlinux.org/packages/anttweakbar/}, Fedora: \url{https://apps.fedoraproject.org/packages/AntTweakBar}, Gentoo: \code{http://gpo.zugaina.org/media-libs/anttweakbar}.
