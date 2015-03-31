@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.3.31)  31 MAR 2015 18:46
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.3.31)  31 MAR 2015 19:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -733,9 +733,15 @@ Package hyperref Warning: Difference (2) between bookmark levels is greater
 
 
 ]
-Overfull \hbox (17.36568pt too wide) in paragraph at lines 52--53
-\OT1/cmtt/m/n/12 void Shaderprogram::linkProgram \OT1/cmr/m/n/12 und \OT1/cmtt/
-m/n/12 void Shader::createShaderFromString\OT1/cmr/m/n/12 . 
+Overfull \hbox (13.99654pt too wide) in paragraph at lines 45--48
+\OT1/cmtt/m/n/12 anttweakbar : howto # 5 . _handle _ mouse _ and _ keyboard _ e
+vents _ and _ window _ size _
+ []
+
+
+Overfull \hbox (21.03456pt too wide) in paragraph at lines 45--48
+\OT1/cmr/m/n/12 AntT-weak-Bar un-terst[]utzt GLFW3 nicht. []$\OT1/cmtt/m/n/12 h
+ttp : / / sourceforge . net / p / anttweakbar /
  []
 
 [7]
@@ -744,43 +750,17 @@ Overfull \hbox (7.41039pt too wide) in paragraph at lines 54--56
 ]gldebugmessagecallback/$[]\OT1/cmr/m/n/12 .
  []
 
-
-Overfull \hbox (13.50801pt too wide) in paragraph at lines 60--63
-\OT1/cmtt/m/n/12 MyFirstTree (Laden fehlgeschlagen) \OT1/cmr/m/n/12 ste-hen, re
-chtskli-cken sie dar-auf, und w[]ahlen
- []
-
-
-Overfull \hbox (69.95595pt too wide) in paragraph at lines 64--65
-[]\OT1/cmr/m/n/12 Es wird in Zei-le 94 der Da-tei \OT1/cmtt/m/n/12 buffer.cpp \
-OT1/cmr/m/n/12 beim Ausf[]uhren des Be-fehls \OT1/cmtt/m/n/12 glBufferSubData(.
-..)
- []
-
 [8]
-Overfull \hbox (3.71237pt too wide) in paragraph at lines 69--70
+Overfull \hbox (3.71237pt too wide) in paragraph at lines 68--69
 \OT1/cmr/m/n/12 ni-ge Dis-tri-bu-tio-nen Packe-te. Ar-ch-Li-nux: []$\OT1/cmtt/m
 /n/12 https : / / aur . archlinux . org / packages /
  []
 
 
-Overfull \hbox (20.54323pt too wide) in paragraph at lines 69--70
+Overfull \hbox (20.54323pt too wide) in paragraph at lines 68--69
 \OT1/cmtt/m/n/12 anttweakbar/$[]\OT1/cmr/m/n/12 , Fe-do-ra: []$\OT1/cmtt/m/n/12
  https : / / apps . fedoraproject . org / packages / AntTweakBar$[]\OT1/cmr/m/n
 /12 ,
- []
-
-
-Overfull \hbox (83.22871pt too wide) in paragraph at lines 71--72
-\OT1/cmr/m/n/12 cken sie co-de-Pro-jekt[]Linux.rar. Na-vi-gie-ren sie mit der B
-ash nach \OT1/cmtt/m/n/12 Projkt[]Linux/Projekt/project\OT1/cmr/m/n/12 .
- []
-
-
-Overfull \hbox (10.20738pt too wide) in paragraph at lines 71--72
-\OT1/cmr/m/n/12 und Link-vor-gang er-folg-reich wa-ren, in \OT1/cmtt/m/n/12 ./b
-in/debug \OT1/cmr/m/n/12 bzw. \OT1/cmtt/m/n/12 ./bin/release\OT1/cmr/m/n/12 . A
-usf[]uhren
  []
 
 )
@@ -795,13 +775,13 @@ Package rerunfilecheck Info: File `vorlage.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 133.
  ) 
 Here is how much of TeX's memory you used:
- 10760 strings out of 493108
- 151626 string characters out of 6140725
+ 10743 strings out of 493108
+ 151378 string characters out of 6140725
  283613 words of memory out of 5000000
- 14033 multiletter control sequences out of 15000+600000
+ 14017 multiletter control sequences out of 15000+600000
  10954 words of font info for 42 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
- 29i,9n,32p,1144b,446s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,9n,32p,1152b,446s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/publi
@@ -814,10 +794,10 @@ cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
 r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf-dist/fonts/typ
 e1/public/amsfonts/symbols/msbm10.pfb>
-Output written on vorlage.pdf (11 pages, 340357 bytes).
+Output written on vorlage.pdf (11 pages, 341242 bytes).
 PDF statistics:
- 250 PDF objects out of 1000 (max. 8388607)
- 203 compressed objects within 3 object streams
- 36 named destinations out of 1000 (max. 500000)
+ 251 PDF objects out of 1000 (max. 8388607)
+ 204 compressed objects within 3 object streams
+ 35 named destinations out of 1000 (max. 500000)
  118 words of extra memory for PDF output out of 10000 (max. 10000000)
 

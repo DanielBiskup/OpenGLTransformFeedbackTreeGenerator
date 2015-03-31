@@ -174,8 +174,8 @@ int main(void)
 
 	//Variables exposed by UI
 	//--generation
-	int numberOfIterations = 7;
-	float scaleLengthUniform = 0.75f;
+	int numberOfIterations = 4;
+	float scaleLengthUniform = 0.5f;
 	float scaleTriangleUniform = 0.58f;
 	float pyramidFactorUniform = 0.14f;
 	//--presentation

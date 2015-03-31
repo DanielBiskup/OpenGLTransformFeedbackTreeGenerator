@@ -20,6 +20,5 @@
 \contentsline {paragraph}{AntTweakBar}{7}{section*.8}
 \contentsline {subsection}{\numberline {3.0.3}Aufbau des Programmes}{8}{subsection.3.0.3}
 \contentsline {paragraph}{OpenGL Errorbehandlung}{8}{section*.9}
-\contentsline {paragraph}{title}{8}{section*.10}
 \contentsline {subsection}{\numberline {3.0.4}Der Build Prozess unter Windows 7 mit VisualStudio 2012}{8}{subsection.3.0.4}
 \contentsline {subsection}{\numberline {3.0.5}Der Build Prozess unter Linux}{9}{subsection.3.0.5}
