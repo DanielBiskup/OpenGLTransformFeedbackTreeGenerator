@@ -311,7 +311,7 @@ int main(void)
 		}
 
 		//View Matrix
-		glm::vec3 cameraPosition(0, -50, 250);
+		glm::vec3 cameraPosition(0, -50, -250);
 		glm::mat4 view = glm::lookAt(
 					cameraPosition,
 					glm::vec3(0.0f,-30.0f,0.0f), // and looks at the origin
