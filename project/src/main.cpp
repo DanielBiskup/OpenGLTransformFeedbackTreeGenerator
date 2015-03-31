@@ -94,7 +94,7 @@ struct treeVertex {
 	}
 };
 
-struct VertexArraysAndBufers {
+struct VertexArraysAndBuffers {
 	VertexArray* currentVertexArray;
 	Buffer* currentTransformFeedbackBuffer;
 	VertexArray* lastVertexArray;
@@ -102,7 +102,7 @@ struct VertexArraysAndBufers {
 };
 
 struct ButtonCallbackParameters {
-	VertexArraysAndBufers* vertexArraysAndBufers;
+	VertexArraysAndBuffers* vertexArraysAndBufers;
 	Shaderprogram* shader;
 	int* numberOfIterations;
 	int* numberOfVerticesToDraw;
@@ -114,7 +114,7 @@ struct ButtonCallbackParameters {
 
 int nTriangles(int numberOfIterations);
 int nVertices(int numberOfIterations);
-void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations);
+void generate(VertexArraysAndBuffers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations);
 void theGenerateButtonCallbackFunction(void *clientData);
 
 int main(void)
@@ -243,7 +243,7 @@ int main(void)
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderLength_location, 1, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, length));
 	renderVertexArray.vertexAttribPointer(transformFeedbackBufferA, renderNormal_location, 3, GL_FLOAT, GL_FALSE, sizeof(treeVertex), (GLvoid*) offsetof(treeVertex, normal));
 
-	VertexArraysAndBufers vertexArraysAndBufers;
+	VertexArraysAndBuffers vertexArraysAndBufers;
 	vertexArraysAndBufers.currentVertexArray = &genVertexArray;
 	vertexArraysAndBufers.currentTransformFeedbackBuffer = &transformFeedbackBufferA;
 	vertexArraysAndBufers.lastVertexArray = &renderVertexArray;
@@ -268,15 +268,15 @@ int main(void)
 	buttonCallbackParameters.scaleTriangleUniform = &scaleTriangleUniform;
 	buttonCallbackParameters.pyramidFactorUniform = &pyramidFactorUniform;
 
-	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " group='generation parameters' key=g label='click here to generate tree' ");
-	TwAddVarRW(bar, "numberOfIterations", TW_TYPE_INT8, &numberOfIterations, "group='generation parameters' min=0 max=12");
-	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddButton(bar, "Run", theGenerateButtonCallbackFunction, &buttonCallbackParameters,  " group='generation parameters' key=b label='click here to generate tree' ");
+	TwAddVarRW(bar, "numberOfIterations", TW_TYPE_INT8, &numberOfIterations, "group='generation parameters' min=0 max=12 keyIncr=q keyDecr=a help='Gibt an wie viele Iterationen des Geometry Shaders durchlaufen werden sollen.'");
+	TwAddVarRW(bar, "scaleLength", TW_TYPE_FLOAT, &scaleLengthUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=w keyDecr=s help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "scaleTriangle", TW_TYPE_FLOAT, &scaleTriangleUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=e keyDecr=d help='Gibt den Factor an, um den die das Dreieck am unteren Ende eines Astsegnemtes groesser ist als das am Unteren Ende.' ");
+	TwAddVarRW(bar, "pyramidFactor", TW_TYPE_FLOAT, &pyramidFactorUniform, "group='generation parameters' min=0 max=1 step=0.01 keyIncr=r keyDecr=f help='Gibt an wie Hoch die Pyramide im Verhaeltniss zu der Laenge des Astsegmentes.' ");
 
 	TwAddVarRW(bar, "rotation", TW_TYPE_QUAT4F, &rotationQuaternion, "group='presentation parameters' opened=true");
-	TwAddVarRW(bar, "autoRotation", TW_TYPE_BOOL32, &autoRotateBoolean, "group='presentation parameters' help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
-	TwAddVarRW(bar, "autoRotationSpeed", TW_TYPE_FLOAT, &autoRotationSpeed, "group='presentation parameters' min=0 max=1 step=0.01 keyIncr=l keyDecr=L help='Gibt den Factor an, um den die Laenge eines Astes aus Iteration n-1 groesser ist als die die Laenge eines Astes aus Iteration n.' ");
+	TwAddVarRW(bar, "autoRotation", TW_TYPE_BOOL32, &autoRotateBoolean, "group='presentation parameters' key=y help='Wen der Hacken gesetzt ist, so dreht sich der Baum automatisch um seine Y-Achse.' ");
+	TwAddVarRW(bar, "autoRotationSpeed", TW_TYPE_FLOAT, &autoRotationSpeed, "group='presentation parameters' min=0 max=1 step=0.01 keyIncr=t keyDecr=g help='Gibt an wie schnell der Baum sich bei automatischer Rotation dreht.' ");
 
 	TwAddVarRO(bar, "number of triangles", TW_TYPE_INT32, &numberOfTrianglesToDraw, "group='read-only scene information'");
 	TwAddVarRO(bar, "number of vertices", TW_TYPE_INT32, &numberOfVerticesToDraw, "group='read-only scene information'");
@@ -286,7 +286,6 @@ int main(void)
 	theGenerateButtonCallbackFunction(&buttonCallbackParameters);
 
 	/* Loop until the user closes the window */
-	glm::dvec2 mouseDelta;
 	double currentFrame, deltaTime;
 	double lastFrame = glfwGetTime();
 	while (!glfwWindowShouldClose(window))
@@ -300,15 +299,6 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		glfwGetWindowSize(window, &windowWidth, &windowHeight);
-
-		glm::dvec2 mousePosition;
-		//glfwGetCursorPos(window, &mousePosition.x, &mousePosition.y);
-		mouseDelta = mousePosition;
-		//glfwSetCursorPos(window, 0.0d, 0.0d);
-
-		if(mouseDelta.x != 0 || mouseDelta.y != 0 ) {
-			std::cout <<"mp("<<mousePosition.x<<", "<<mousePosition.y<<")" <<std::endl<< "MouseX: " << mouseDelta.x << "  MouseY: " << mouseDelta.y << std::endl;
-		}
 
 		//View Matrix
 		glm::vec3 cameraPosition(0, -50, -250);
@@ -386,7 +376,7 @@ int nVertices(int numberOfIterations) {
 	return nTriangles(numberOfIterations) * 3;
 }
 
-void generate(VertexArraysAndBufers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations) {
+void generate(VertexArraysAndBuffers& vertexArraysAndBufers, Shaderprogram& shader, int numberOfIterations) {
 	float scl = 4.0f;
 	float length = 4.f;
 	float a = 6.0f;

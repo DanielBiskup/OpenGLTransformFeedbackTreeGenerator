@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.3.31)  31 MAR 2015 20:02
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.3.31)  31 MAR 2015 23:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -678,7 +678,7 @@ Man spricht deutsch.
 
 bibgerm.sty: babel.sty detected
 
-<fhlogo_new.pdf, id=56, 208.22191pt x 64.9889pt>
+<fhlogo_new.pdf, id=72, 208.22191pt x 64.9889pt>
 File: fhlogo_new.pdf Graphic file (type pdf)
  <use fhlogo_new.pdf>
 Package pdftex.def Info: fhlogo_new.pdf used on input line 96.
@@ -707,7 +707,14 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ]
 (./chapters/Einleitung.tex
 Kapitel 1.
-) (./chapters/Konzeption.tex [1
+) (./chapters/Konzeption.tex
+Overfull \hbox (4.57205pt too wide) in paragraph at lines 6--1
+[]\OT1/cmr/m/n/12 Dieses Pro-jekt enth[]alt die bei-den Ar-chi-ve \OT1/cmtt/m/n
+/12 Projekt[]Windows \OT1/cmr/m/n/12 und \OT1/cmtt/m/n/12 Projekt[]Linux\OT1/cm
+r/m/n/12 .
+ []
+
+[1
 
 
 
@@ -717,71 +724,105 @@ Kapitel 2.
 [2
 
 
-] [3]
-Overfull \hbox (7.30713pt too wide) in paragraph at lines 61--62
+] <images/KABB1.png, id=152, 60.42816pt x 71.13806pt>
+File: images/KABB1.png Graphic file (type png)
+ <use images/KABB1.png>
+Package pdftex.def Info: images/KABB1.png used on input line 22.
+(pdftex.def)             Requested size: 60.42801pt x 71.13788pt.
+
+<images/KABB2.png, id=156, 72.70589pt x 62.76767pt>
+File: images/KABB2.png Graphic file (type png)
+ <use images/KABB2.png>
+Package pdftex.def Info: images/KABB2.png used on input line 40.
+(pdftex.def)             Requested size: 72.7057pt x 62.7675pt.
+
+[3 <./images/KABB1.png> <./images/KABB2.png>]
+<images/KABB3.png, id=169, 133.39474pt x 109.3628pt>
+File: images/KABB3.png Graphic file (type png)
+ <use images/KABB3.png>
+Package pdftex.def Info: images/KABB3.png used on input line 66.
+(pdftex.def)             Requested size: 133.39441pt x 109.36252pt.
+
+<images/KABB4.png, id=171, 72.27pt x 61.82132pt>
+File: images/KABB4.png Graphic file (type png)
+ <use images/KABB4.png>
+Package pdftex.def Info: images/KABB4.png used on input line 79.
+(pdftex.def)             Requested size: 72.2698pt x 61.82115pt.
+
+[4 <./images/KABB3.png>]
+Overfull \hbox (7.30713pt too wide) in paragraph at lines 87--88
 \OT1/cmr/m/n/12 Beim ab-set-zen ei-nes Draw Calls an OpenGL []uber die Me-tho-d
 e \OT1/cmtt/m/n/12 void glDrawArrays(
  []
 
-[4]) (./chapters/Implementierung.tex [5]
+[5 <./images/KABB4.png>]) (./chapters/Implementierung.tex [6]
 Kapitel 3.
+<images/applicationScreenShot.png, id=197, 404.51125pt x 293.095pt>
+File: images/applicationScreenShot.png Graphic file (type png)
 
-Package hyperref Warning: Difference (2) between bookmark levels is greater 
-(hyperref)                than one, level fixed on input line 5.
+<use images/applicationScreenShot.png>
+Package pdftex.def Info: images/applicationScreenShot.png used on input line 8.
 
-[6
+(pdftex.def)             Requested size: 404.51025pt x 293.09427pt.
+ [7
 
 
-]
-Overfull \hbox (13.99654pt too wide) in paragraph at lines 45--48
+ <./images/applicationScreenShot.png>] [8]
+Overfull \hbox (13.99654pt too wide) in paragraph at lines 54--57
 \OT1/cmtt/m/n/12 anttweakbar : howto # 5 . _handle _ mouse _ and _ keyboard _ e
 vents _ and _ window _ size _
  []
 
 
-Overfull \hbox (21.03456pt too wide) in paragraph at lines 45--48
+Overfull \hbox (21.03456pt too wide) in paragraph at lines 54--57
 \OT1/cmr/m/n/12 AntT-weak-Bar un-terst[]utzt GLFW3 nicht. []$\OT1/cmtt/m/n/12 h
 ttp : / / sourceforge . net / p / anttweakbar /
  []
 
-[7]
-Overfull \hbox (7.41039pt too wide) in paragraph at lines 54--56
-\OT1/cmtt/m/n/12 com / 2013 / 02 / 17 / debugging-[]opengl-[]part-[]2-[]using-[
-]gldebugmessagecallback/$[]\OT1/cmr/m/n/12 .
+[9]
+Overfull \hbox (57.22156pt too wide) in paragraph at lines 68--69
+\OT1/cmtt/m/n/12 Buffers& vertexArraysAndBufers, Shaderprogram& shader, int num
+berOfIterations
  []
 
-[8]
-Overfull \hbox (3.71237pt too wide) in paragraph at lines 68--69
+
+Overfull \hbox (11.51822pt too wide) in paragraph at lines 73--75
+\OT1/cmr/m/n/12 gramm Be-fin-det sich die Im-ple-men-tie-rung die-ser Funk-ti-o
+n in \OT1/cmtt/m/n/12 openglerrorcallback.
+ []
+
+[10]
+Overfull \hbox (3.71237pt too wide) in paragraph at lines 89--90
 \OT1/cmr/m/n/12 ni-ge Dis-tri-bu-tio-nen Packe-te. Ar-ch-Li-nux: []$\OT1/cmtt/m
 /n/12 https : / / aur . archlinux . org / packages /
  []
 
 
-Overfull \hbox (20.54323pt too wide) in paragraph at lines 68--69
+Overfull \hbox (20.54323pt too wide) in paragraph at lines 89--90
 \OT1/cmtt/m/n/12 anttweakbar/$[]\OT1/cmr/m/n/12 , Fe-do-ra: []$\OT1/cmtt/m/n/12
  https : / / apps . fedoraproject . org / packages / AntTweakBar$[]\OT1/cmr/m/n
 /12 ,
  []
 
-)
+) [11]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 135.
- [9]
+ [12]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 135.
  (./vorlage.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 135.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 135.
 Package rerunfilecheck Info: File `vorlage.out' has not changed.
-(rerunfilecheck)             Checksum: 2734C23826A0621538112414010B4775;1059.
+(rerunfilecheck)             Checksum: 7327EA2BDC2D482EC778214405F052E6;1342.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 135.
  ) 
 Here is how much of TeX's memory you used:
- 10740 strings out of 493108
- 151351 string characters out of 6140725
- 283582 words of memory out of 5000000
- 14015 multiletter control sequences out of 15000+600000
+ 10788 strings out of 493108
+ 152119 string characters out of 6140725
+ 283856 words of memory out of 5000000
+ 14046 multiletter control sequences out of 15000+600000
  10954 words of font info for 42 fonts, out of 8000000 for 9000
  1146 hyphenation exceptions out of 8191
- 29i,9n,32p,1152b,446s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 29i,9n,32p,1255b,447s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmmi12.pfb></usr/share/texmf-dist/fonts/type1/publi
@@ -794,10 +835,10 @@ cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
 r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf-dist/fonts/typ
 e1/public/amsfonts/symbols/msbm10.pfb>
-Output written on vorlage.pdf (11 pages, 341760 bytes).
+Output written on vorlage.pdf (14 pages, 545344 bytes).
 PDF statistics:
- 245 PDF objects out of 1000 (max. 8388607)
- 199 compressed objects within 2 object streams
- 34 named destinations out of 1000 (max. 500000)
- 110 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 316 PDF objects out of 1000 (max. 8388607)
+ 256 compressed objects within 3 object streams
+ 45 named destinations out of 1000 (max. 500000)
+ 167 words of extra memory for PDF output out of 10000 (max. 10000000)
 

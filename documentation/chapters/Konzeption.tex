@@ -1,4 +1,4 @@
-\chapter{Konzeption der Geometrieerzeugung}
+\chapter{Konzeption der Geometrieerzeugung} \label{capter_geometrie}
 In diesem Kapitel werden die Rechnungen und Definitionen hergeleitet, die benötigt werden, um die Geometrie des Baumes zu erzeugen.
 
 \section{Attribute der Eckpunkte}
@@ -9,26 +9,38 @@ In der Computergrafik setzen sich Objekte üblicherweise aus Dreiecken zusammen. 
 Sind die Punkte in mathematisch positiver Drehrichtung -- gegen den Uhrzeigersinn -- um den Mittelpunkt des Dreiecks angeordnet handelt es sich um ein Dreieck mit positiver Wicklungsrichtung (englisch. winding order) andernfalls um eines mit negativer Wicklungsrichtung.
 Je nach Konvention wird entweder die Seite eines Dreiecks die in negativer oder in positiver Wicklungsrichtung erscheint als Vorderseite interpretiert. 
 In der vorliegenden Arbeit verwendete Konvention entspricht der Standarteinstellung \code{glFrontFace( GL\_CCW );} von OpenGL, bei der die Seite mit positiver Wicklungsrichtung -- gegen den Uhrzeigersinn -- als Vorderseite interpretiert wird.
-%Beispielgrafik:
-% http://www.marekknows.com/images/forum/posts/post_722.jpg
 
 Daher muss bei der Generierung neuer Geometrie darauf geachtet werden, dass die Punkte der generierten Dreiecke in der richten Reihenfolge angegeben werde.
 
 Beim Erzeugen der in der Einleitung beschriebenen Geometrie ist es wichtig, dass für jedes Dreiecken $(p_0, p_1, p_2)$ auch die Höhe $l$ des Pyramidenstumpfes gegeben ist, der möglicherweise aus diesem generiert werden soll. Im Folgenden wird ein Dreieck $(p_0, p_1, p_2)$ mit Höhe $l$ repräsentiert durch ein Tupel $p=((p_0, p_1, p_2),l)$ mit $l \in \mathbb{N}$ wobei  $\mathbb{N} := \{0,1,2,3,\ldots \}$.
 
 \section{Konstruktion der Geometrie}
-Es sei gegeben, dass die Funktion zum erzeugen neuer Geometrie als Eingabe neben einem Dreieck $p=((p_0, p_1, p_2),l)$ zusätzlich die drei über alle Iterationen hinweg konstanten Werte \code{scaleTriangle}, \code{pyramidFactor} und \code{scaleLength} erwartet. Gilt $l = 0$, so soll das Dreieck unverändert zurückgegeben werden. Gilt $l > 0$, so soll die in (KABB1) abgebildete Geometrie zurückgegeben werden. Im Folgenden werden zunächst die Eckpunkte und anschließend aus diesen die Dreiecke der zu erzeugenden Geometrie konstruiert.
+Es sei gegeben, dass die Funktion zum erzeugen neuer Geometrie als Eingabe neben einem Dreieck $p=((p_0, p_1, p_2),l)$ zusätzlich die drei über alle Iterationen hinweg konstanten Werte \code{scaleTriangle}, \code{pyramidFactor} und \code{scaleLength} erwartet. Gilt $l = 0$, so soll das Dreieck unverändert zurückgegeben werden. Gilt $l > 0$, so soll die in Abbildung \ref{KABB1} abgebildete Geometrie zurückgegeben werden. Im Folgenden werden zunächst die Eckpunkte und anschließend aus diesen die Dreiecke der zu erzeugenden Geometrie konstruiert.
+
+\begin{figure} %[hbtp]
+	\centering
+	\includegraphics{images/KABB1.png}
+	\caption{Geometrie}
+	\label{KABB1}
+\end{figure}
 
 \subsection{Konstruktion der Eckpunkte}
-Ist ein Dreieck $p=((p_0, p_1, p_2),l)$ mit $l > 0$ gegeben, so werden zur Erzeugung der neuen Geometrie die Punkte $p_0, p_1, p_2, q_1, q_2, q_3$ und $t$ benötigt (KABB1).
+Ist ein Dreieck $p=((p_0, p_1, p_2),l)$ mit $l > 0$ gegeben, so werden zur Erzeugung der neuen Geometrie die Punkte $p_0, p_1, p_2, q_1, q_2, q_3$ und $t$ benötigt (\ref{KABB1}).
 Da nach gewählter Konvention gilt, dass die Vorderseite eines Dreiecks eine positive Wicklungsrichtung hat, lässt sich die Normale eines Dreiecks $d$ über das Kreuzprodukt wie folgt bestimmen:
 %Q: https://de.wikipedia.org/wiki/Kreuzprodukt
 $$n= \frac{a \times b}{| a \times b |} \text{ mit } a = p_1 - p_0 \text{ und } b = p_2 - p_0$$
 
 %Q: https://de.wikipedia.org/wiki/Geometrischer_Schwerpunkt#Dreieck
 Der Schwerpunkt $c_p$ des Dreiecks liegt bei $c=\frac{p_0+p_1+p_2}{3}$.
-Das Dreieck $q=(q_0,q_1,q_2)$ soll kleiner sein, als das Dreieck $p$. Die Eckpunkte des Dreiecks $d$ , dessen Eckpunkte jeweils um den konstanten Faktor $0 < \code{scaleTriangle} \leq 1$ weiter von $c_p$ entfernt sind als die von $p$, lassen sich bestimmen mit $d_i = (p_i - c_p) \cdot \code{scaleTriangle}$ für $i \in \{0,1,2\}$. (Siehe KABB2)
+Das Dreieck $q=(q_0,q_1,q_2)$ soll kleiner sein, als das Dreieck $p$. Die Eckpunkte des Dreiecks $d$ , dessen Eckpunkte jeweils um den konstanten Faktor $0 < \code{scaleTriangle} \leq 1$ weiter von $c_p$ entfernt sind als die von $p$, lassen sich bestimmen mit $d_i = (p_i - c_p) \cdot \code{scaleTriangle}$ für $i \in \{0,1,2\}$. (Siehe Abbildung \ref{KABB2})
 Der Vektor vom Schwerpunkt $c_p$ zu jenem des Dreiecks $q$ ist $h = n \cdot l$.
+
+\begin{figure} %[hbtp]
+	\centering
+	\includegraphics{images/KABB2.png}
+	\caption{Das erste Dreieck}
+	\label{KABB2}
+\end{figure}
 
 Damit ergeben sich die Eckpunkte von $q$ zu:
 $$q_i = c_p + d_i + h \text{ für } i \in \{0,1,2\}$$
@@ -40,7 +52,7 @@ Die Spitze $t$ der Pyramide liegt damit bei $t = c_p + h + h_{pyramid} * n$.
 Wenn die Punkte $p_0, p_1, p_2, q_1, q_2, q_3$ und $t$ bekannt sind, so kann aus diesen sowohl die Geometrie der Mantelfläche, als auch die der Pyramide erzeugt werden.
 
 \paragraph{Die Dreiecke der Mantelfläche}
-Die Dreiecke welche die Mantelfläche des Pyramidenstumpfes bilden sollen einen Längenwert von $0$ haben, damit sie bei der nächsten Iteration nicht durch weitere Geometrie ersetzt werden. Zudem sind die Eckpunkte der Dreiecke in negativer Wicklungsrichtung an zu geben, damit es auch im nächsten Schritt möglich ist die Normalen der Dreiecke zu berechnen und damit OpenGL Backface Culling durchführen kann. Wie Abbildung KAAB3 entnommen werden kann, ergibt sich die Menge der Dreiecke der Mantelfläche zu:
+Die Dreiecke welche die Mantelfläche des Pyramidenstumpfes bilden sollen einen Längenwert von $0$ haben, damit sie bei der nächsten Iteration nicht durch weitere Geometrie ersetzt werden. Zudem sind die Eckpunkte der Dreiecke in negativer Wicklungsrichtung an zu geben, damit es auch im nächsten Schritt möglich ist die Normalen der Dreiecke zu berechnen und damit OpenGL Backface Culling durchführen kann. Wie Abbildung \ref{KABB3} entnommen werden kann, ergibt sich die Menge der Dreiecke der Mantelfläche zu:
 $$M := \{(p_0, q_1, q_0), (p_0,p_1,q_1), (p_1, q_2, q_1), (p_1,p_2,q_2), (p_2, q_0, q_2), (p_2,p_0,q_0)\}
 $$
 Oder kürzer:
@@ -49,13 +61,27 @@ $$
 Die Menge $M_L$ aller Dreiecke mit Längenangabe ist damit
 $$M_L = \{(d,l) | d \in M \wedge l = 0\}$$
 
-Die Dreiecke $(p_0, p_1, p_2)$ und $q_0,q_1,q_2$ sind nicht als Teil von $M_L$ definiert worden, da sie beim betrachten der fertigen Geometrie auf dem Bildschirm ohnehin verdeckt sein würden. Das die Geometrie des fertigen Baumes auf der Unterseite des Stammes ein dreieckiges Loch haben wird, ist unproblematisch, da Bäume für gewöhnlich in der Erde stecken.
+\begin{figure} %[hbtp]
+	\centering
+	\includegraphics{images/KABB3.png}
+	\caption{Die Dreiecke der Pyramide}
+	\label{KABB3}
+\end{figure}
+
+Die Dreiecke $(p_0, p_1, p_2)$ und $(q_0,q_1,q_2)$ sind nicht als Teil von $M_L$ definiert worden, da sie beim betrachten der fertigen Geometrie auf dem Bildschirm ohnehin verdeckt sein würden. Das die Geometrie des fertigen Baumes auf der Unterseite des Stammes ein dreieckiges Loch haben wird, ist unproblematisch, da Bäume für gewöhnlich in der Erde stecken.
 
 \paragraph{Die Dreiecke der Pyramide}
 Die Dreiecke welche die Pyramide bilden sollen in der nächsten Iterationen um einen Bruchteil der Länge $l$ extrudiert werden. Daher wird als Länge für diese Dreiecke $l_{next} = l * \code{scaleLength}$ gewählt mit $0 \leq \code{scaleLength} \leq 1$.
-Die Menge $P$ der Dreiecke der Pyramide lässt sich beschreiben durch $P := \{(q_0,q_1,t), (q_0,q_1,t), (q_0,q_1,t) \}$ (siehe KABB4).  Die Menge $P_L$ der Dreiecke der Pyramide mit Längenangabe ist damit $P_L = \{(d,l_{next}) | d \in P \wedge l_{next} = l * \code{scaleLength}\}$.
+Die Menge $P$ der Dreiecke der Pyramide lässt sich beschreiben durch $P := \{(q_0,q_1,t), (q_0,q_1,t), (q_0,q_1,t) \}$ (siehe Abbildung \ref{KABB4}).  Die Menge $P_L$ der Dreiecke der Pyramide mit Längenangabe ist damit $P_L = \{(d,l_{next}) | d \in P \wedge l_{next} = l * \code{scaleLength}\}$.
 
-Die Menge $D$ aller Dreiecke der in (KABB1) abgebildeten Geometrie ergibt sich damit zu $D = M_L \cup P_L$. $D$ hat eine Mächtigkeit von neun.
+\begin{figure} %[hbtp]
+	\centering
+	\includegraphics{images/KABB4.png}
+	\caption{Die Dreiecke der Pyramide}
+	\label{KABB4}
+\end{figure}
+
+Die Menge $D$ aller Dreiecke der in Abbildung \ref{KABB1} abgebildeten Geometrie ergibt sich damit zu $D = M_L \cup P_L$. $D$ hat eine Mächtigkeit von neun.
 
 \section{Herleitung der Formel zur Berechnung der Anzahl generierter Dreiecke nach n Iterationen}
 Beim absetzen eines Draw Calls an OpenGL über die Methode \code{void glDrawArrays( 	GLenum mode, GLint first, GLsizei count);} muss als dritter Parameter angegeben werden, wie viele Eckpunkte zu zeichnen sind. Da die in diesem Kapitel generierte Geometrie aus einzelnen Dreiecken zusammensetzt, und jedes Dreieck sich aus drei Eckpunkten besteht, ist die Anzahl der Eckpunkte in der Geometrie dreimal so groß wie die der Dreiecke. Um die Anzahl der Eckpunkte in der Geometrie zu bestimmen ist es daher hilfreich zunächst die Anzahl der Dreiecke aus denen diese sich zusammensetzt zu bestimmen.
@@ -84,4 +110,3 @@ $$= 4 * 3^n - 3$$
 
 Da für $n = 0$ gilt $g(0) = 4 * 3^0 - 3 = 1$, gilt:
 $$\forall n \in \mathbb{N}:g(n) := 4 * 3^n - 3$$
-\par
