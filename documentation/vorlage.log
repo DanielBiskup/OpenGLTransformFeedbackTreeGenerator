@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.3.31)  31 MAR 2015 22:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014/Arch Linux) (preloaded format=pdflatex 2015.3.31)  31 MAR 2015 22:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -707,7 +707,14 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 ]
 (./chapters/Einleitung.tex
 Kapitel 1.
-) (./chapters/Konzeption.tex [1
+) (./chapters/Konzeption.tex
+Overfull \hbox (4.57205pt too wide) in paragraph at lines 6--1
+[]\OT1/cmr/m/n/12 Dieses Pro-jekt enth[]alt die bei-den Ar-chi-ve \OT1/cmtt/m/n
+/12 Projekt[]Windows \OT1/cmr/m/n/12 und \OT1/cmtt/m/n/12 Projekt[]Linux\OT1/cm
+r/m/n/12 .
+ []
+
+[1
 
 
 
@@ -761,31 +768,31 @@ Package pdftex.def Info: images/applicationScreenShot.png used on input line 8.
 
 
  <./images/applicationScreenShot.png>] [8]
-Overfull \hbox (13.99654pt too wide) in paragraph at lines 52--55
+Overfull \hbox (13.99654pt too wide) in paragraph at lines 56--59
 \OT1/cmtt/m/n/12 anttweakbar : howto # 5 . _handle _ mouse _ and _ keyboard _ e
 vents _ and _ window _ size _
  []
 
 
-Overfull \hbox (21.03456pt too wide) in paragraph at lines 52--55
+Overfull \hbox (21.03456pt too wide) in paragraph at lines 56--59
 \OT1/cmr/m/n/12 AntT-weak-Bar un-terst[]utzt GLFW3 nicht. []$\OT1/cmtt/m/n/12 h
 ttp : / / sourceforge . net / p / anttweakbar /
  []
 
 
-Overfull \hbox (7.41039pt too wide) in paragraph at lines 61--63
+Overfull \hbox (7.41039pt too wide) in paragraph at lines 65--67
 \OT1/cmtt/m/n/12 com / 2013 / 02 / 17 / debugging-[]opengl-[]part-[]2-[]using-[
 ]gldebugmessagecallback/$[]\OT1/cmr/m/n/12 .
  []
 
 [9]
-Overfull \hbox (3.71237pt too wide) in paragraph at lines 75--76
+Overfull \hbox (3.71237pt too wide) in paragraph at lines 77--78
 \OT1/cmr/m/n/12 ni-ge Dis-tri-bu-tio-nen Packe-te. Ar-ch-Li-nux: []$\OT1/cmtt/m
 /n/12 https : / / aur . archlinux . org / packages /
  []
 
 
-Overfull \hbox (20.54323pt too wide) in paragraph at lines 75--76
+Overfull \hbox (20.54323pt too wide) in paragraph at lines 77--78
 \OT1/cmtt/m/n/12 anttweakbar/$[]\OT1/cmr/m/n/12 , Fe-do-ra: []$\OT1/cmtt/m/n/12
  https : / / apps . fedoraproject . org / packages / AntTweakBar$[]\OT1/cmr/m/n
 /12 ,
@@ -822,10 +829,10 @@ cmsy10.pfb></usr/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></us
 r/share/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb></usr/share/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt12.pfb></usr/share/texmf-dist/fonts/typ
 e1/public/amsfonts/symbols/msbm10.pfb>
-Output written on vorlage.pdf (13 pages, 540956 bytes).
+Output written on vorlage.pdf (13 pages, 540870 bytes).
 PDF statistics:
- 288 PDF objects out of 1000 (max. 8388607)
- 229 compressed objects within 3 object streams
+ 287 PDF objects out of 1000 (max. 8388607)
+ 228 compressed objects within 3 object streams
  41 named destinations out of 1000 (max. 500000)
  143 words of extra memory for PDF output out of 10000 (max. 10000000)
 

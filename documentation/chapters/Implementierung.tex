@@ -32,6 +32,10 @@ Der Parameter "'scaleTriangle"' bestimmt, wie dick das obere Ende eines Astsegme
 
 Der Parameter "'pyramidFactor"' bestimmt, wie hoch die Pyramide am Ende eines Astsegmentes im Verhältnis zu dessen Länge ist.
 
+Die Parameter können auch über Tasten auf der Tastatur verändert werden. Welche Tasten verwendet werden können um einen Parameter zu verändern wird angezeigt, wenn der Cursor über dem Eingabefeld für den Parameter steht.
+
+In der unteren linken Ecke des Fensters ist ein kleines Dreieck zu sehen. Ein Klick darauf öffnet ein Fenster, in welchem die Parameter, ähnlich wie in dem Dokument was sie gerade lesen, kurz erklärt werden.
+
 %Die äußere Gestaltung der Ausarbeitung hinsichtlich %Abschnittformate, Abbildungen, mathematische Formeln %usw. wird in \hyperref[Stile]{Kapitel~\ref*{Stile}} %kurz dargestellt.
 
 \section{Verwendet Libraries}
@@ -62,8 +66,6 @@ Allgemein ist es eine gute Idee, \code{glDebugMessageCallback} zu verwenden, wel
 In meinem Programm Befindet sich die Implementierung dieser Funktion in \code{openglerrorcallback.cpp}.
 
 \section{Der Build Prozess unter Windows 7 mit VisualStudio 2012}
-ACHTUNG: Das Programm kompiliert und linkt zwar unter Windows, stürzt beim Ausführen allerdings ab. Damit sie sich vorstellen können wie das Programm aussehen würde wenn sie es ausführen könnten, habe ich ihnen ein Video davon aufgenommen, wie das Programm aussieht, wenn es unter Linux ausgeführt wird. Die Videodatei heißt \code{Video.mp4}.
-
 Der Beschriebene Buildprozess wurde auf den Poolrechnern in Raum L3 getestet.
 Entpacken sie \code{Projekt\_Windows.rar}. Navigieren sie zu \code{Projekt\_Windows/""Projekt/""Projekt/""project}. Dort finden sie die Ausführbare Datei \code{premake4.exe}, dies ist das Build Tool. Halten sie \code{CTRL + SHIFT} gedrückt, während sie mit der rechten Mousetaste irgendwo in das gerade geöffnete Fenster des Filemanagers klicken. Es öffnet sich ein Kontextmenue. Wählen sie \code{Eingabeaufforderung hier öffnen} aus. In der nun offenen CMD geben sie den Befehl \code{premake4.exe vs2012} ein, welcher ein *.sln-File für Visual Studio 2012 generiert. Doppelklicken sie auf \code{ProcedualTreeGeneration.sln}. Sollte VS 2012 nun gestartet sein, im Projektmappen-Explorer jedoch nur ein \code{MyFirstTree (Laden fehlgeschlagen)} stehen, rechtsklicken sie darauf, und wählen \code{Projekt erneut laden} aus. Nun können sie durch einen Klick auf \code{Lokaler Windows-Debugger} das Programm kompilieren und linken. Normalerweise sollte das es ohne Fehler (mit ein paar Warnungen) kompilieren und linken. Es wird anschließen versuchen zu starten und kurz danach abstürzen.
 
